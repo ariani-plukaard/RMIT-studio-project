@@ -45,20 +45,22 @@ public class PageIndex implements Handler {
         // This uses a Java v15+ Text Block
         html = html + """
             <div class='topnav'>
-                <a href='/'>Homepage</a>
-                <a href='mission.html'>Our Mission</a>
-                <a href='page2A.html'>Sub Task 2.A</a>
-                <a href='page2B.html'>Sub Task 2.B</a>
-                <a href='page3A.html'>Sub Task 3.A</a>
-                <a href='page3B.html'>Sub Task 3.B</a>
+                <a href='/'>
+                    <img src='logo.png' class='top-image' alt='RMIT logo' height='18'>
+                </a>
+                <a href='/'>HOME</a>
+                <a href='page2A.html'>DATA OVERVIEW</a>
+                <a href='page3A.html'>DATA DEEP DIVE</a>
+                <a href='mission.html'>ABOUT US</a>
             </div>
         """;
+        //<a href='page2B.html'>Sub Task 2.B</a>
+        //<a href='page3B.html'>Sub Task 3.B</a>
 
         // Add header content block
         html = html + """
             <div class='header'>
                 <h1>
-                    <img src='logo.png' class='top-image' alt='RMIT logo' height='75'>
                     Homepage
                 </h1>
             </div>
