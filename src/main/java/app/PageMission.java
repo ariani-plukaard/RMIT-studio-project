@@ -99,7 +99,21 @@ public class PageMission implements Handler {
         // Footer
         html = html + """
             <div class='footer'>
-                <p>COSC2803 - Studio Project Starter Code (Sep23)</p>
+                <div>
+                    <a href='https://www.rmit.edu.au/contact'>Contact</a>
+                    <a href='mission.html'>About Us</a>
+                    <a href='https://www.rmit.edu.au/utilities/terms'>Terms & Conditions</a>
+                </div>
+                <div>
+                    <img src='twitter.png' alt='Twitter logo' height='18'>
+                    <img src='fb.png' alt='Facebook logo' height='18'>
+                    <img src='linkedin.png' alt='LinkedIn logo' height='18'>
+                    <img src='insta.png' alt='Instagram logo' height='18'>
+                </div> 
+                <div>
+                    <a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a>
+                    <a href='/'>FAQ</a>
+                </div>     
             </div>
         """;
 
