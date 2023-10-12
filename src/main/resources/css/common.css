@@ -31,14 +31,16 @@ img.top-image {
 /* CSS Layout from W3Schools: https://www.w3schools.com/css/css_templates.asp */
 /* Style the top navigation bar */
 .topnav {
+   display: flex;
    overflow: hidden;
    background-color: #333;
+ }
+ .topnav div {
+   display: flex;
  }
  
  /* Style the topnav links */
  .topnav a {
-   float: left;
-   display: block;
    color: #f2f2f2;
    text-align: center;
    padding: 14px 16px;
@@ -49,6 +51,12 @@ img.top-image {
  .topnav a:hover {
    background-color: #ddd;
    color: black;
+ }
+
+ /* position the topnav logo */
+ .logo {
+   flex-grow: 1;
+   padding: 14px 16px;
  }
  
  /* Style the content */

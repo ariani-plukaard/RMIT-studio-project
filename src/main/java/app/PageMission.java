@@ -45,13 +45,15 @@ public class PageMission implements Handler {
         // This uses a Java v15+ Text Block
         html = html + """
             <div class='topnav'>
-                <a href='/'>
+                <div class='logo'>
                     <img src='logo.png' class='top-image' alt='RMIT logo' height='18'>
-                </a>
+                </div>
+                <div>
                 <a href='/'>HOME</a>
                 <a href='page2A.html'>DATA OVERVIEW</a>
                 <a href='page3A.html'>DATA DEEP DIVE</a>
                 <a href='mission.html'>ABOUT US</a>
+                </div>
             </div>
         """;
         //<a href='page2B.html'>Sub Task 2.B</a>
