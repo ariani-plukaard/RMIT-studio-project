@@ -118,9 +118,11 @@ public class PageMission implements Handler {
         html = html + """
             <div class='footer'>
                 <div>
-                    <a href='https://www.rmit.edu.au/contact'>Contact</a>
-                    <a href='mission.html'>About Us</a>
-                    <a href='https://www.rmit.edu.au/utilities/terms'>Terms & Conditions</a>
+                    <ul>
+                        <li><a href='https://www.rmit.edu.au/contact'>Contact</a></li>
+                        <li><a href='mission.html'>About Us</a></li>
+                        <li><a href='https://www.rmit.edu.au/utilities/terms'>Terms & Conditions</a></li>
+                    </ul>
                 </div>
                 <div>
                     <img src='twitter.png' alt='Twitter logo' height='18'>
@@ -129,8 +131,10 @@ public class PageMission implements Handler {
                     <img src='insta.png' alt='Instagram logo' height='18'>
                 </div> 
                 <div>
-                    <a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a>
-                    <a href='/'>FAQ</a>
+                    <ul>
+                        <li><a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a></li>
+                        <li><a href='/'>FAQ</a></li>
+                    </ul>
                 </div>     
             </div>
         """;
