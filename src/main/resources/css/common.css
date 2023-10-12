@@ -14,7 +14,7 @@ body {
 .header {
    padding: 10px;
    text-align: center;
-   background-color: #cccccc;
+   background-color: #fff;
    color: #000000;
 }
 
@@ -65,7 +65,7 @@ img.top-image {
  
  /* Style the content */
  .content {
-   background-color: #ddd;
+   background-color: #fff;
    padding: 10px;
  }
  
@@ -77,8 +77,9 @@ img.top-image {
    justify-content: space-around;
  }
 
- .footer a {
+ .footer ul a {
   color: #fff;
   text-decoration: none;
+  padding: 100px;
   
  }
