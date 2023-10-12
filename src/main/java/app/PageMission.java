@@ -32,7 +32,7 @@ public class PageMission implements Handler {
 
         // Add some Head information
         html = html + "<head>" + 
-               "<title>Our Mission</title>";
+               "<title>About Us</title>";
 
         // Add some CSS (external file)
         html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
@@ -62,7 +62,7 @@ public class PageMission implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Our Mission</h1>
+                <h1>About Us - Mission Statement</h1>
             </div>
         """;
 
@@ -71,26 +71,44 @@ public class PageMission implements Handler {
 
         // Add HTML for the page content
         html = html + """
-            <p>Mission page content</p>
-            """;
+            <h2>The Social Challenge</h2>
+            <p>In the lead-up to the Voice to Parliament Referendum, voters are keen to learn about the Gap between Indigenous and Non-Indigenous Australians. 
+            This website aims to address this issue by presenting unbiased data from the last two Australian Censuses (2016 and 2021), 
+            focusing on The Gap in key socioeconomic areas including health, education and income. Depending on what you're looking for, 
+            this website can give you an overall snapshot of the issue, a high level summary of data from the key topics or a deep dive into more detailed 
+            and specific data.</p>
+            <h2>How to Use this Site</h2>
+            <ul>
+                <li>On landing page you can see an overview of the statistics covered on the site</li>
+                <li>From the landing page, navigate to the data overview page to view the data for 
+                individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</li>
+                <li>On landing page you can see an overview of the statistics covered on the site</li>
+                <li>For more detailed analysis, view the detailed data deep dive page for further sorting and filtering</li>
+            </ul>
+            <h2>Personas of our Customers</h2>    
+            <p>Insert Personas Here</p>
+            <h2>Design Team</h2>
+            <p>Insert Team Here</p>
+            
+        """;
 
         // This example uses JDBC to lookup the LGAs
-        JDBCConnection jdbc = new JDBCConnection();
+        //JDBCConnection jdbc = new JDBCConnection();
 
         // Next we will ask this *class* for the LGAs
-        ArrayList<LGA> lgas = jdbc.getLGAs2016();
+        //ArrayList<LGA> lgas = jdbc.getLGAs2016();
 
         // Add HTML for the LGA list
-        html = html + "<h1>All 2016 LGAs in the Voice to Parliament database (using JDBC Connection)</h1>" + "<ul>";
+        //html = html + "<h1>All 2016 LGAs in the Voice to Parliament database (using JDBC Connection)</h1>" + "<ul>";
 
         // Finally we can print out all of the LGAs
-        for (LGA lga : lgas) {
-            html = html + "<li>" + lga.getCode()
-                        + " - " + lga.getName() + "</li>";
-        }
+        //for (LGA lga : lgas) {
+        //    html = html + "<li>" + lga.getCode()
+        //                + " - " + lga.getName() + "</li>";
+        //}
 
         // Finish the List HTML
-        html = html + "</ul>";
+        //html = html + "</ul>";
 
 
         // Close Content div
