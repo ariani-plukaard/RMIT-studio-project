@@ -48,7 +48,7 @@ public class PageMission implements Handler {
                 <div class='logo'>
                     <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='18'></a>
                 </div>
-                <div class='topButtons'>
+                <div class='buttons'>
                 <a href='/'>HOME</a>
                 <a href='page2A.html'>DATA OVERVIEW</a>
                 <a href='page3A.html'>DATA DEEP DIVE</a>
