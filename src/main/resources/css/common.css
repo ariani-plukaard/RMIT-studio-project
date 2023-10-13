@@ -83,3 +83,8 @@ img.top-image {
   padding: 100px;
   
  }
+
+ .footer img {
+  margin-top: 25;
+  align-items: center;
+ }
