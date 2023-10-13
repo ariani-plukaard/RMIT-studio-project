@@ -1,11 +1,14 @@
 /* External CSS style file */
-
+@font-face {
+  font-family: IBMplex;
+  src: url(../fonts/IBMPlexSans-Regular.ttf);
+}
 * {
    box-sizing: border-box;
 }
 
 body {
-   font-family: "Roboto", sans-serif;
+   font-family: "IBMplex", sans-serif;
    padding: 10px;
    background: #fff;
 }
@@ -96,7 +99,7 @@ img.top-image {
 
  .wrapper {
   display: flex;
-  background-color: #f1f1f1; 
+  background-color: #fff; 
   margin-top: 25px;
   border: 3px solid black;
 }
