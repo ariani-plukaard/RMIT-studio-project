@@ -125,10 +125,10 @@ public class PageMission implements Handler {
                     </ul>
                 </div>
                 <div>
-                    <img src='twitter.png' alt='Twitter logo' height='18'>
-                    <img src='fb.png' alt='Facebook logo' height='18'>
-                    <img src='linkedin.png' alt='LinkedIn logo' height='18'>
-                    <img src='insta.png' alt='Instagram logo' height='18'>
+                    <a href ='https://twitter.com/rmit'><img src='twitter.png' alt='Twitter logo' height='18'></a>
+                    <a href ='https://www.facebook.com/RMITuniversity'><img src='fb.png' alt='Facebook logo' height='18'></a>
+                    <a href ='https://au.linkedin.com/school/rmit-university'><img src='linkedin.png' alt='LinkedIn logo' height='18'></a>
+                    <a href ='https://www.instagram.com/rmituniversity/?hl=en'><img src='insta.png' alt='Instagram logo' height='18'></a>
                 </div> 
                 <div>
                     <ul>
