@@ -49,10 +49,10 @@ public class PageIndex implements Handler {
                     <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='18'></a>
                 </div>
                 <div class ='buttons'>
-                <a href='/'>HOME</a>
-                <a href='page2A.html'>DATA OVERVIEW</a>
-                <a href='page3A.html'>DATA DEEP DIVE</a>
-                <a href='mission.html'>ABOUT US</a>
+                    <a href='/'>HOME</a>
+                    <a href='page2A.html'>DATA OVERVIEW</a>
+                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
         """;
@@ -61,10 +61,16 @@ public class PageIndex implements Handler {
 
         // Add header content block
         html = html + """
-            <div class='header'>
-                <h1>
-                    Homepage
-                </h1>
+            <div class='wrapper'>
+                <div class='wrapperText'>
+                    <h2>Exploring the gap</h2>
+                    <p>Between Indigineous & Non-Indigineous Australians</p>
+                    <a href='page2A.html'>DATA OVERVIEW</a>
+                </div>
+                <div class='wrapperImg'>
+                    <img src='vop.png' alt='vop' height='1200' width='672'>
+                </div>
+                
             </div>
         """;
 
