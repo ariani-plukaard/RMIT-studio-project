@@ -45,12 +45,17 @@ public class PageST3A implements Handler {
         // This uses a Java v15+ Text Block
         html = html + """
             <div class='topnav'>
+                <div class='logo'>
+                    <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='18'></a>
+                </div>
+                <div class ='buttons'>
                 <a href='/'>Homepage</a>
                 <a href='mission.html'>Our Mission</a>
                 <a href='page2A.html'>Sub Task 2.A</a>
                 <a href='page2B.html'>Sub Task 2.B</a>
                 <a href='page3A.html'>Sub Task 3.A</a>
                 <a href='page3B.html'>Sub Task 3.B</a>
+                </div>
             </div>
         """;
 
@@ -75,7 +80,25 @@ public class PageST3A implements Handler {
         // Footer
         html = html + """
             <div class='footer'>
-                <p>COSC2803 - Studio Project Starter Code (Sep23)</p>
+                <div>
+                    <ul>
+                        <li><a href='https://www.rmit.edu.au/contact'>Contact</a></li>
+                        <li><a href='mission.html'>About Us</a></li>
+                        <li><a href='https://www.rmit.edu.au/utilities/terms'>Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <a href ='https://twitter.com/rmit'><img src='twitter.png' alt='Twitter logo' height='18'></a>
+                    <a href ='https://www.facebook.com/RMITuniversity'><img src='fb.png' alt='Facebook logo' height='18'></a>
+                    <a href ='https://au.linkedin.com/school/rmit-university'><img src='linkedin.png' alt='LinkedIn logo' height='18'></a>
+                    <a href ='https://www.instagram.com/rmituniversity/?hl=en'><img src='insta.png' alt='Instagram logo' height='18'></a>
+                </div> 
+                <div>
+                    <ul>
+                        <li><a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a></li>
+                        <li><a href='/'>FAQ</a></li>
+                    </ul>
+                </div>     
             </div>
         """;
 
