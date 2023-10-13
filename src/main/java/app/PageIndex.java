@@ -46,9 +46,9 @@ public class PageIndex implements Handler {
         html = html + """
             <div class='topnav'>
                 <div class='logo'>
-                    <img src='logo.png' class='top-image' alt='RMIT logo' height='18'>
+                    <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='18'></a>
                 </div>
-                <div>
+                <div class='topButtons'>
                 <a href='/'>HOME</a>
                 <a href='page2A.html'>DATA OVERVIEW</a>
                 <a href='page3A.html'>DATA DEEP DIVE</a>
