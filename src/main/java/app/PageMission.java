@@ -46,7 +46,7 @@ public class PageMission implements Handler {
         html = html + """
             <div class='topnav'>
                 <div class='logo'>
-                    <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='18'></a>
+                    <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='70'></a>
                 </div>
                 <div class='buttons'>
                 <a href='/'>HOME</a>
