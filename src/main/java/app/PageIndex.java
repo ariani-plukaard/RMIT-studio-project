@@ -74,30 +74,25 @@ public class PageIndex implements Handler {
             </div>
         """;
 
-        // Add Div for page Content
-        html = html + "<div class='content'>";
-
         // Add HTML for the page content
         html = html + """
-            <p>Homepage content</p>
+            <div class='content'>
+                <div class='contentWrap'>
+                    <h2>Our goal</h2>
+                    <p>Our goal is to provide users with unbiased data to help educate and them about 
+                    The Gap between Indigenous and Non-Indigenous Australians in the lead up to the 
+                    Voice to Parliament Referendum</p>
+                    <a href='mission.html'>Mission Statement</a>
+                    <h2 id=#qna>What we cover</h2>
+                    <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
+                    a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
+                    <a href='page2A.html'>See Data Overview</a>
+                </div>
+                <div>
+
+                </div>
+            </div>
             """;
-
-        // Get the ArrayList of Strings of all LGAs
-        ArrayList<String> lgaNames = getLGAs2016();
-
-        // Add HTML for the LGA list
-        html = html + "<h1>All 2016 LGAs in the Voice to Parliament database</h1>" + "<ul>";
-
-        // Finally we can print out all of the LGAs
-        for (String name : lgaNames) {
-            html = html + "<li>" + name + "</li>";
-        }
-
-        // Finish the List HTML
-        html = html + "</ul>";
-
-        // Close Content div
-        html = html + "</div>";
 
         // Footer
         html = html + """
@@ -134,57 +129,4 @@ public class PageIndex implements Handler {
         context.html(html);
     }
 
-
-    /**
-     * Get the names of the LGAs in the database.
-     */
-    public ArrayList<String> getLGAs2016() {
-        // Create the ArrayList of LGA objects to return
-        ArrayList<String> lgas = new ArrayList<String>();
-
-        // Setup the variable for the JDBC connection
-        Connection connection = null;
-
-        try {
-            // Connect to JDBC data base
-            connection = DriverManager.getConnection(JDBCConnection.DATABASE);
-
-            // Prepare a new SQL Query & Set a timeout
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);
-
-            // The Query
-            String query = "SELECT * FROM LGA WHERE year='2016'";
-            
-            // Get Result
-            ResultSet results = statement.executeQuery(query);
-
-            // Process all of the results
-            while (results.next()) {
-                String name16  = results.getString("name");
-
-                // Add the lga object to the array
-                lgas.add(name16);
-            }
-
-            // Close the statement because we are done with it
-            statement.close();
-        } catch (SQLException e) {
-            // If there is an error, lets just pring the error
-            System.err.println(e.getMessage());
-        } finally {
-            // Safety code to cleanup
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e.getMessage());
-            }
-        }
-
-        // Finally we return all of the lga
-        return lgas;
-    }
 }
