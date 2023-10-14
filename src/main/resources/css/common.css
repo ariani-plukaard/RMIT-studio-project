@@ -10,14 +10,14 @@
 body {
    font-family: "IBMplex", sans-serif;
    padding: 10px;
-   background: #fff;
+   background: #f0f0f0;
 }
 
 /* Header (div) formatting */
 .header {
    padding: 10px;
    text-align: center;
-   background-color: #fff;
+   background-color: #f0f0f0;
    color: #000000;
 }
 
@@ -36,7 +36,7 @@ img.top-image {
 .topnav {
    display: flex;
    overflow: hidden;
-   background-color: #fff;
+   background-color: #f0f0f0;
  }
  .topnav div {
    display: flex;
@@ -73,7 +73,7 @@ img.top-image {
  
  /* Style the content */
  .content {
-   background-color: #fff;
+   background-color: #f0f0f0;
    padding: 10px;
  }
  
@@ -83,6 +83,7 @@ img.top-image {
    padding: 10px;
    display: flex;
    justify-content: space-around;
+   margin-top: 80px;
  }
 
  .footer ul a {
@@ -99,7 +100,7 @@ img.top-image {
 
  .wrapper {
   display: flex;
-  background-color: #fff; 
+  background-color: #f0f0f0; 
   margin-top: 25px;
   border: 3px solid black;
 }
@@ -138,6 +139,7 @@ img.top-image {
   text-decoration: none;
   border-radius: 0px;
   text-transform: uppercase;
+  border-radius: 15px;
 }
 
 .wrapperText a:hover {
@@ -153,4 +155,36 @@ img.top-image {
 .wrapperImg img {
   max-width: 100%; 
   height: auto; 
+}
+
+.content {
+  margin-left: 20px;
+}
+
+
+.contentwrap h2 {
+  font-size: 38px;
+}
+
+.contentwrap p {
+  font-size: 28px;
+  max-width: 520px;
+}
+
+.contentwrap a {
+  font-size: 26px;
+  color: #fff;
+  padding: 14px 150px;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  background-color: #da0063;
+  text-decoration: none;
+  border-radius: 0px;
+  text-transform: uppercase;
+  border-radius: 15px;
+}
+
+.contentwrap a:hover {
+  background-color: #e32f7f;
+  color: #ddd;
 }
