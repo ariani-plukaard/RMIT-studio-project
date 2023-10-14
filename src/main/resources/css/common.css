@@ -48,6 +48,7 @@ img.top-image {
  }
  /* Style the topnav links */
  .buttons a {
+   font-size: 15.897px;
    height: 50px;
    width: auto;
    color: #fff;
