@@ -77,16 +77,20 @@ public class PageIndex implements Handler {
         // Add HTML for the page content
         html = html + """
             <div class='content'>
-                <div class='contentWrap'>
-                    <h2>Our goal</h2>
-                    <p>Our goal is to provide users with unbiased data to help educate and them about 
-                    The Gap between Indigenous and Non-Indigenous Australians in the lead up to the 
-                    Voice to Parliament Referendum</p>
-                    <a href='mission.html'>Mission Statement</a>
-                    <h2 id=#qna>What we cover</h2>
-                    <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
-                    a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
-                    <a href='page2A.html'>See Data Overview</a>
+                <div class='contentwrap'>
+                    <div>
+                        <h2>Our goal</h2>
+                        <p>Our goal is to provide users with unbiased data to help educate and them about 
+                        The Gap between Indigenous and Non-Indigenous Australians in the lead up to the 
+                        Voice to Parliament Referendum</p>
+                        <a href='mission.html'>Mission Statement</a>
+                    </div>
+                    <div id='qna'>
+                        <h2>What we cover</h2>
+                        <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
+                        a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
+                        <a href='page2A.html'>See Data Overview</a>
+                    </div>
                 </div>
                 <div>
 
