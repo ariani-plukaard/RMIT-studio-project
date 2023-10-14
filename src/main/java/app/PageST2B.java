@@ -50,7 +50,7 @@ public class PageST2B implements Handler {
                 </div>
                 <div class ='buttons'>
                 <a href='/'>Homepage</a>
-                <a href='mission.html'>Our Mission</a>
+                <a href='mission.html'>About us</a>
                 <a href='page2A.html'>Sub Task 2.A</a>
                 <a href='page2B.html'>Sub Task 2.B</a>
                 <a href='page3A.html'>Sub Task 3.A</a>
