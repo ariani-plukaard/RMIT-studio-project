@@ -63,7 +63,7 @@ img.top-image {
  }
  
  /* Change color on hover */
- .buttons button:hover {
+ .buttons a:hover {
    background-color: #ddd;
    color: black;
  }
