@@ -77,6 +77,8 @@ img.top-image {
  .content {
    background-color: #f0f0f0;
    padding: 3rem;
+   display: flex;
+   flex-direction: row;
  }
  
  /* Style the footer */
@@ -195,3 +197,25 @@ img.top-image {
   background-color: #e32f7f;
   color: #ddd;
 }
+
+.landingStats {
+  font-size: 20px;
+  padding-right: 5rem;
+  color: #da0063;
+  float: right;
+  margin-left: auto;
+}
+
+.landingStats h5 {
+  font-size: 24px;
+}
+
+.landingStats ol{
+  list-style-type: none;
+  padding-left: 0%;
+}
+
+.landingStats ul{
+  list-style-type: none;
+}
+
