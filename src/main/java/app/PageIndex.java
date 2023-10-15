@@ -92,6 +92,29 @@ public class PageIndex implements Handler {
                         <a href='page2A.html'>See Data Overview</a>
                     </div>
                 </div>
+                <div class='landingStats'>
+                    <h5>Key Statistics:</h5>
+                    <ol>
+                        <li>Total Population in 2016: <span style='color:black'>[Number]</span></li>
+                        <li>Total Population in 2021: <span style='color:black'>[Number]</span></li>
+                    </ol>
+                    <p class='subheading'>Population by Australian States and Territories:</p>
+                    <ul>
+                        <li>New South Wales: <span style='color:black'>[Number]</span></li>
+                        <li>Victoria: <span style='color:black'>[Number]</span></li>
+                        <li>Queensland: <span style='color:black'>[Number]</span></li>
+                        <li>South Australia: <span style='color:black'>[Number]</span></li>
+                        <li>Western Australia: <span style='color:black'>[Number]</span></li>
+                        <li>Tasmania: <span style='color:black'>[Number]</span></li>
+                        <li>Northern Territory: <span style='color:black'>[Number]</span></li>
+                        <li>ACT: <span style='color:black'>[Number]</span></li>
+                    </ul>
+                    <p class='subheading'>Total Number of Local Government Areas (LGAs):</p>
+                    <ul>
+                        <li>In 2016: <span style='color:black'>[Number]</span></li>
+                        <li>In 2021: <span style='color:black'>[Number]</span></li>
+                    </ul>     
+                </div>
                 <div>
 
                 </div>
