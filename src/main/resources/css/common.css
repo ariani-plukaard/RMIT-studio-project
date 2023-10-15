@@ -98,7 +98,15 @@ img.top-image {
  .footer ul a {
   color: #fff;
   text-decoration: none;
-  padding: 100px;
+  padding: 10px;
+ }
+
+ .footer ul a:hover{
+  text-decoration: underline;
+ }
+ .footer ul li{
+  margin-bottom: 10px;
+
  }
 
  .footer img {
