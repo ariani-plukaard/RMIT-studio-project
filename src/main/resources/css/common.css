@@ -107,7 +107,7 @@ img.top-image {
  }
  .footer ul li{
   margin-bottom: 10px;
-
+  list-style-type: none;
  }
 
  .footer img {
