@@ -74,12 +74,17 @@ img.top-image {
  }
  
  /* Style the content */
- .content {
+ .landingcontent {
    background-color: #f0f0f0;
    padding: 3rem;
    display: flex;
    flex-direction: row;
  }
+
+ .content {
+  background-color: #f0f0f0;
+  padding: 3rem;
+}
  
  /* Style the footer */
  .footer {
@@ -137,7 +142,7 @@ img.top-image {
   margin-left: 20px;
   color: #fff;
   text-align: center;
-  padding: 14px 250px;
+  padding: 14px 80px;
   background-color: #da0063;
   text-decoration: none;
   border-radius: 0px;
@@ -183,7 +188,7 @@ img.top-image {
 .contentwrap a {
   font-size: 18px;
   color: #fff;
-  padding: 14px 150px;
+  padding: 14px 60px;
   margin-top: 800px;
   margin-bottom: 80px;
   background-color: #da0063;
