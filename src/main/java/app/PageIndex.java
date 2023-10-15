@@ -95,24 +95,24 @@ public class PageIndex implements Handler {
                 <div class='landingStats'>
                     <h5>Key Statistics:</h5>
                     <ol>
-                        <li>Total Population in 2016: <span style='color:black'>[Number]</span></li>
-                        <li>Total Population in 2021: <span style='color:black'>[Number]</span></li>
+                        <li>Total Population in 2016: <span style='color:black'>23,401,892</span></li>
+                        <li>Total Population in 2021: <span style='color:black'>25,422,788</span></li>
                     </ol>
-                    <p class='subheading'>Population by Australian States and Territories:</p>
+                    <p class='subheading'>Population by Australian States and Territories (2021):</p>
                     <ul>
-                        <li>New South Wales: <span style='color:black'>[Number]</span></li>
-                        <li>Victoria: <span style='color:black'>[Number]</span></li>
-                        <li>Queensland: <span style='color:black'>[Number]</span></li>
-                        <li>South Australia: <span style='color:black'>[Number]</span></li>
-                        <li>Western Australia: <span style='color:black'>[Number]</span></li>
-                        <li>Tasmania: <span style='color:black'>[Number]</span></li>
-                        <li>Northern Territory: <span style='color:black'>[Number]</span></li>
-                        <li>ACT: <span style='color:black'>[Number]</span></li>
+                        <li>New South Wales: <span style='color:black'>8,072,163</span></li>
+                        <li>Victoria: <span style='color:black'>6,503,491</span></li>
+                        <li>Queensland: <span style='color:black'>5,156,138</span></li>
+                        <li>South Australia: <span style='color:black'>1,781,516</span></li>
+                        <li>Western Australia: <span style='color:black'>2,660,026</span></li>
+                        <li>Tasmania: <span style='color:black'>557,571</span></li>
+                        <li>Northern Territory: <span style='color:black'>232,605</span></li>
+                        <li>ACT: <span style='color:black'>454,499</span></li>
                     </ul>
                     <p class='subheading'>Total Number of Local Government Areas (LGAs):</p>
                     <ul>
-                        <li>In 2016: <span style='color:black'>[Number]</span></li>
-                        <li>In 2021: <span style='color:black'>[Number]</span></li>
+                        <li>In 2016: <span style='color:black'>[563 NS</span></li>
+                        <li>In 2021: <span style='color:black'>[566] NS</span></li>
                     </ul>     
                 </div>
                 <div>
