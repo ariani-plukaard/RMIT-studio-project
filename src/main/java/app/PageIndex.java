@@ -76,7 +76,7 @@ public class PageIndex implements Handler {
 
         // Add HTML for the page content
         html = html + """
-            <div class='content'>
+            <div class='landingcontent'>
                 <div class='contentwrap'>
                     <div>
                         <h2>Our goal</h2>
