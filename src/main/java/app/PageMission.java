@@ -28,13 +28,17 @@ public class PageMission implements Handler {
     @Override
     public void handle(Context context) throws Exception {
         // Create a simple HTML webpage in a String
-        String html = "<html>";
+        String html = "<html lang='en'>";
 
         // Add some Head information
-        html = html + "<head>" + 
-               "<title>About Us</title>";
+        html = html + "<head>" + """
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>About Us</title>
+        """;
 
-        // Add some CSS (external file)
+        // Add some CSS (external file) and the Bootstrap CSS
+        html = html + "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous'>";
         html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
         html = html + "</head>";
 
@@ -84,12 +88,64 @@ public class PageMission implements Handler {
                 individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</li>
                 <li>On landing page you can see an overview of the statistics covered on the site</li>
                 <li>For more detailed analysis, view the detailed data deep dive page for further sorting and filtering</li>
-            </ul>
-            <h2>Personas of our Customers</h2>    
-            <p>Insert Personas Here</p>
+            </ul>            
+        """;
+
+        // Add the HTML for the personas carousel
+        html = html + """
+            <h2>Personas of our Customers</h2>
+            <div id="personasCarousel" class="carousel slide my-4" data-bs-theme="dark">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
+                        <div class="d-block pb-5 text-center">
+                            <h5>First slide label</h5>
+                            <p>Some representative placeholder content for the first slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
+                        <div class="d-block pb-5 text-center">
+                            <h5>Second slide label</h5>
+                            <p>Some representative placeholder content for the second slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
+                        <div class="d-block pb-5 text-center">
+                            <h5>Third slide label</h5>
+                            <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
+                        <div class="d-block pb-5 text-center">
+                            <h5>Fourth slide label</h5>
+                            <p>Some representative placeholder content for the fourth slide.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#personasCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#personasCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        """;
+
+        // Add the HTML for the team members
+        html = html + """
             <h2>Design Team</h2>
             <p>Insert Team Here</p>
-            
         """;
 
         // This example uses JDBC to lookup the LGAs
@@ -139,7 +195,8 @@ public class PageMission implements Handler {
             </div>
         """;
 
-        // Finish the HTML webpage
+        // Add Bootstrap JavaScript bundle and finish the HTML webpage
+        html = html + "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous'></script>";
         html = html + "</body>" + "</html>";
         
 
