@@ -50,8 +50,9 @@ public class VTPProcessCSV {
       populatePopulationTable(AGE_2021_CSV_FILE, 2021);
       populateSchoolTable(SCHOOL_2016_CSV_FILE, 2016);
       populateSchoolTable(SCHOOL_2021_CSV_FILE, 2021);
+      populateNonSchoolTable(NONSCHOOL_2016_CSV_FILE, 2016);
+      populateNonSchoolTable(NONSCHOOL_2021_CSV_FILE, 2021);
       //To Do: Add Health
-      //To Do: Add Non School
    }
 
    private static void populateLGATable(String filename, int censusYear) {      
@@ -339,6 +340,107 @@ public class VTPProcessCSV {
 
                // Create Insert Statement
                String query = "INSERT into SchoolCompletion VALUES ("
+                              + lgaCode + ","
+                              + censusYear + ","
+                              + "'" + status[indexStatus] + "',"
+                              + "'" + sex[indexSex] + "',"
+                              + "'" + category[indexCategory] + "',"
+                              + count
+                              + ")";
+
+               // Execute the INSERT
+               System.out.println("Executing: " + query);
+               statement.execute(query);
+
+               // Update indices - go to next sex
+               indexSex++;
+               if (indexSex >= sex.length) {
+                  // Go to next status
+                  indexSex = 0;
+                  indexStatus++;
+
+                  if (indexStatus >= status.length) {
+                     // Go to next Category
+                     indexStatus = 0;
+                     indexCategory++;
+                  }
+               }
+               //row++;
+            }
+            rowScanner.close();
+         }
+
+      } catch (Exception e) {
+         e.printStackTrace();
+      }      
+
+   }
+
+   private static void populateNonSchoolTable(String filename, int censusYear) {
+      // The following arrays define the order of columns in the INPUT CSV.
+      // The order of each array MUST match the order of the CSV.
+      // These are specific to the given file and should be changed for each file.
+      // This is a *simple* way to help you get up and running quickly wihout being confusing
+      String category[] = {
+         "pd_gd_gc",
+         "bd",
+         "adip_dip",
+         "ct_iii_iv",
+         "ct_i_ii"
+      };
+      String status[] = {
+         "indig",
+         "non_indig",
+         "indig_ns"
+      };
+      String sex[] = {
+         "f",
+         "m"
+      };
+
+      // JDBC Database Object
+      Connection connection = null;
+
+      // We need some error handling.
+      try {
+         // Open the CSV File to process, one line at a time
+         Scanner lineScanner = new Scanner(new File(filename));
+
+         // Read the first line of "headings"
+         String header = lineScanner.nextLine();
+         System.out.println("Heading row" + header + "\n");
+
+         // Connect to JDBC database
+         connection = DriverManager.getConnection(DATABASE);
+
+         // Read each line of the CSV
+         //int row = 1;
+         while (lineScanner.hasNext()) {
+            // Always get scan by line
+            String line = lineScanner.nextLine();
+            
+            // Create a new scanner for this line to delimit by commas (,)
+            Scanner rowScanner = new Scanner(line);
+            rowScanner.useDelimiter(",");
+
+            // These indicies track which column we are up to
+            int indexStatus = 0;
+            int indexSex = 0;
+            int indexCategory = 0;
+
+            // Save the lga_code as we need it for the foreign key
+            String lgaCode = rowScanner.next();
+
+            // Go through the data for the row
+            // If we run out of categories, stop for safety (so the code doesn't crash)
+            while (rowScanner.hasNext() && indexCategory < category.length) {
+               String count = rowScanner.next();
+
+               // Prepare a new SQL Query & Set a timeout
+               Statement statement = connection.createStatement();
+
+               // Create Insert Statement
+               String query = "INSERT into NonSchoolCompletion VALUES ("
                               + lgaCode + ","
                               + censusYear + ","
                               + "'" + status[indexStatus] + "',"
