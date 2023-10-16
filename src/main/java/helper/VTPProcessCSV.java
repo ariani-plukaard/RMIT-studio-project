@@ -226,9 +226,6 @@ public class VTPProcessCSV {
             // Skip lga_name
             String lgaName = rowScanner.next();
 
-            // Fix the year
-            int year = 2016;
-
             // Go through the data for the row
             // If we run out of categories, stop for safety (so the code doesn't crash)
             while (rowScanner.hasNext() && indexCategory < category.length) {
@@ -240,7 +237,7 @@ public class VTPProcessCSV {
                // Create Insert Statement
                String query = "INSERT into Population VALUES ("
                               + lgaCode + ","
-                              + year + ","
+                              + censusYear + ","
                               + "'" + status[indexStatus] + "',"
                               + "'" + sex[indexSex] + "',"
                               + "'" + category[indexCategory] + "',"
