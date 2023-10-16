@@ -38,15 +38,26 @@ public class VTPProcessCSV {
 
    public static void main (String[] args) {
       populatePopulationTable();
-      //populateLGATable(LGAS_2016_CSV_FILE, 2016);
+      populateLGATable(LGAS_2016_CSV_FILE, 2016);
       
    }
 
-   private static void populateLGATable(String filename, int year) {
-      // The following arrays define the order of columns in the INPUT CSV.
-      // The order of each array MUST match the order of the CSV.
+   private static void populateLGATable(String filename, int censusYear) {      
       // These are specific to the given file and should be changed for each file.
       // This is a *simple* way to help you get up and running quickly wihout being confusing
+
+      //The *first digit* of the LGA code provides the State or Territory that the LGA is located within:
+      String state[] = {
+         "NSW", //1
+         "VIC", //2
+         "QLD", //3
+         "SA", //4
+         "WA", //5
+         "TAS", //6
+         "NT", //7
+         "ACT", //8
+         "Other" //9
+      };
 
       // JDBC Database Object
       Connection connection = null;
@@ -65,7 +76,6 @@ public class VTPProcessCSV {
          connection = DriverManager.getConnection(DATABASE);
 
          // Read each line of the CSV
-         int row = 1;
          while (lineScanner.hasNext()) {
             // Always get scan by line
             String line = lineScanner.nextLine();
@@ -74,56 +84,32 @@ public class VTPProcessCSV {
             Scanner rowScanner = new Scanner(line);
             rowScanner.useDelimiter(",");
 
-            // These indicies track which column we are up to
-            int indexStatus = 0;
-            int indexSex = 0;
-            int indexCategory = 0;
-
-            // Save the lga_code as we need it for the foreign key
+            // Save the lga_code
             String lgaCode = rowScanner.next();
 
-            // Skip lga_name
+            // Save the lga_name
             String lgaName = rowScanner.next();
+            rowScanner.close();
 
-            // Go through the data for the row
-            // If we run out of categories, stop for safety (so the code doesn't crash)
-            while (rowScanner.hasNext() && indexCategory < category.length) {
-               String count = rowScanner.next();
+            // Determine lga_state
+            char lgaStateNum = lgaCode.charAt(0);
+            int lgaStateIndex = Character.getNumericValue(lgaStateNum) - 1;
+            String lgaState = state[lgaStateIndex];
 
-               // Prepare a new SQL Query & Set a timeout
-               Statement statement = connection.createStatement();
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
 
-               // Create Insert Statement
-               String query = "INSERT into Population VALUES ("
-                              + lgaCode + ","
-                              + year + ","
-                              + "'" + status[indexStatus] + "',"
-                              + "'" + sex[indexSex] + "',"
-                              + "'" + category[indexCategory] + "',"
-                              + count + ","
-                              + age_min[indexCategory] + ","
-                              + age_max[indexCategory]
-                              + ")";
+            // Create Insert Statement
+            String query = "INSERT into LGA VALUES ("
+                           + lgaCode + ","
+                           + censusYear + ","
+                           + lgaName + "',"
+                           + lgaState
+                           + ")";
 
-               // Execute the INSERT
-               System.out.println("Executing: " + query);
-               statement.execute(query);
-
-               // Update indices - go to next sex
-               indexSex++;
-               if (indexSex >= sex.length) {
-                  // Go to next status
-                  indexSex = 0;
-                  indexStatus++;
-
-                  if (indexStatus >= status.length) {
-                     // Go to next Category
-                     indexStatus = 0;
-                     indexCategory++;
-                  }
-               }
-               row++;
-            }
+            // Execute the INSERT
+            System.out.println("Executing: " + query);
+            statement.execute(query);
          }
 
       } catch (Exception e) {
