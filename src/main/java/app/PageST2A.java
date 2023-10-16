@@ -47,14 +47,12 @@ public class PageST2A implements Handler {
             <div class='topnav'>
                 <div class='logo'>
                     <a href = '/'><img src='logo.png' class='top-image' alt='RMIT logo' height='70'></a>
-                 </div>
+                </div>
                 <div class ='buttons'>
-                    <a href='/'>Home</a>
-                    <a href='page2A.html'>Sub Task 2.A</a>
-                    <a href='page2B.html'>Sub Task 2.B</a>
-                    <a href='page3A.html'>Sub Task 3.A</a>
-                    <a href='page3B.html'>Sub Task 3.B</a>
-                    <a href='mission.html'>About us</a>
+                    <a href='/'>HOME</a>
+                    <a href='page2A.html'>DATA OVERVIEW</a>
+                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
         """;

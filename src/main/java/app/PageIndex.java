@@ -115,8 +115,8 @@ public class PageIndex implements Handler {
                     </ul>
                     <p class='subheading'>Total Number of Local Government Areas (LGAs):</p>
                     <ul>
-                        <li>In 2016: <span style='color:black'>[563 NS</span></li>
-                        <li>In 2021: <span style='color:black'>[566] NS</span></li>
+                        <li>In 2016: <span style='color:black'>563</span></li>
+                        <li>In 2021: <span style='color:black'>565</span></li>
                     </ul>     
                 </div>
                 <div>
