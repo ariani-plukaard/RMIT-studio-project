@@ -33,13 +33,21 @@ public class VTPProcessCSV {
 
    // MODIFY these to load/store to/from the correct locations
    private static final String DATABASE = "jdbc:sqlite:database/vtp.db";
-   private static final String CSV_FILE = "database/lga_indigenous_status_by_age_by_sex_census_2016.csv";
-   private static final String LGAS_2016_CSV_FILE = "lgas_2016.csv";
+   private static final String LGAS_2016_CSV_FILE = "database/lgas_2016.csv";
+   private static final String LGAS_2021_CSV_FILE = "database/lgas_2021.csv";
+   private static final String AGE_2016_CSV_FILE = "database/lga_indigenous_status_by_age_by_sex_census_2016.csv";
+   private static final String AGE_2021_CSV_FILE = "database/lga_indigenous_status_by_age_by_sex_census_2021.csv";
+   private static final String HEALTH_2021_CSV_FILE = "database/lga_long_term_health_conditions_by_indigenous_status_by_sex_2021.csv";
+   private static final String SCHOOL_2016_CSV_FILE = "database/lga_highest_year_of_school_completed_by_indigenous_status_by_sex_2016.csv";
+   private static final String SCHOOL_2021_CSV_FILE = "database/lga_highest_year_of_school_completed_by_indigenous_status_by_sex_2021.csv";
+   private static final String NONSCHOOL_2016_CSV_FILE = "database/lga_non_school_education_by_indigenous_status_by_sex_census_2016.csv";
+   private static final String NONSCHOOL_2021_CSV_FILE = "database/lga_non_school_education_by_indigenous_status_by_sex_census_2021.csv";
 
    public static void main (String[] args) {
-      populatePopulationTable();
       populateLGATable(LGAS_2016_CSV_FILE, 2016);
-      
+      populateLGATable(LGAS_2021_CSV_FILE, 2021);
+      populatePopulationTable(AGE_2016_CSV_FILE, 2016);
+      populatePopulationTable(AGE_2021_CSV_FILE, 2021);
    }
 
    private static void populateLGATable(String filename, int censusYear) {      
@@ -118,7 +126,7 @@ public class VTPProcessCSV {
 
    }
 
-   private static void populatePopulationTable() {
+   private static void populatePopulationTable(String filename, int censusYear) {
       // The following arrays define the order of columns in the INPUT CSV.
       // The order of each array MUST match the order of the CSV.
       // These are specific to the given file and should be changed for each file.
@@ -188,7 +196,7 @@ public class VTPProcessCSV {
       try {
          // Open A CSV File to process, one line at a time
          // CHANGE THIS to process a different file
-         Scanner lineScanner = new Scanner(new File(CSV_FILE));
+         Scanner lineScanner = new Scanner(new File(filename));
 
          // Read the first line of "headings"
          String header = lineScanner.nextLine();
