@@ -91,6 +91,9 @@ public class PageMission implements Handler {
             </ul>            
         """;
 
+        // Using JDBC to lookup the Personas
+        JDBCConnection jdbc = new JDBCConnection();
+
         // Add the HTML for the personas carousel
         html = html + """
             <h2>Personas of our Customers</h2>
@@ -102,34 +105,32 @@ public class PageMission implements Handler {
                     <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
-                        <div class="d-block pb-5 text-center">
-                            <h5>First slide label</h5>
-                            <p>Some representative placeholder content for the first slide.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
-                        <div class="d-block pb-5 text-center">
-                            <h5>Second slide label</h5>
-                            <p>Some representative placeholder content for the second slide.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
-                        <div class="d-block pb-5 text-center">
-                            <h5>Third slide label</h5>
-                            <p>Some representative placeholder content for the third slide.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="logo.png" class="d-block mx-auto w-50 py-4" alt="...">
-                        <div class="d-block pb-5 text-center">
-                            <h5>Fourth slide label</h5>
-                            <p>Some representative placeholder content for the fourth slide.</p>
-                        </div>
-                    </div>
+        """;
+
+        // Get the personas and add them into the HTML for carousel
+        ArrayList<Persona> personas = jdbc.getPersonas();
+        boolean active = true;
+        for (Persona persona : personas) {
+            if (active) {
+                html = html + "<div class='carousel-item active'>";
+                active = false;
+            } else {
+                html = html + "<div class='carousel-item'>";
+            }
+            html = html + "<img src='" + persona.getImageFilePath() + "' class='d-block mx-auto w-50 py-4' alt='" + persona.getName() + "'>"
+                        + "<div class='d-block pb-5 text-center'>"
+                        +     "<h5>" + persona.getName() + "</h5>"
+                        +     "<p><b>Attributes: </b>" + persona.getAttributes() + "</p>"
+                        +     "<p><b>Background: </b>" + persona.getBackground() + "</p>"
+                        +     "<p><b>Needs: </b>" + persona.getNeeds() + "</p>"
+                        +     "<p><b>Goals: </b>" + persona.getGoals() + "</p>"
+                        +     "<p><b>Skills & Experience: </b>" + persona.getSkillsExp() + "</p>"
+                        + "</div>"
+                    + "</div>";
+        }
+        
+        //Add the rest of the carousel HTML
+        html = html + """
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#personasCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -147,25 +148,6 @@ public class PageMission implements Handler {
             <h2>Design Team</h2>
             <p>Insert Team Here</p>
         """;
-
-        // This example uses JDBC to lookup the LGAs
-        //JDBCConnection jdbc = new JDBCConnection();
-
-        // Next we will ask this *class* for the LGAs
-        //ArrayList<LGA> lgas = jdbc.getLGAs2016();
-
-        // Add HTML for the LGA list
-        //html = html + "<h1>All 2016 LGAs in the Voice to Parliament database (using JDBC Connection)</h1>" + "<ul>";
-
-        // Finally we can print out all of the LGAs
-        //for (LGA lga : lgas) {
-        //    html = html + "<li>" + lga.getCode()
-        //                + " - " + lga.getName() + "</li>";
-        //}
-
-        // Finish the List HTML
-        //html = html + "</ul>";
-
 
         // Close Content div
         html = html + "</div>";
