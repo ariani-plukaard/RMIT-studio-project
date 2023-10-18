@@ -88,4 +88,65 @@ public class JDBCConnection {
     }
 
     // TODO: Add your required methods here
+
+    // Method to get personas from db
+    public ArrayList<Persona> getPersonas() {
+        // Create the ArrayList of Persona objects to return
+        ArrayList<Persona> personas = new ArrayList<Persona>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "SELECT * FROM Persona";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String name           = results.getString("name");
+                String imageFilePath  = results.getString("imageFilePath");
+                String attributes     = results.getString("attributes");
+                String background     = results.getString("background");
+                String needs          = results.getString("needs");
+                String goals          = results.getString("goals");
+                String skillsExp      = results.getString("skillsExp");
+
+                // Create a LGA Object
+                Persona persona = new Persona(name, imageFilePath, attributes, background, needs, goals, skillsExp);
+
+                // Add the lga object to the array
+                personas.add(persona);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the lga
+        return personas;
+    }
 }
