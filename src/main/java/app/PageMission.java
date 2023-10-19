@@ -144,10 +144,13 @@ public class PageMission implements Handler {
         """;
 
         // Add the HTML for the team members
-        html = html + """
-            <h2>Design Team</h2>
-            <p>Insert Team Here</p>
-        """;
+        ArrayList<TeamMember> teamMembers = jdbc.getTeamMembers();
+        html = html + "<h2>Design Team</h2>";
+        for (TeamMember teamMember : teamMembers) {
+            html = html + "<p>" + teamMember.getName() + " - " 
+                        + teamMember.getStudentNo() + ", "
+                        + "<i>" + teamMember.getEmail() + "</i></p>";
+        }
 
         // Close Content div
         html = html + "</div>";
