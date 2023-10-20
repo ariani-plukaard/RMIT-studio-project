@@ -23,7 +23,7 @@ import java.sql.Statement;
 public class PageST3A implements Handler {
 
     // URL of this page relative to http://localhost:7001/
-    public static final String URL = "/page3A.html";
+    public static final String URL = "/data-deep-dive.html";
 
     @Override
     public void handle(Context context) throws Exception {
@@ -50,8 +50,8 @@ public class PageST3A implements Handler {
                 </div>
                 <div class ='buttons'>
                     <a href='/'>HOME</a>
-                    <a href='page2A.html'>DATA OVERVIEW</a>
-                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='data-overview.html'>DATA OVERVIEW</a>
+                    <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
                     <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>

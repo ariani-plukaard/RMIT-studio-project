@@ -23,7 +23,7 @@ import java.sql.Statement;
 public class PageST2A implements Handler {
 
     // URL of this page relative to http://localhost:7001/
-    public static final String URL = "/page2A.html";
+    public static final String URL = "/data-overview.html";
 
     @Override
     public void handle(Context context) throws Exception {
@@ -50,8 +50,8 @@ public class PageST2A implements Handler {
                 </div>
                 <div class ='buttons'>
                     <a href='/'>HOME</a>
-                    <a href='page2A.html'>DATA OVERVIEW</a>
-                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='data-overview.html'>DATA OVERVIEW</a>
+                    <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
                     <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
@@ -60,17 +60,73 @@ public class PageST2A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Subtask 2.A</h1>
+                <h1>2021 Data by LGA or State</h1>
             </div>
         """;
 
         // Add Div for page Content
         html = html + "<div class='content'>";
 
-        // Add HTML for the page content
+        // Add HTML for the page content - Filters
         html = html + """
-            <p>Subtask 2.A page content</p>
+            <h2>FILTERS</h2>
             """;
+
+        //JDBCConnection jdbc = new JDBCConnection();
+        //ArrayList<String> moviesTypes = jdbc.getMoviesTypes();
+
+        html = html + "<form action='/data-overview.html' method='post'>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Granularity</h3>";
+        html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
+        html = html + "      <label for='granularity1'>Individual LGAs</label><br>";
+        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State'>";
+        html = html + "      <label for='granularity2'>State & Territory</label><br>";
+        //for (String type: moviesTypes) {
+        //    html = html + "         <option>" + type + "</option>";;
+        //}
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Data Type</h3>";
+        html = html + "      <input type='radio' id='dataType1' name='dataType' value='Raw'>";
+        html = html + "      <label for='dataType1'>Raw Total Values</label><br>";
+        html = html + "      <input type='radio' id='dataType2' name='dataType' value='Proportional'>";
+        html = html + "      <label for='dataType2'>Proportional Values</label><br>";
+        html = html + "   </div>";
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Population</h3>";
+        html = html + "      <input type='radio' id='population1' name='population' value='Indigenous'>";
+        html = html + "      <label for='population1'>Indigenous</label><br>";
+        html = html + "      <input type='radio' id='population2' name='population' value='Non-Indigenous'>";
+        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Topic</h3>";
+        html = html + "      <input type='radio' id='topic1' name='topic' value='Age'>";
+        html = html + "      <label for='topic1'>Age</label><br>";
+        html = html + "      <input type='radio' id='topic2' name='topic' value='Health'>";
+        html = html + "      <label for='topic2'>Health Conditions</label><br>";
+        html = html + "      <input type='radio' id='topic3' name='topic' value='School'>";
+        html = html + "      <label for='topic3'>School Completion</label><br>";
+        html = html + "      <input type='radio' id='topic4' name='topic' value='Non-School'>";
+        html = html + "      <label for='topic4'>Non-School Completion</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Sort</h3>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='Asc'>";
+        html = html + "      <label for='sort1'>Ascending</label><br>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='Desc'>";
+        html = html + "      <label for='sort2'>Descending</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
+
+        html = html + "</form>";
 
         // Close Content div
         html = html + "</div>";
