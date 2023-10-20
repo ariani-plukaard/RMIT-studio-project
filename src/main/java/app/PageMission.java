@@ -54,8 +54,8 @@ public class PageMission implements Handler {
                 </div>
                 <div class='buttons'>
                 <a href='/'>HOME</a>
-                <a href='page2A.html'>DATA OVERVIEW</a>
-                <a href='page3A.html'>DATA DEEP DIVE</a>
+                <a href='data-overview.html'>DATA OVERVIEW</a>
+                <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
                 <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>

@@ -23,7 +23,7 @@ import java.sql.Statement;
 public class PageST2A implements Handler {
 
     // URL of this page relative to http://localhost:7001/
-    public static final String URL = "/page2A.html";
+    public static final String URL = "/data-overview.html";
 
     @Override
     public void handle(Context context) throws Exception {
@@ -50,8 +50,8 @@ public class PageST2A implements Handler {
                 </div>
                 <div class ='buttons'>
                     <a href='/'>HOME</a>
-                    <a href='page2A.html'>DATA OVERVIEW</a>
-                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='data-overview.html'>DATA OVERVIEW</a>
+                    <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
                     <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
@@ -60,16 +60,16 @@ public class PageST2A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Subtask 2.A</h1>
+                <h1>2021 Data by LGA or State</h1>
             </div>
         """;
 
         // Add Div for page Content
         html = html + "<div class='content'>";
 
-        // Add HTML for the page content
+        // Add HTML for the page content - Filters
         html = html + """
-            <p>Subtask 2.A page content</p>
+            <h2>FILTERS</h2>
             """;
 
         // Close Content div
