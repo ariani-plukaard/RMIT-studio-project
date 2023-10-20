@@ -136,10 +136,84 @@ public class PageIndex implements Handler {
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <head>
+                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                            <script type="text/javascript">
+                            google.charts.load('current', {'packages':['bar']});
+                            google.charts.setOnLoadCallback(drawChart);
+                        
+                            function drawChart() {
+                                var data = google.visualization.arrayToDataTable([
+                                ['Condition', 'Indigenous', 'Non-Indigenous'],
+                                ['Arthritis', 6.2, 8.9],
+                                ['Asthma', 13.1, 8.3],
+                                ['Cancer', 1.5, 3.0],
+                                ['Dementia', 0.4, 0.7],
+                                ['Diabetes', 5.8, 4.8]
+                                ]);
+                        
+                                var options = {
+                                chart: {
+                                    title: 'Long Term Health Conditions',
+                                    subtitle: 'Proportional values displayed',
+                                  },
+                                backgroundColor: {
+                                    fill: '#f0f0f0'
+                                  },
+                                chartArea: {
+                                    backgroundColor: '#f0f0f0'
+                                  }  
+                                };
+                        
+                                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                        
+                                chart.draw(data, google.charts.Bar.convertOptions(options));
+                            }
+                            </script>
+                        </head>
+                        <body>
+                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material" style="width: 900px; height: 600px;"></div>
+                        </body>
                     </div>
                     <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <head>
+                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                            <script type="text/javascript">
+                            google.charts.load('current', {'packages':['bar']});
+                            google.charts.setOnLoadCallback(drawChart);
+                        
+                            function drawChart() {
+                                var data = google.visualization.arrayToDataTable([
+                                ['Non-School Education', 'Indigenous', 'Non-Indigenous'],
+                                ['Advanced Diploma and Diploma', 7.1, 15.2],
+                                ['Bachelor Degree', 5.6, 27.4],
+                                ['Certificate III & IV', 22.0, 26.1],
+                                ['Certificate I & II', 3.0, 1.8],
+                                ['Postgraduate Degree, Graduate Diploma and Graduate Certificate', 2.2, 13.3]
+                                ]);
+                        
+                                var options = {
+                                chart: {
+                                    title: 'Non-School Education',
+                                    subtitle: 'Proportional values displayed',
+                                  },
+                                backgroundColor: {
+                                    fill: '#f0f0f0'
+                                  },
+                                chartArea: {
+                                    backgroundColor: '#f0f0f0'
+                                  }  
+                                };
+                        
+                                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                        
+                                chart.draw(data, google.charts.Bar.convertOptions(options));
+                            }
+                            </script>
+                        </head>
+                        <body>
+                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material" style="width: 900px; height: 600px;"></div>
+                        </body>
                     </div>
                     <div class="carousel-item">
                         <img src="..." class="d-block w-100" alt="...">
