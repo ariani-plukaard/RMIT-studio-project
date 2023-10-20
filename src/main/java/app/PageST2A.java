@@ -32,7 +32,7 @@ public class PageST2A implements Handler {
 
         // Add some Head information
         html = html + "<head>" + 
-               "<title>Subtask 2.1</title>";
+               "<title>Data Overview</title>";
 
         // Add some CSS (external file)
         html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
@@ -68,12 +68,7 @@ public class PageST2A implements Handler {
         html = html + "<div class='content'>";
 
         // Add HTML for the page content - Filters
-        html = html + """
-            <h2>FILTERS</h2>
-            """;
-
-        //JDBCConnection jdbc = new JDBCConnection();
-        //ArrayList<String> moviesTypes = jdbc.getMoviesTypes();
+        html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-overview.html' method='post'>";
 
@@ -83,9 +78,6 @@ public class PageST2A implements Handler {
         html = html + "      <label for='granularity1'>Individual LGAs</label><br>";
         html = html + "      <input type='radio' id='granularity2' name='granularity' value='State'>";
         html = html + "      <label for='granularity2'>State & Territory</label><br>";
-        //for (String type: moviesTypes) {
-        //    html = html + "         <option>" + type + "</option>";;
-        //}
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -127,6 +119,47 @@ public class PageST2A implements Handler {
         html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
 
         html = html + "</form>";
+
+        /* Get the Form Data from the radio checklist selections
+         *  If the form is not filled in, then the form will return null, so we have included default values and made that clear.
+        */
+        html = html + "<h3>Filters: ";
+        String granularity = context.formParam("granularity");
+        if (granularity != null) {
+            html = html + granularity;
+        } else {
+            granularity = "LGA";
+            html = html + granularity + " <small>(default selection)</small>";
+        }
+        String dataType = context.formParam("dataType");
+        if (dataType != null) {
+            html = html + " | " + dataType;
+        } else {
+            dataType = "Raw";
+            html = html + " | " + dataType + " <small>(default selection)</small>";
+        }
+        String population = context.formParam("population");
+        if (population != null) {
+            html = html + " | " + population;
+        } else {
+            population = "Indigenous";
+            html = html + " | " + population + " <small>(default selection)</small>";
+        }
+        String topic = context.formParam("topic");
+        if (topic != null) {
+            html = html + " | " + topic;
+        } else {
+            topic = "Age";
+            html = html + " | " + topic + " <small>(default selection)</small>";
+        }
+        String sort = context.formParam("sort");
+        if (sort != null) {
+            html = html + " | " + sort;
+        } else {
+            sort = "Asc";
+            html = html + " | " + sort + " <small>(default selection)</small>";
+        }
+        html = html + "</h3>";
 
         // Close Content div
         html = html + "</div>";
