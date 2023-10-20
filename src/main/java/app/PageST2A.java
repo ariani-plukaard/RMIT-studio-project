@@ -72,6 +72,30 @@ public class PageST2A implements Handler {
             <h2>FILTERS</h2>
             """;
 
+        //JDBCConnection jdbc = new JDBCConnection();
+        //ArrayList<String> moviesTypes = jdbc.getMoviesTypes();
+
+        html = html + "<form action='/data-overview.html' method='post'>";
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
+        html = html + "      <label for='granularity1'>Individual LGAs</label><br>";
+        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State'>";
+        html = html + "      <label for='granularity2'>State & Territory</label><br>";
+        //for (String type: moviesTypes) {
+        //    html = html + "         <option>" + type + "</option>";;
+        //}
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        // html = html + "      <label for='movietype_textbox'>Select the type Movie Type (Textbox)</label>";
+        // html = html + "      <input class='form-control' id='movietype_textbox' name='movietype_textbox'>";
+        html = html + "   </div>";
+
+        html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
+
+        html = html + "</form>";
+
         // Close Content div
         html = html + "</div>";
 
