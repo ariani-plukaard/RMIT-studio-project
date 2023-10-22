@@ -225,25 +225,25 @@ public class JDBCConnection {
 
             // Get category column name by topic
             String categoryCol = "";
-            if (topic == "Population") {
+            if (topic.equals("Population")) {
                 categoryCol = "age_category";
-            } else if (topic == "LTHC") {
+            } else if (topic.equals("LTHC")) {
                 categoryCol = "Condition";
-            } else if (topic == "SchoolCompletion") {
+            } else if (topic.equals("SchoolCompletion")) {
                 categoryCol = "SchoolYear";
-            } else if (topic == "NonSchoolCompletion") {
+            } else if (topic.equals("NonSchoolCompletion")) {
                 categoryCol = "NonSchoolBracket";
             }
 
             // Get the sorting attribute by topic
             String sortByAttr = "";
-            if (topic == "Population") {
+            if (topic.equals("Population")) {
                 sortByAttr = "AND age_category = '_65_yrs_ov'"; // Population results will be sorted by the 65+ count
-            } else if (topic == "LTHC") {
+            } else if (topic.equals("LTHC")) {
                 sortByAttr = ""; // Health results will be sorted by the count for all health conditions
-            } else if (topic == "SchoolCompletion") {
+            } else if (topic.equals("SchoolCompletion")) {
                 sortByAttr = "AND SchoolYear = 'y12_equiv'"; // School results will be sorted by the year 12 count
-            } else if (topic == "NonSchoolCompletion") {
+            } else if (topic.equals("NonSchoolCompletion")) {
                 sortByAttr = "AND (NonSchoolBracket = 'bd' OR NonSchoolBracket = 'pd_gd_gc')"; // Non school results will be sorted by total count from bachelor and post grad
             }
 
