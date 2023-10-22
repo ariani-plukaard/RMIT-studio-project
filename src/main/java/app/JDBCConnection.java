@@ -207,8 +207,8 @@ public class JDBCConnection {
         return teamMembers;
     }
 
-    // Method to get raw 2021 LGA data from db (Level 2)
-    public ArrayList<OverviewData> getRawLGAData2021(String population, String topic, String sort) {
+    // Method to get raw 2021 data from db (Level 2)
+    public ArrayList<OverviewData> getRawData2021(String granularity, String population, String topic, String sort) {
         // Create the ArrayList of OverviewData objects to return
         ArrayList<OverviewData> overviewDataPoints = new ArrayList<OverviewData>();
 
@@ -247,8 +247,23 @@ public class JDBCConnection {
                 sortByAttr = "AND (NonSchoolBracket = 'bd' OR NonSchoolBracket = 'pd_gd_gc')"; // Non school results will be sorted by total count from bachelor and post grad
             }
 
-            // The Query
-            String query = "SELECT l.name, topic." + categoryCol + ", SUM(topic.count) AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
+            String query = "";
+            if (granularity.equals("State or Territory")) {
+                // The Query - State
+                query = "SELECT l.state_abbr, topic." + categoryCol + ", SUM(topic.count) AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
+                    + "JOIN LGA l ON topic.lga_code=l.code "
+                    + "AND topic.lga_year = l.year) "
+                    + "JOIN (SELECT li.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " topic_i "
+                    +     "JOIN LGA li ON topic_i.lga_code=li.code AND topic_i.lga_year = li.year "
+                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    +     "GROUP BY li.state_abbr) AS topic2 "
+                    + "ON l.state_abbr = topic2.state_abbr "
+                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
+                    + "GROUP BY l.state_abbr, topic." + categoryCol + " "
+                    + "ORDER BY topic2.totalToSort " + sort + ";";
+            } else {
+            // The Query - LGA
+                query = "SELECT l.name, topic." + categoryCol + ", SUM(topic.count) AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
                     + "JOIN LGA l ON topic.lga_code=l.code "
                     + "AND topic.lga_year = l.year) "
                     + "JOIN (SELECT topic_i.lga_code, SUM(topic_i.count) AS totalToSort FROM " + topic + " topic_i "
@@ -258,14 +273,21 @@ public class JDBCConnection {
                     + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
                     + "GROUP BY l.name, topic." + categoryCol + " "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
-            
+            }
+
             // Get Result
             ResultSet results = statement.executeQuery(query);
 
             // Process all of the results
+            String locationColumn = "";
+            if (granularity.equals("State or Territory")) {
+                locationColumn = "state_abbr";
+            } else {
+                locationColumn = "name";
+            }
             while (results.next()) {
                 // Lookup the columns we need
-                String location    = results.getString("name");
+                String location    = results.getString(locationColumn);
                 String category    = results.getString(categoryCol);
                 int count          = results.getInt("raw_values");
 

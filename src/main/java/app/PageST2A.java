@@ -208,10 +208,12 @@ public class PageST2A implements Handler {
         // Look up data from JDBC
         JDBCConnection jdbc = new JDBCConnection();
         ArrayList<OverviewData> dataPoints;
-        if (granularity.equals("LGA") && dataType.equals("Raw")) {
-            dataPoints = jdbc.getRawLGAData2021(population, topic, sort);
+        if (dataType.equals("Raw")) {
+            dataPoints = jdbc.getRawData2021(granularity, population, topic, sort);
+            html = html + "Test1 " + dataPoints.size();
         } else {
             dataPoints = new ArrayList<OverviewData>();
+            html = html + "Test2";
         }
 
         html = html + "<table>"
