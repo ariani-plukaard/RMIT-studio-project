@@ -210,21 +210,29 @@ public class PageST2A implements Handler {
         ArrayList<OverviewData> dataPoints;
         if (dataType.equals("Raw")) {
             dataPoints = jdbc.getRawData2021(granularity, population, topic, sort);
-            html = html + "Test1 " + dataPoints.size();
         } else {
             dataPoints = new ArrayList<OverviewData>();
-            html = html + "Test2";
+            // To Do: need to add the jdbc method for proportional (%) values
+            html = html + "<h3>PROPORTIONAL TABLE NOT YET ADDED</h3>";
         }
-
+        
         html = html + "<table>"
                     + "<tr>"
+                    +     "<th>Rank: " + rankingMethod(topic) + "</th>"
                     +     "<th>" + granularity + "</th>"
                     +     "<th>Category</th>"
                     +     "<th>Raw Data Count</th>"
                     + "</tr>";
-          
+        
+        int rankingCount = 0;
+        String nextLocation = "";
         for (OverviewData data : dataPoints) {
+            if (!data.getLocation().equals(nextLocation)) {
+                nextLocation = data.getLocation();
+                rankingCount++;
+            }
             html = html + "<tr>"
+                        + "<td>" + rankingCount + "</td>"
                         + "<td>" + data.getLocation() + "</td>"
                         + "<td>" + data.getCategory() + "</td>"
                         + "<td>" + data.getCount() + "</td>"
@@ -235,4 +243,17 @@ public class PageST2A implements Handler {
         return html;
     }
 
+    private String rankingMethod(String topic) {
+        String sortByAttr = "";
+        if (topic.equals("Population")) {
+            sortByAttr = "sorted by people age 65+";
+        } else if (topic.equals("LTHC")) {
+            sortByAttr = "sorted by the total LTHC";
+        } else if (topic.equals("SchoolCompletion")) {
+            sortByAttr = "sorted by year 12 completion";
+        } else if (topic.equals("NonSchoolCompletion")) {
+            sortByAttr = "sorted by total bachelor and post grad";
+        }
+        return sortByAttr;
+    }
 }
