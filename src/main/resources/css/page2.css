@@ -79,6 +79,22 @@
     justify-content: space-between;
   }
 
+  /* Style the filter button */
+  .pink-button {
+    color: white;
+    background-color: #da0063;
+    font-size: 18px;
+    padding: 14px 60px;
+    border-radius: 15px;
+    width: 100%;
+    margin: 30px 10px 10px;
+  }
+
+  .pink-button:hover {
+    background-color: #e32f7f;
+    color: #ddd;
+  }
+
   /* Style table */
   table {
     width: 100%;

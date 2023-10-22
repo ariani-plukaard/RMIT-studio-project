@@ -120,7 +120,7 @@ public class PageST2A implements Handler {
 
         html = html + "   </div>";
 
-        html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
+        html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
 
         html = html + "</form>";
 
