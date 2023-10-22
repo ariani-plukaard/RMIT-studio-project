@@ -54,8 +54,8 @@ public class PageIndex implements Handler {
                 </div>
                 <div class ='buttons'>
                     <a href='/'>HOME</a>
-                    <a href='data-overview.html'>DATA OVERVIEW</a>
-                    <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
+                    <a href='page2A.html'>DATA OVERVIEW</a>
+                    <a href='page3A.html'>DATA DEEP DIVE</a>
                     <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
@@ -69,7 +69,7 @@ public class PageIndex implements Handler {
                 <div class='wrapperText'>
                     <h2>Exploring the gap</h2>
                     <p>Between Indigineous & Non-Indigineous Australians</p>
-                    <a href='data-overview.html'>DATA OVERVIEW</a>
+                    <a href='page2A.html'>DATA OVERVIEW</a>
                 </div>
                 <div class='wrapperImg'>
                     <img src='vop.png' alt='vop' height='1200' width='672'>
@@ -93,7 +93,7 @@ public class PageIndex implements Handler {
                         <h2>What we cover</h2>
                         <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
                         a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
-                        <a href='data-overview.html'>See Data Overview</a>
+                        <a href='page2A.html'>See Data Overview</a>
                     </div>
                 </div>
                 <div class='landingStats'>
@@ -140,9 +140,9 @@ public class PageIndex implements Handler {
                             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                             <script type="text/javascript">
                             google.charts.load('current', {'packages':['bar']});
-                            google.charts.setOnLoadCallback(drawChart);
+                            google.charts.setOnLoadCallback(drawChart1);
                         
-                            function drawChart() {
+                            function drawChart1() {
                                 var data = google.visualization.arrayToDataTable([
                                 ['Condition', 'Indigenous', 'Non-Indigenous'],
                                 ['Arthritis', 6.2, 8.9],
@@ -165,14 +165,14 @@ public class PageIndex implements Handler {
                                   }  
                                 };
                         
-                                var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+                                var chart = new google.charts.Bar(document.getElementById('columnchart_material1'));
                         
                                 chart.draw(data, google.charts.Bar.convertOptions(options));
                             }
                             </script>
                         </head>
                         <body>
-                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material" style="width: 900px; height: 600px;"></div>
+                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material1" style="width: 900px; height: 600px;"></div>
                         </body>
                     </div>
                     <div class="carousel-item">
@@ -216,7 +216,7 @@ public class PageIndex implements Handler {
                         </body>
                     </div>
                     <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
+                        
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselGraphs" data-bs-slide="prev">
