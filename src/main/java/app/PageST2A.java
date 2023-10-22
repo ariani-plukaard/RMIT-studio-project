@@ -35,7 +35,7 @@ public class PageST2A implements Handler {
                "<title>Data Overview</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html = html + "<link rel='stylesheet' type='text/css' href='page2.css' />";
         html = html + "</head>";
 
         // Add the body
@@ -71,6 +71,8 @@ public class PageST2A implements Handler {
         html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-overview.html' method='post'>";
+        
+        html = html + "   <div class = 'filter-box'>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Granularity</h3>";
@@ -116,6 +118,8 @@ public class PageST2A implements Handler {
         html = html + "      <label for='sort2'>Descending</label><br>";
         html = html + "   </div>";
 
+        html = html + "   </div>";
+
         html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
 
         html = html + "</form>";
@@ -123,7 +127,7 @@ public class PageST2A implements Handler {
         /* Get the Form Data from the radio checklist selections
          *  If the form is not filled in, then the form will return null, so we have included default values and made that clear.
         */
-        html = html + "<h3>Filters: ";
+        html = html + "<h2>SELECTED FILTERS: ";
         String granularity = context.formParam("granularity");
         if (granularity != null) {
             html = html + granularity;
@@ -160,7 +164,7 @@ public class PageST2A implements Handler {
             sort = "ASC";
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
-        html = html + "</h3>";
+        html = html + "</h2>";
 
         // Add table of data
         html = html + outputTable(granularity, dataType, population, topic, sort);
