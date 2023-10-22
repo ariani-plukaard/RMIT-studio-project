@@ -206,4 +206,116 @@ public class JDBCConnection {
         // Finally we return all of the team members
         return teamMembers;
     }
+
+    // Method to get raw 2021 data from db (Level 2)
+    public ArrayList<OverviewData> getRawData2021(String granularity, String population, String topic, String sort) {
+        // Create the ArrayList of OverviewData objects to return
+        ArrayList<OverviewData> overviewDataPoints = new ArrayList<OverviewData>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // Get category column name by topic
+            String categoryCol = "";
+            if (topic.equals("Population")) {
+                categoryCol = "age_category";
+            } else if (topic.equals("LTHC")) {
+                categoryCol = "Condition";
+            } else if (topic.equals("SchoolCompletion")) {
+                categoryCol = "SchoolYear";
+            } else if (topic.equals("NonSchoolCompletion")) {
+                categoryCol = "NonSchoolBracket";
+            }
+
+            // Get the sorting attribute by topic
+            String sortByAttr = "";
+            if (topic.equals("Population")) {
+                sortByAttr = "AND age_category = '65+ years'"; // Population results will be sorted by the 65+ count
+            } else if (topic.equals("LTHC")) {
+                sortByAttr = ""; // Health results will be sorted by the count for all health conditions
+            } else if (topic.equals("SchoolCompletion")) {
+                sortByAttr = "AND SchoolYear = 'Year 12 equivalent'"; // School results will be sorted by the year 12 count
+            } else if (topic.equals("NonSchoolCompletion")) {
+                sortByAttr = "AND (NonSchoolBracket LIKE 'Postgrad%' OR NonSchoolBracket LIKE 'Bachelor%')"; // Non school results will be sorted by total count from bachelor and post grad
+            }
+
+            String query = "";
+            if (granularity.equals("State or Territory")) {
+                // The Query - State
+                query = "SELECT l.state_abbr, topic." + categoryCol + ", SUM(topic.count) AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
+                    + "JOIN LGA l ON topic.lga_code=l.code "
+                    + "AND topic.lga_year = l.year) "
+                    + "JOIN (SELECT li.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " topic_i "
+                    +     "JOIN LGA li ON topic_i.lga_code=li.code AND topic_i.lga_year = li.year "
+                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    +     "GROUP BY li.state_abbr) AS topic2 "
+                    + "ON l.state_abbr = topic2.state_abbr "
+                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
+                    + "GROUP BY l.state_abbr, topic." + categoryCol + " "
+                    + "ORDER BY topic2.totalToSort " + sort + ";";
+            } else {
+            // The Query - LGA
+                query = "SELECT l.name, topic." + categoryCol + ", SUM(topic.count) AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
+                    + "JOIN LGA l ON topic.lga_code=l.code "
+                    + "AND topic.lga_year = l.year) "
+                    + "JOIN (SELECT topic_i.lga_code, SUM(topic_i.count) AS totalToSort FROM " + topic + " topic_i "
+                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    +     "GROUP BY topic_i.lga_code) AS topic2 "
+                    + "ON l.code = topic2.lga_code "
+                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
+                    + "GROUP BY l.name, topic." + categoryCol + " "
+                    + "ORDER BY topic2.totalToSort " + sort + ";";
+            }
+
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            String locationColumn = "";
+            if (granularity.equals("State or Territory")) {
+                locationColumn = "state_abbr";
+            } else {
+                locationColumn = "name";
+            }
+            while (results.next()) {
+                // Lookup the columns we need
+                String location    = results.getString(locationColumn);
+                String category    = results.getString(categoryCol);
+                int count          = results.getInt("raw_values");
+
+                // Create a OverviewData Object
+                OverviewData dataPoint = new OverviewData(location, category, count);
+
+                // Add the OverviewData object to the array
+                overviewDataPoints.add(dataPoint);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the data overview values
+        return overviewDataPoints;
+    }
 }

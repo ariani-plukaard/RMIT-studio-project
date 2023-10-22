@@ -32,10 +32,10 @@ public class PageST2A implements Handler {
 
         // Add some Head information
         html = html + "<head>" + 
-               "<title>Subtask 2.1</title>";
+               "<title>Data Overview</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html = html + "<link rel='stylesheet' type='text/css' href='page2.css' />";
         html = html + "</head>";
 
         // Add the body
@@ -68,24 +68,18 @@ public class PageST2A implements Handler {
         html = html + "<div class='content'>";
 
         // Add HTML for the page content - Filters
-        html = html + """
-            <h2>FILTERS</h2>
-            """;
-
-        //JDBCConnection jdbc = new JDBCConnection();
-        //ArrayList<String> moviesTypes = jdbc.getMoviesTypes();
+        html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-overview.html' method='post'>";
+        
+        html = html + "   <div class = 'filter-box'>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Granularity</h3>";
         html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
         html = html + "      <label for='granularity1'>Individual LGAs</label><br>";
-        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State'>";
+        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State or Territory'>";
         html = html + "      <label for='granularity2'>State & Territory</label><br>";
-        //for (String type: moviesTypes) {
-        //    html = html + "         <option>" + type + "</option>";;
-        //}
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -98,35 +92,82 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='radio' id='population1' name='population' value='Indigenous'>";
+        html = html + "      <input type='radio' id='population1' name='population' value='Indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='radio' id='population2' name='population' value='Non-Indigenous'>";
+        html = html + "      <input type='radio' id='population2' name='population' value='Non_Indig'>";
         html = html + "      <label for='population2'>Non-Indigenous</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Topic</h3>";
-        html = html + "      <input type='radio' id='topic1' name='topic' value='Age'>";
-        html = html + "      <label for='topic1'>Age</label><br>";
-        html = html + "      <input type='radio' id='topic2' name='topic' value='Health'>";
-        html = html + "      <label for='topic2'>Health Conditions</label><br>";
-        html = html + "      <input type='radio' id='topic3' name='topic' value='School'>";
+        html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
+        html = html + "      <label for='topic1'>Age (Population)</label><br>";
+        html = html + "      <input type='radio' id='topic2' name='topic' value='LTHC'>";
+        html = html + "      <label for='topic2'>Long Term Health Conditions (LTHC)</label><br>";
+        html = html + "      <input type='radio' id='topic3' name='topic' value='SchoolCompletion'>";
         html = html + "      <label for='topic3'>School Completion</label><br>";
-        html = html + "      <input type='radio' id='topic4' name='topic' value='Non-School'>";
+        html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
         html = html + "      <label for='topic4'>Non-School Completion</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='Asc'>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
         html = html + "      <label for='sort1'>Ascending</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='Desc'>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
         html = html + "      <label for='sort2'>Descending</label><br>";
+        html = html + "   </div>";
+
         html = html + "   </div>";
 
         html = html + "   <button type='submit' class='btn btn-primary'>APPLY FILTERS</button>";
 
         html = html + "</form>";
+
+        /* Get the Form Data from the radio checklist selections
+         *  If the form is not filled in, then the form will return null, so we have included default values and made that clear.
+        */
+        html = html + "<h2>SELECTED FILTERS: ";
+        String granularity = context.formParam("granularity");
+        if (granularity != null) {
+            html = html + granularity;
+        } else {
+            granularity = "LGA";
+            html = html + granularity + " <small>(default selection)</small>";
+        }
+        String dataType = context.formParam("dataType");
+        if (dataType != null) {
+            html = html + " | " + dataType;
+        } else {
+            dataType = "Raw";
+            html = html + " | " + dataType + " <small>(default selection)</small>";
+        }
+        String population = context.formParam("population");
+        if (population != null) {
+            html = html + " | " + population;
+        } else {
+            population = "Indig";
+            html = html + " | " + population + " <small>(default selection)</small>";
+        }
+        population = population.toLowerCase();
+        String topic = context.formParam("topic");
+        if (topic != null) {
+            html = html + " | " + topic;
+        } else {
+            topic = "Population";
+            html = html + " | " + topic + " <small>(default selection)</small>";
+        }
+        String sort = context.formParam("sort");
+        if (sort != null) {
+            html = html + " | " + sort;
+        } else {
+            sort = "ASC";
+            html = html + " | " + sort + " <small>(default selection)</small>";
+        }
+        html = html + "</h2>";
+
+        // Add table of data
+        html = html + outputTable(granularity, dataType, population, topic, sort);
 
         // Close Content div
         html = html + "</div>";
@@ -165,4 +206,58 @@ public class PageST2A implements Handler {
         context.html(html);
     }
 
+    public String outputTable(String granularity, String dataType, String population, String topic, String sort) {
+        String html = "";
+
+        // Look up data from JDBC
+        JDBCConnection jdbc = new JDBCConnection();
+        ArrayList<OverviewData> dataPoints;
+        if (dataType.equals("Raw")) {
+            dataPoints = jdbc.getRawData2021(granularity, population, topic, sort);
+        } else {
+            dataPoints = new ArrayList<OverviewData>();
+            // To Do: need to add the jdbc method for proportional (%) values
+            html = html + "<h3>PROPORTIONAL TABLE NOT YET ADDED</h3>";
+        }
+        
+        html = html + "<table>"
+                    + "<tr>"
+                    +     "<th>Rank: " + rankingMethod(topic) + "</th>"
+                    +     "<th>" + granularity + "</th>"
+                    +     "<th>Category</th>"
+                    +     "<th>Raw Data Count</th>"
+                    + "</tr>";
+        
+        int rankingCount = 0;
+        String nextLocation = "";
+        for (OverviewData data : dataPoints) {
+            if (!data.getLocation().equals(nextLocation)) {
+                nextLocation = data.getLocation();
+                rankingCount++;
+            }
+            html = html + "<tr>"
+                        + "<td>" + rankingCount + "</td>"
+                        + "<td>" + data.getLocation() + "</td>"
+                        + "<td>" + data.getCategory() + "</td>"
+                        + "<td>" + data.getCount() + "</td>"
+                        + "</tr>";
+        }
+
+        html = html + "</table>";
+        return html;
+    }
+
+    private String rankingMethod(String topic) {
+        String sortByAttr = "";
+        if (topic.equals("Population")) {
+            sortByAttr = "sorted by people age 65+";
+        } else if (topic.equals("LTHC")) {
+            sortByAttr = "sorted by the total LTHC";
+        } else if (topic.equals("SchoolCompletion")) {
+            sortByAttr = "sorted by year 12 completion";
+        } else if (topic.equals("NonSchoolCompletion")) {
+            sortByAttr = "sorted by total bachelor and post grad";
+        }
+        return sortByAttr;
+    }
 }
