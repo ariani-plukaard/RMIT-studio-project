@@ -234,3 +234,10 @@ img.top-image {
   list-style-type: none;
 }
 
+.carousel-item {
+  display: block; /* allow charts to render offscreen */
+  visibility: hidden;
+}
+.carousel-item.active {
+  visibility: initial;
+}
