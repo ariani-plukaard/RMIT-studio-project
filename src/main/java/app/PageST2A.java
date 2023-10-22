@@ -90,9 +90,9 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='radio' id='population1' name='population' value='indig'>";
+        html = html + "      <input type='radio' id='population1' name='population' value='Indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='radio' id='population2' name='population' value='non-indig'>";
+        html = html + "      <input type='radio' id='population2' name='population' value='Non_Indig'>";
         html = html + "      <label for='population2'>Non-Indigenous</label><br>";
         html = html + "   </div>";
 
@@ -101,7 +101,7 @@ public class PageST2A implements Handler {
         html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
         html = html + "      <label for='topic1'>Age (Population)</label><br>";
         html = html + "      <input type='radio' id='topic2' name='topic' value='LTHC'>";
-        html = html + "      <label for='topic2'>Health Conditions</label><br>";
+        html = html + "      <label for='topic2'>Long Term Health Conditions (LTHC)</label><br>";
         html = html + "      <input type='radio' id='topic3' name='topic' value='SchoolCompletion'>";
         html = html + "      <label for='topic3'>School Completion</label><br>";
         html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
@@ -142,9 +142,10 @@ public class PageST2A implements Handler {
         if (population != null) {
             html = html + " | " + population;
         } else {
-            population = "indig";
+            population = "Indig";
             html = html + " | " + population + " <small>(default selection)</small>";
         }
+        population = population.toLowerCase();
         String topic = context.formParam("topic");
         if (topic != null) {
             html = html + " | " + topic;
@@ -209,10 +210,8 @@ public class PageST2A implements Handler {
         ArrayList<OverviewData> dataPoints;
         if (granularity.equals("LGA") && dataType.equals("Raw")) {
             dataPoints = jdbc.getRawLGAData2021(population, topic, sort);
-            html = html + "TEST1 " + dataPoints.size();
         } else {
             dataPoints = new ArrayList<OverviewData>();
-            html = html + "<h3>TEST2</h3>";
         }
 
         html = html + "<table>"
@@ -224,7 +223,7 @@ public class PageST2A implements Handler {
           
         for (OverviewData data : dataPoints) {
             html = html + "<tr>"
-                        + "<td>" + "TEST " + data.getLocation() + "</td>"
+                        + "<td>" + data.getLocation() + "</td>"
                         + "<td>" + data.getCategory() + "</td>"
                         + "<td>" + data.getCount() + "</td>"
                         + "</tr>";
