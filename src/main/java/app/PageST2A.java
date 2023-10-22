@@ -76,7 +76,7 @@ public class PageST2A implements Handler {
         html = html + "      <h3>Granularity</h3>";
         html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
         html = html + "      <label for='granularity1'>Individual LGAs</label><br>";
-        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State'>";
+        html = html + "      <input type='radio' id='granularity2' name='granularity' value='State or Territory'>";
         html = html + "      <label for='granularity2'>State & Territory</label><br>";
         html = html + "   </div>";
 
@@ -99,7 +99,7 @@ public class PageST2A implements Handler {
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Topic</h3>";
         html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
-        html = html + "      <label for='topic1'>Age</label><br>";
+        html = html + "      <label for='topic1'>Age (Population)</label><br>";
         html = html + "      <input type='radio' id='topic2' name='topic' value='LTHC'>";
         html = html + "      <label for='topic2'>Health Conditions</label><br>";
         html = html + "      <input type='radio' id='topic3' name='topic' value='SchoolCompletion'>";
@@ -161,6 +161,9 @@ public class PageST2A implements Handler {
         }
         html = html + "</h3>";
 
+        // Add table of data
+        html = html + outputTable(granularity, dataType, population, topic, sort);
+
         // Close Content div
         html = html + "</div>";
 
@@ -196,6 +199,37 @@ public class PageST2A implements Handler {
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
         context.html(html);
+    }
+
+    public String outputTable(String granularity, String dataType, String population, String topic, String sort) {
+        String html = "";
+
+        // Look up data from JDBC
+        JDBCConnection jdbc = new JDBCConnection();
+        ArrayList<OverviewData> dataPoints;
+        if (granularity == "LGA" && dataType == "Raw") {
+            dataPoints = jdbc.getRawLGAData2021(population, topic, sort);
+        } else {
+            dataPoints = new ArrayList<OverviewData>();
+        }
+
+        html = html + "<table>"
+                    + "<tr>"
+                    +     "<th>" + granularity + "</th>"
+                    +     "<th>Category</th>"
+                    +     "<th>Raw Data Count</th>"
+                    + "</tr>";
+          
+        for (OverviewData data : dataPoints) {
+            html = html + "<tr>"
+                        + "<td>" + data.getLocation() + "</td>"
+                        + "<td>" + data.getCategory() + "</td>"
+                        + "<td>" + data.getCount() + "</td>"
+                        + "</tr>";
+        }
+
+        html = html + "</table>";
+        return html;
     }
 
 }
