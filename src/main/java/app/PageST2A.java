@@ -90,29 +90,29 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='radio' id='population1' name='population' value='Indigenous'>";
+        html = html + "      <input type='radio' id='population1' name='population' value='indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='radio' id='population2' name='population' value='Non-Indigenous'>";
+        html = html + "      <input type='radio' id='population2' name='population' value='non-indig'>";
         html = html + "      <label for='population2'>Non-Indigenous</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Topic</h3>";
-        html = html + "      <input type='radio' id='topic1' name='topic' value='Age'>";
+        html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
         html = html + "      <label for='topic1'>Age</label><br>";
-        html = html + "      <input type='radio' id='topic2' name='topic' value='Health'>";
+        html = html + "      <input type='radio' id='topic2' name='topic' value='LTHC'>";
         html = html + "      <label for='topic2'>Health Conditions</label><br>";
-        html = html + "      <input type='radio' id='topic3' name='topic' value='School'>";
+        html = html + "      <input type='radio' id='topic3' name='topic' value='SchoolCompletion'>";
         html = html + "      <label for='topic3'>School Completion</label><br>";
-        html = html + "      <input type='radio' id='topic4' name='topic' value='Non-School'>";
+        html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
         html = html + "      <label for='topic4'>Non-School Completion</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='Asc'>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
         html = html + "      <label for='sort1'>Ascending</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='Desc'>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
         html = html + "      <label for='sort2'>Descending</label><br>";
         html = html + "   </div>";
 
@@ -142,21 +142,21 @@ public class PageST2A implements Handler {
         if (population != null) {
             html = html + " | " + population;
         } else {
-            population = "Indigenous";
+            population = "indig";
             html = html + " | " + population + " <small>(default selection)</small>";
         }
         String topic = context.formParam("topic");
         if (topic != null) {
             html = html + " | " + topic;
         } else {
-            topic = "Age";
+            topic = "Population";
             html = html + " | " + topic + " <small>(default selection)</small>";
         }
         String sort = context.formParam("sort");
         if (sort != null) {
             html = html + " | " + sort;
         } else {
-            sort = "Asc";
+            sort = "ASC";
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
         html = html + "</h3>";
