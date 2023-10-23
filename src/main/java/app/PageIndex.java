@@ -82,9 +82,11 @@ public class PageIndex implements Handler {
         ArrayList<NonSchoolCompletion> nonSchoolCompletion = jdbc.getNSEgraph();
         ArrayList<SchoolCompletion> schoolCompletion = jdbc.getSEgraph();
         ArrayList<totalPop> totalPops = jdbc.getTotalPop();
-        System.out.println(totalPops.get(0).getTotal2016()+totalPops.get(1).getTotal2016()+totalPops.get(2).getTotal2016());
+        ArrayList<totalPop> totalStatePops = jdbc.getTotalStatePop();
+
         int totalIn2016 = totalPops.get(0).getTotal2016()+totalPops.get(1).getTotal2016()+totalPops.get(2).getTotal2016();
         int totalIn2021 = totalPops.get(0).getTotal2021()+totalPops.get(1).getTotal2021()+totalPops.get(2).getTotal2021();
+        
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         String formattedTotalIn2016 = decimalFormat.format(totalIn2016);
         String formattedTotalIn2021 = decimalFormat.format(totalIn2021);
@@ -117,15 +119,12 @@ public class PageIndex implements Handler {
         html = html + """
                          </ol>
                     <p class='subheading'>Population by Australian States and Territories (2021):</p>
-                    <ul>
-                        <li>New South Wales: <span style='color:black'>8,072,163</span></li>
-                        <li>Victoria: <span style='color:black'>6,503,491</span></li>
-                        <li>Queensland: <span style='color:black'>5,156,138</span></li>
-                        <li>South Australia: <span style='color:black'>1,781,516</span></li>
-                        <li>Western Australia: <span style='color:black'>2,660,026</span></li>
-                        <li>Tasmania: <span style='color:black'>557,571</span></li>
-                        <li>Northern Territory: <span style='color:black'>232,605</span></li>
-                        <li>ACT: <span style='color:black'>454,499</span></li>
+                    <ul>""";
+                            
+        for(totalPop totalState: totalStatePops){
+            html = html + "<li>"+totalState.getState()+":<span style='color:black'>"+decimalFormat.format(totalState.getTotal2021())+"</span></li>";                        
+        }
+        html = html + """
                     </ul>
                     <p class='subheading'>Total Number of Local Government Areas (LGAs):</p>
                     <ul>
