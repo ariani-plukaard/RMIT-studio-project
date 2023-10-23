@@ -69,7 +69,7 @@ public class PageIndex implements Handler {
                 <div class='wrapperText'>
                     <h2>Exploring the gap</h2>
                     <p>Between Indigineous & Non-Indigineous Australians</p>
-                    <a href='page2A.html'>DATA OVERVIEW</a>
+                    <a href='data-overview.html'>DATA OVERVIEW</a>
                 </div>
                 <div class='wrapperImg'>
                     <img src='vop.png' alt='vop' height='1200' width='672'>
@@ -93,7 +93,7 @@ public class PageIndex implements Handler {
                         <h2>What we cover</h2>
                         <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
                         a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
-                        <a href='page2A.html'>See Data Overview</a>
+                        <a href='data-overview.html'>See Data Overview</a>
                     </div>
                 </div>
                 <div class='landingStats'>
