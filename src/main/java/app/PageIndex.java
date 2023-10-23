@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 
 /**
  * Example Index HTML class using Javalin
@@ -77,7 +78,18 @@ public class PageIndex implements Handler {
                 
             </div>
         """;
-
+        ArrayList<LTHC> LTHC = jdbc.getLTHCgraph();
+        ArrayList<NonSchoolCompletion> nonSchoolCompletion = jdbc.getNSEgraph();
+        ArrayList<SchoolCompletion> schoolCompletion = jdbc.getSEgraph();
+        ArrayList<totalPop> totalPops = jdbc.getTotalPop();
+        System.out.println(totalPops.get(0).getTotal2016()+totalPops.get(1).getTotal2016()+totalPops.get(2).getTotal2016());
+        int totalIn2016 = totalPops.get(0).getTotal2016()+totalPops.get(1).getTotal2016()+totalPops.get(2).getTotal2016();
+        int totalIn2021 = totalPops.get(0).getTotal2021()+totalPops.get(1).getTotal2021()+totalPops.get(2).getTotal2021();
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        String formattedTotalIn2016 = decimalFormat.format(totalIn2016);
+        String formattedTotalIn2021 = decimalFormat.format(totalIn2021);
+        
+        
         // Add HTML for the page content
         html = html + """
             <div class='landingcontent'>
@@ -98,10 +110,12 @@ public class PageIndex implements Handler {
                 </div>
                 <div class='landingStats'>
                     <h5>Key Statistics:</h5>
-                    <ol>
-                        <li>Total Population in 2016: <span style='color:black'>23,401,892</span></li>
-                        <li>Total Population in 2021: <span style='color:black'>25,422,788</span></li>
-                    </ol>
+                    <ol>""";
+                            
+        html = html +   "<li>Total Population in 2016: <span style='color:black'>"+formattedTotalIn2016+"</span></li>";
+        html = html +   "<li>Total Population in 2021: <span style='color:black'>"+formattedTotalIn2021+"</span></li>";
+        html = html + """
+                         </ol>
                     <p class='subheading'>Population by Australian States and Territories (2021):</p>
                     <ul>
                         <li>New South Wales: <span style='color:black'>8,072,163</span></li>
@@ -136,10 +150,7 @@ public class PageIndex implements Handler {
                 </div>
                 <div class="carousel-inner">
                 """;
-        ArrayList<LTHC> LTHC = jdbc.getLTHCgraph();
-        ArrayList<NonSchoolCompletion> nonSchoolCompletion = jdbc.getNSEgraph();
-        ArrayList<SchoolCompletion> schoolCompletion = jdbc.getSEgraph();
-
+    
         html = html + """
             <div id="carouselGraphs" class="carousel slide" data-bs-theme="dark">
                 <div class="carousel-indicators">
@@ -161,15 +172,14 @@ public class PageIndex implements Handler {
                                 """;
             for (int i = 0; i < LTHC.size(); ++i) {
                 String condition = LTHC.get(i).getCondition();
-
                 if (condition.contains("disease") || condition.contains("condition") || condition.contains("health")){
                     condition = condition.replace("disease", "");
                     condition = condition.replace("condition", "");
                     condition = condition.replace("health", "");
-                    html = html + "['" + condition + "', " + LTHC.get(i).getIndigCount() + ", " + LTHC.get(i).getNonIndigCount() + "]";
+                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
                 }
                 else{
-                    html = html + "['" + condition + "', " + LTHC.get(i).getIndigCount() + ", " + LTHC.get(i).getNonIndigCount() + "]";
+                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
                 }
                 
                 if (i < LTHC.size() - 1) {
@@ -215,10 +225,10 @@ public class PageIndex implements Handler {
             for (int i = 0; i < nonSchoolCompletion.size(); ++i) {
                 String education = nonSchoolCompletion.get(i).getEducation();
                 if (education.contains("Postgrad")){
-                    html = html + "['pd, gd & gc', " + nonSchoolCompletion.get(i).getIndigCount() + ", " + nonSchoolCompletion.get(i).getNonIndigCount() + "]";
+                    html = html + "['pd, gd & gc', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2016())*100 + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2016())*100 + "]";
                 }
                 else {
-                    html = html + "['" + education + "', " + nonSchoolCompletion.get(i).getIndigCount() + ", " + nonSchoolCompletion.get(i).getNonIndigCount() + "]";
+                    html = html + "['" + education + "', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2016())*100 + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2016())*100 + "]";
                 }
                 
             
@@ -265,7 +275,7 @@ public class PageIndex implements Handler {
                                 ['School Year', 'Indigenous', 'Non-Indigenous'],
                                 """;
             for (int i = 0; i < schoolCompletion.size(); ++i) {
-                html = html + "['" + schoolCompletion.get(i).getSchoolYear() + "', " + schoolCompletion.get(i).getIndigCount() + ", " + schoolCompletion.get(i).getNonIndigCount() + "]";
+                html = html + "['" + schoolCompletion.get(i).getSchoolYear() + "', " + ((float)schoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2016())*100 + ", " + ((float)schoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2016())*100 + "]";
             
                 if (i < schoolCompletion.size() - 1) {
                     html = html + ", ";
