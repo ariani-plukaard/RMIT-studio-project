@@ -318,4 +318,168 @@ public class JDBCConnection {
         // Finally we return all of the data overview values
         return overviewDataPoints;
     }
+    
+    public ArrayList<LTHC> getLTHCgraph() {
+        // Create the ArrayList of TeamMember objects to return
+        ArrayList<LTHC> LTHC = new ArrayList<LTHC>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "Select Condition, sum(case when indigenous_status = 'indig' then count else 0 end) as indig_count, sum(case when indigenous_status = 'non_indig' then count else 0 end) as non_indig_count from lthc group by condition; ";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String condition           = results.getString("Condition");
+                int indig_count  = results.getInt("indig_count");
+                int non_indig_count     = results.getInt("non_indig_count");
+
+                // Create a LTHC Object
+                LTHC LongTerm = new LTHC(condition, indig_count, non_indig_count);
+
+                // Add the LTHC object to the array
+                LTHC.add(LongTerm);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return LTHC;
+    }
+
+    public ArrayList<NonSchoolCompletion> getNSEgraph() {
+        // Create the ArrayList of TeamMember objects to return
+        ArrayList<NonSchoolCompletion> NSE = new ArrayList<NonSchoolCompletion>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "Select NonSchoolBracket, sum(case when indigenous_status = 'indig' then count else 0 end) as indig_count, sum(case when indigenous_status = 'non_indig' then count else 0 end) as non_indig_count from NonSchoolCompletion where lga_year = 2021 group by NonSchoolBracket;";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String education           = results.getString("NonSchoolBracket");
+                int indig_count  = results.getInt("indig_count");
+                int non_indig_count     = results.getInt("non_indig_count");
+
+                // Create a LTHC Object
+                NonSchoolCompletion NonSchoolCompletion = new NonSchoolCompletion(education, indig_count, non_indig_count);
+
+                // Add the LTHC object to the array
+                NSE.add(NonSchoolCompletion);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return NSE;
+    }
+
+    public ArrayList<SchoolCompletion> getSEgraph() {
+        // Create the ArrayList of TeamMember objects to return
+        ArrayList<SchoolCompletion> SE = new ArrayList<SchoolCompletion>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "Select SchoolYear, sum(case when indigenous_status = 'indig' then count else 0 end) as indig_count, sum(case when indigenous_status = 'non_indig' then count else 0 end) as non_indig_count from SchoolCompletion where lga_year = 2021 group by SchoolYear;";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String SchoolYear           = results.getString("SchoolYear");
+                int indig_count  = results.getInt("indig_count");
+                int non_indig_count     = results.getInt("non_indig_count");
+
+                SchoolCompletion SchoolCompletion = new SchoolCompletion(SchoolYear, indig_count, non_indig_count);
+
+                SE.add(SchoolCompletion);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return SE;
+    }
+
 }
