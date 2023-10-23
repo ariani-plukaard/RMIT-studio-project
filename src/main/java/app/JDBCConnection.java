@@ -535,4 +535,55 @@ public class JDBCConnection {
     return totalPops;
 }
 
+    public ArrayList<totalPop> getTotalStatePop() {
+        // Create the ArrayList of TeamMember objects to return
+        ArrayList<totalPop> totalPops = new ArrayList<totalPop>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "Select State_abbr as state, sum(count) as pop2021 from lga join population on code=lga_code where year=2021 and lga_year=2021 group by State_abbr;;";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String state           = results.getString("state");
+                int total2021     = results.getInt("pop2021");
+
+                totalPop totalPop = new totalPop(state, total2021);
+
+                totalPops.add(totalPop);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return totalPops;
+    }
 }
