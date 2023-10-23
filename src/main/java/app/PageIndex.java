@@ -54,15 +54,15 @@ public class PageIndex implements Handler {
                 </div>
                 <div class ='buttons'>
                     <a href='/'>HOME</a>
-                    <a href='page2A.html'>DATA OVERVIEW</a>
-                    <a href='page3A.html'>DATA DEEP DIVE</a>
+                    <a href='data-overview.html'>DATA OVERVIEW</a>
+                    <a href='data-deep-dive.html'>DATA DEEP DIVE</a>
                     <a href='mission.html'>ABOUT US</a>
                 </div>
             </div>
         """;
         //<a href='page2B.html'>Sub Task 2.B</a>
         //<a href='page3B.html'>Sub Task 3.B</a>
-
+        JDBCConnection jdbc = new JDBCConnection();
         // Add header content block
         html = html + """
             <div class='wrapper'>
@@ -135,6 +135,19 @@ public class PageIndex implements Handler {
                     <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
+                """;
+        ArrayList<LTHC> LTHC = jdbc.getLTHCgraph();
+        ArrayList<NonSchoolCompletion> nonSchoolCompletion = jdbc.getNSEgraph();
+        ArrayList<SchoolCompletion> schoolCompletion = jdbc.getSEgraph();
+
+        html = html + """
+            <div id="carouselGraphs" class="carousel slide" data-bs-theme="dark">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
                     <div class="carousel-item active">
                         <head>
                             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -145,17 +158,30 @@ public class PageIndex implements Handler {
                             function drawChart1() {
                                 var data = google.visualization.arrayToDataTable([
                                 ['Condition', 'Indigenous', 'Non-Indigenous'],
-                                ['Arthritis', 6.2, 8.9],
-                                ['Asthma', 13.1, 8.3],
-                                ['Cancer', 1.5, 3.0],
-                                ['Dementia', 0.4, 0.7],
-                                ['Diabetes', 5.8, 4.8]
-                                ]);
-                        
-                                var options = {
+                                """;
+            for (int i = 0; i < LTHC.size(); ++i) {
+                String condition = LTHC.get(i).getCondition();
+
+                if (condition.contains("disease") || condition.contains("condition") || condition.contains("health")){
+                    condition = condition.replace("disease", "");
+                    condition = condition.replace("condition", "");
+                    condition = condition.replace("health", "");
+                    html = html + "['" + condition + "', " + LTHC.get(i).getIndigCount() + ", " + LTHC.get(i).getNonIndigCount() + "]";
+                }
+                else{
+                    html = html + "['" + condition + "', " + LTHC.get(i).getIndigCount() + ", " + LTHC.get(i).getNonIndigCount() + "]";
+                }
+                
+                if (i < LTHC.size() - 1) {
+                    html = html + ", ";
+                }
+            }                      
+        html = html + """
+                    ]);
+                            var options = {
                                 chart: {
                                     title: 'Long Term Health Conditions',
-                                    subtitle: 'Proportional values displayed',
+                                    subtitle: 'Proportional values displayed (2021)',
                                   },
                                 backgroundColor: {
                                     fill: '#f0f0f0'
@@ -172,7 +198,7 @@ public class PageIndex implements Handler {
                             </script>
                         </head>
                         <body>
-                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material1" style="width: 900px; height: 600px;"></div>
+                            <div class='d-block mx-auto w-98 py-5' id="columnchart_material1" style="width: 900px; height: 600px;"></div>
                         </body>
                     </div>
                     <div class="carousel-item">
@@ -185,17 +211,29 @@ public class PageIndex implements Handler {
                             function drawChart() {
                                 var data = google.visualization.arrayToDataTable([
                                 ['Non-School Education', 'Indigenous', 'Non-Indigenous'],
-                                ['Advanced Diploma and Diploma', 7.1, 15.2],
-                                ['Bachelor Degree', 5.6, 27.4],
-                                ['Certificate III & IV', 22.0, 26.1],
-                                ['Certificate I & II', 3.0, 1.8],
-                                ['Postgraduate Degree, Graduate Diploma and Graduate Certificate', 2.2, 13.3]
+                                """;
+            for (int i = 0; i < nonSchoolCompletion.size(); ++i) {
+                String education = nonSchoolCompletion.get(i).getEducation();
+                if (education.contains("Postgrad")){
+                    html = html + "['pd, gd & gc', " + nonSchoolCompletion.get(i).getIndigCount() + ", " + nonSchoolCompletion.get(i).getNonIndigCount() + "]";
+                }
+                else {
+                    html = html + "['" + education + "', " + nonSchoolCompletion.get(i).getIndigCount() + ", " + nonSchoolCompletion.get(i).getNonIndigCount() + "]";
+                }
+                
+            
+                if (i < nonSchoolCompletion.size() - 1) {
+                    html = html + ", ";
+                }
+            }                                          
+
+        html = html +  """
                                 ]);
                         
                                 var options = {
                                 chart: {
-                                    title: 'Non-School Education',
-                                    subtitle: 'Proportional values displayed',
+                                    title: 'Non-School Completion',
+                                    subtitle: 'Proportional values displayed (2021)',
                                   },
                                 backgroundColor: {
                                     fill: '#f0f0f0'
@@ -212,11 +250,53 @@ public class PageIndex implements Handler {
                             </script>
                         </head>
                         <body>
-                            <div class='d-block mx-auto w-50 py-5' id="columnchart_material" style="width: 900px; height: 600px;"></div>
+                            <div class='d-block mx-auto w-98 py-5' id="columnchart_material" style="width: 900px; height: 600px;"></div>
                         </body>
                     </div>
                     <div class="carousel-item">
+                        <head>
+                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                            <script type="text/javascript">
+                            google.charts.load('current', {'packages':['bar']});
+                            google.charts.setOnLoadCallback(drawChart2);
                         
+                            function drawChart2() {
+                                var data = google.visualization.arrayToDataTable([
+                                ['School Year', 'Indigenous', 'Non-Indigenous'],
+                                """;
+            for (int i = 0; i < schoolCompletion.size(); ++i) {
+                html = html + "['" + schoolCompletion.get(i).getSchoolYear() + "', " + schoolCompletion.get(i).getIndigCount() + ", " + schoolCompletion.get(i).getNonIndigCount() + "]";
+            
+                if (i < schoolCompletion.size() - 1) {
+                    html = html + ", ";
+                }
+            }                                
+                                        
+        html = html +  """
+                                ]);
+                        
+                                var options2 = {
+                                chart: {
+                                    title: 'School Completion',
+                                    subtitle: 'Proportional values displayed (2021)',
+                                  },
+                                backgroundColor: {
+                                    fill: '#f0f0f0'
+                                  },
+                                chartArea: {
+                                    backgroundColor: '#f0f0f0'
+                                  }  
+                                };
+                        
+                                var chart = new google.charts.Bar(document.getElementById('columnchart_material2'));
+                        
+                                chart.draw(data, google.charts.Bar.convertOptions(options2));
+                            }
+                            </script>
+                        </head>
+                        <body>
+                            <div class='d-block mx-auto w-98 py-5' id="columnchart_material2" style="width: 900px; height: 600px;"></div>
+                        </body>
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselGraphs" data-bs-slide="prev">
