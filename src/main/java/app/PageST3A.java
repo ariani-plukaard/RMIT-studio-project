@@ -32,10 +32,10 @@ public class PageST3A implements Handler {
 
         // Add some Head information
         html = html + "<head>" + 
-               "<title>Subtask 3.1</title>";
+               "<title>Data Deep Dive</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='common.css' />";
+        html = html + "<link rel='stylesheet' type='text/css' href='page2.css' />";
         html = html + "</head>";
 
         // Add the body
@@ -59,17 +59,84 @@ public class PageST3A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Subtask 3.A</h1>
+                <h1>Change in The Gap from 2016 to 2021 (by LGA)</h1>
             </div>
         """;
 
         // Add Div for page Content
         html = html + "<div class='content'>";
 
-        // Add HTML for the page content
-        html = html + """
-            <p>Subtask 3.A page content</p>
-            """;
+        // Add HTML for the page content - Filters
+        html = html + "<h2>FILTERS</h2>";
+
+        html = html + "<form action='/data-deep-dive.html' method='post'>";
+        
+        html = html + "   <div class = 'filter-box'>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Topic</h3>";
+        html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
+        html = html + "      <label for='topic1'>Age (Population)</label><br>";
+        html = html + "      <input type='radio' id='topic2' name='topic' value='LTHC'>";
+        html = html + "      <label for='topic2'>Long Term Health Conditions (LTHC)</label><br>";
+        html = html + "      <input type='radio' id='topic3' name='topic' value='SchoolCompletion'>";
+        html = html + "      <label for='topic3'>School Completion</label><br>";
+        html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
+        html = html + "      <label for='topic4'>Non-School Completion</label><br>";
+        html = html + "   </div>";
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Population</h3>";
+        html = html + "      <input type='checkbox' id='population1' name='population1' value='Indig'>";
+        html = html + "      <label for='population1'>Indigenous</label><br>";
+        html = html + "      <input type='checkbox' id='population2' name='population2' value='Non_Indig'>";
+        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Sort</h3>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='Improved'>";
+        html = html + "      <label for='sort1'>Most improved</label><br>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
+        html = html + "      <label for='sort2'>Worst decline</label><br>";
+        html = html + "   </div>";
+
+        JDBCConnection jdbc = new JDBCConnection();
+        ArrayList<String> healthConditions = jdbc.getCategories("LTHC");
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <label for='health_drop'><h3>Health Issue</h3></label>";
+        html = html + "      <select id='health_drop' name='health_drop' multiple>";
+        for (String condition: healthConditions) {
+            html = html + "         <option>" + condition + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+
+        ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <label for='nonSchool_drop'><h3>School Category</h3></label>";
+        html = html + "      <select id='nonSchool_drop' name='nonSchool_drop' multiple>";
+        for (String schoolLevel: nonSchoolCategories) {
+            html = html + "         <option>" + schoolLevel + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+
+        html = html + "   </div>";
+
+        html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
+
+        html = html + "</form>";
 
         // Close Content div
         html = html + "</div>";
