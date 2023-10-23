@@ -35,7 +35,7 @@ public class PageST3A implements Handler {
                "<title>Data Deep Dive</title>";
 
         // Add some CSS (external file)
-        html = html + "<link rel='stylesheet' type='text/css' href='page2.css' />";
+        html = html + "<link rel='stylesheet' type='text/css' href='page3.css' />";
         html = html + "</head>";
 
         // Add the body
@@ -70,7 +70,7 @@ public class PageST3A implements Handler {
         html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-deep-dive.html' method='post'>";
-        
+                        // First row of filters
         html = html + "   <div class = 'filter-box'>";
 
         html = html + "   <div class='form-group'>";
@@ -94,19 +94,11 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Gender</h3>";
-        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male</label><br>";
-        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='Improved'>";
-        html = html + "      <label for='sort1'>Most improved</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
-        html = html + "      <label for='sort2'>Worst decline</label><br>";
+        html = html + "      <h3>Age Range</h3>";
+        html = html + "      <label for='minAge'>Min</label>";
+        html = html + "      <input type='number' id='minAge' name='minAge' placeholder='8' min='0' max='200'>";
+        html = html + "      <label for='maxAge'>Max</label>";
+        html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='12' min='0' max='200'>";
         html = html + "   </div>";
 
         JDBCConnection jdbc = new JDBCConnection();
@@ -121,6 +113,44 @@ public class PageST3A implements Handler {
         html = html + "      </select>";
         html = html + "   </div>";
 
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Select Individual LGAs</h3>";
+        html = html + "      <label class='toggle-box'>";
+        html = html + "         <input type='checkbox' id='selectLGA' name='selectLGA' value='selectLGA'>";
+        html = html + "         <span class='toggle-slider'></span>";
+        html = html + "      </label>";
+        html = html + "   </div>";
+
+                        // Close div for this row of filters
+        html = html + "   </div>";
+
+                        // Second row of filters
+        html = html + "   <div class = 'filter-box'>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Sort</h3>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='Improved'>";
+        html = html + "      <label for='sort1'>Most improved</label><br>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
+        html = html + "      <label for='sort2'>Worst decline</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>School Year</h3>";
+        html = html + "      <label for='minYear'>Min</label>";
+        html = html + "      <input type='number' id='minYear' name='minYear' placeholder='0' min='0' max='12'>";
+        html = html + "      <label for='maxYear'>Max</label>";
+        html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='65' min='0' max='12'>";
+        html = html + "   </div>";
+
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
         
         html = html + "   <div class='form-group'>";
@@ -132,6 +162,25 @@ public class PageST3A implements Handler {
         html = html + "      </select>";
         html = html + "   </div>";
 
+        ArrayList<String> LGANames = jdbc.getLGANames();
+        
+        html = html + "   <div class='form-group'>";
+        html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
+        html = html + "      <select id='LGA_drop' name='LGA_drop'>";
+        for (String LGA: LGANames) {
+            html = html + "         <option>" + LGA + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+
+        int LGACountForComparison = LGANames.size() - 1;
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>No. of similar LGAs to view</h3>";
+        html = html + "      <label for='NumLGA'>Min</label>";
+        html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
+        html = html + "   </div>";
+
+                        // Close div for this row of filters
         html = html + "   </div>";
 
         html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
