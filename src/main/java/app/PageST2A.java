@@ -215,9 +215,10 @@ public class PageST2A implements Handler {
         if (dataType.equals("Raw")) {
             dataPoints = jdbc.getRawData2021(granularity, population, topic, sort);
         } else {
-            dataPoints = new ArrayList<OverviewData>();
+            dataPoints = jdbc.getPropData2021(granularity, population, topic, sort);
+            // dataPoints = new ArrayList<OverviewData>();
             // To Do: need to add the jdbc method for proportional (%) values
-            html = html + "<h3>PROPORTIONAL TABLE NOT YET ADDED</h3>";
+            // html = html + "<h3>PROPORTIONAL TABLE NOT YET ADDED</h3>";
         }
         
         html = html + "<table>"
@@ -230,22 +231,41 @@ public class PageST2A implements Handler {
         
         int rankingCount = 0;
         String nextLocation = "";
-        for (OverviewData data : dataPoints) {
-            if (!data.getLocation().equals(nextLocation)) {
-                nextLocation = data.getLocation();
-                rankingCount++;
+        if (dataType.equals("Raw")) {
+            for (OverviewData data : dataPoints) {
+                if (!data.getLocation().equals(nextLocation)) {
+                    nextLocation = data.getLocation();
+                    rankingCount++;
+                }
+                html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>"
+                            + "<td>" + data.getLocation() + "</td>"
+                            + "<td>" + data.getCategory() + "</td>"
+                            + "<td>" + data.getCount() + "</td>"
+                            + "</tr>";
             }
-            html = html + "<tr>"
-                        + "<td>" + rankingCount + "</td>"
-                        + "<td>" + data.getLocation() + "</td>"
-                        + "<td>" + data.getCategory() + "</td>"
-                        + "<td>" + data.getCount() + "</td>"
-                        + "</tr>";
+
+            html = html + "</table>";
+            return html;
+        } else {
+            for (OverviewData data : dataPoints) {
+                if (!data.getLocation().equals(nextLocation)) {
+                    nextLocation = data.getLocation();
+                    rankingCount++;
+                }
+                html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>"
+                            + "<td>" + data.getLocation() + "</td>"
+                            + "<td>" + data.getCategory() + "</td>"
+                            + "<td>" + data.getPropCount() + "</td>"
+                            + "</tr>";
+            }
+
+            html = html + "</table>";
+            return html;
         }
 
-        html = html + "</table>";
-        return html;
-    }
+        }
 
     private String rankingMethod(String topic) {
         String sortByAttr = "";
