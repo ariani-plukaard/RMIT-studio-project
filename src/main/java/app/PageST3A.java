@@ -96,9 +96,9 @@ public class PageST3A implements Handler {
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Age Range</h3>";
         html = html + "      <label for='minAge'>Min</label>";
-        html = html + "      <input type='number' id='minAge' name='minAge' placeholder='8' min='0' max='200'>";
+        html = html + "      <input type='number' id='minAge' name='minAge' placeholder='0' min='0' max='200'>";
         html = html + "      <label for='maxAge'>Max</label>";
-        html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='12' min='0' max='200'>";
+        html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='65' min='0' max='200'>";
         html = html + "   </div>";
 
         JDBCConnection jdbc = new JDBCConnection();
@@ -139,18 +139,18 @@ public class PageST3A implements Handler {
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='Improved'>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='SortMostImproved'>";
         html = html + "      <label for='sort1'>Most improved</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='SortMostDeclined'>";
         html = html + "      <label for='sort2'>Worst decline</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>School Year</h3>";
         html = html + "      <label for='minYear'>Min</label>";
-        html = html + "      <input type='number' id='minYear' name='minYear' placeholder='0' min='0' max='12'>";
+        html = html + "      <input type='number' id='minYear' name='minYear' placeholder='8' min='0' max='12'>";
         html = html + "      <label for='maxYear'>Max</label>";
-        html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='65' min='0' max='12'>";
+        html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='12' min='0' max='12'>";
         html = html + "   </div>";
 
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
@@ -182,12 +182,38 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
 
-                        // Start filter box div
+                        // Close filter box div
         html = html + "   </div>";
 
         html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
 
         html = html + "</form>";
+
+        /* Get the Form Data
+         *  If part of the form is not filled in, then that part of the form will return null.
+        */
+        html = html + "<h2>SELECTED FILTERS: ";
+
+        String topic = context.formParam("topic");
+        html = html + topic + ", ";
+        String gender = context.formParam("gender1") + "+" + context.formParam("gender2");
+        html = html + gender + ", ";
+        String population = context.formParam("population1") + "+" + context.formParam("population2");
+        html = html + population + ", ";
+        String sort = context.formParam("sort");
+        html = html + sort + ", ";
+        String minAge = context.formParam("minAge");
+        String maxAge = context.formParam("maxAge");
+        html = html + minAge + "-" + maxAge + "years, ";
+        String minSchoolYear = context.formParam("minYear");
+        String maxSchoolYear = context.formParam("maxYear");
+        html = html + minSchoolYear + "-" + maxSchoolYear + "years, ";
+        String health = context.formParam("health_drop");
+        html = html + health + ", ";
+
+        html = html + "</h2>";
+
+        // TO DO: Add table of data
 
         // Close Content div
         html = html + "</div>";
