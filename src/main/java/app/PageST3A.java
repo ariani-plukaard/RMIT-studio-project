@@ -130,10 +130,10 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='checkbox' id='population1' name='population1' value='Indig'>";
+        html = html + "      <h3>Population Demographic</h3>";
+        html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='checkbox' id='population2' name='population2' value='Non_Indig'>";
+        html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
         html = html + "      <label for='population2'>Non-Indigenous</label><br>";
         html = html + "   </div>";
 
@@ -190,26 +190,87 @@ public class PageST3A implements Handler {
         html = html + "</form>";
 
         /* Get the Form Data
-         *  If part of the form is not filled in, then that part of the form will return null.
+         *  If part of the form is not filled in, then that part of the form will return null. We have included default values where applicable
         */
         html = html + "<h2>SELECTED FILTERS: ";
-
+        // topic - single selection
         String topic = context.formParam("topic");
-        html = html + topic + ", ";
-        String gender = context.formParam("gender1") + "+" + context.formParam("gender2");
-        html = html + gender + ", ";
-        String population = context.formParam("population1") + "+" + context.formParam("population2");
-        html = html + population + ", ";
+        if (topic != null) {
+            html = html + " | " + topic;
+        } else {
+            topic = "Population";
+            html = html + "Topic: " + topic + " <small>(default selection)</small>";
+        }
+        // gender - multiple selection
+        String gender1 = context.formParam("gender1"); 
+        String gender2 = context.formParam("gender2");
+        String gender = getSelection(gender1, gender2);
+        if (gender.equals("default")) {
+            gender = "'m', 'f'";
+            html = html + " | " + gender + " <small>(default selection)</small>";
+        } else {
+            html = html + " | " + gender;
+        }
+        // population demographic - multiple selection
+        String population1 = context.formParam("population1");
+        String population2 = context.formParam("population2");
+        String population = getSelection(population1, population2);
+        if (population.equals("default")) {
+            population = "'indig', 'non_indig'";
+            html = html + " | " + population + " <small>(default selection)</small>";
+        } else {
+            html = html + " | " + population;
+        }
+        // sort results - single selection
         String sort = context.formParam("sort");
-        html = html + sort + ", ";
+        if (sort != null) {
+            html = html + " | " + sort;
+        } else {
+            sort = "SortMostImproved";
+            html = html + " | " + sort + " <small>(default selection)</small>";
+        }
+        // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
-        html = html + minAge + "-" + maxAge + "years, ";
+        if (minAge != null && maxAge != null && (Integer.parseInt(minAge) < Integer.parseInt(maxAge))) {
+            html = html + " | " + minAge + " to " + maxAge + " years, ";
+        }
+        // school year - min & max
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
-        html = html + minSchoolYear + "-" + maxSchoolYear + "years, ";
+        if (minSchoolYear != null && maxSchoolYear != null && (Integer.parseInt(minSchoolYear) < Integer.parseInt(maxSchoolYear))) {
+            html = html + " | year " + minSchoolYear + " to " + maxSchoolYear;
+        }
+        // health - multiple selection
         String health = context.formParam("health_drop");
-        html = html + health + ", ";
+        if (health != null) {
+            html = html + " | " + health; // To do - fix this, it's not reading multiple
+        }
+        // non-school - multiple selection
+        String nonSchool = context.formParam("nonSchool_drop");
+        if (nonSchool != null) {
+            html = html + " | " + nonSchool; // To do - fix this, it's not reading multiple
+        }
+        // toggle LGA selection - single selection
+        String toggleLGA = context.formParam("selectLGA");
+        if (toggleLGA != null) {
+            html = html + " | " + toggleLGA;
+        }
+        // select census year - single selection
+        String censusYear = context.formParam("year");
+        if (censusYear != null) {
+            html = html + " | " + censusYear;
+        }
+        // select LGA - single selection
+        String selectedLGA = context.formParam("LGA_drop");
+        if (selectedLGA != null) {
+            html = html + " | " + selectedLGA;
+        }
+        // number of LGAs - single selection
+        String numberOfLGA = context.formParam("numLGA");
+        if (numberOfLGA != null) {
+            html = html + " | " + numberOfLGA;
+        }
 
         html = html + "</h2>";
 
@@ -250,6 +311,20 @@ public class PageST3A implements Handler {
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
         context.html(html);
+    }
+
+    public String getSelection(String choice1, String choice2) {
+        String selection;
+        if (choice1 != null && choice2 != null) {
+            selection = "'" + choice1 + "', '" + choice2 + "'";
+        } else if (choice1 != null) {
+            selection = "'" + choice1 + "'";
+        } else if (choice2 != null) {
+            selection = "'" + choice2 + "'";
+        } else { //default if both are null
+            selection = "default";
+        }
+        return selection;
     }
 
 }
