@@ -70,7 +70,7 @@ public class PageST3A implements Handler {
         html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-deep-dive.html' method='post'>";
-                        // First row of filters
+                        // Start filter box div
         html = html + "   <div class = 'filter-box'>";
 
         html = html + "   <div class='form-group'>";
@@ -84,13 +84,13 @@ public class PageST3A implements Handler {
         html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
         html = html + "      <label for='topic4'>Non-School Completion</label><br>";
         html = html + "   </div>";
-        
+
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='checkbox' id='population1' name='population1' value='Indig'>";
-        html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='checkbox' id='population2' name='population2' value='Non_Indig'>";
-        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -121,11 +121,21 @@ public class PageST3A implements Handler {
         html = html + "      </label>";
         html = html + "   </div>";
 
-                        // Close div for this row of filters
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Select Census Year For LGA</h3>";
+        html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
+        html = html + "      <label for='year1'>2016</label><br>";
+        html = html + "      <input type='radio' id='year2' name='year' value='2021'>";
+        html = html + "      <label for='year2'>2021</label><br>";
         html = html + "   </div>";
 
-                        // Second row of filters
-        html = html + "   <div class = 'filter-box'>";
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Population</h3>";
+        html = html + "      <input type='checkbox' id='population1' name='population1' value='Indig'>";
+        html = html + "      <label for='population1'>Indigenous</label><br>";
+        html = html + "      <input type='checkbox' id='population2' name='population2' value='Non_Indig'>";
+        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
@@ -133,14 +143,6 @@ public class PageST3A implements Handler {
         html = html + "      <label for='sort1'>Most improved</label><br>";
         html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
         html = html + "      <label for='sort2'>Worst decline</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Gender</h3>";
-        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male</label><br>";
-        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -180,7 +182,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
 
-                        // Close div for this row of filters
+                        // Start filter box div
         html = html + "   </div>";
 
         html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
