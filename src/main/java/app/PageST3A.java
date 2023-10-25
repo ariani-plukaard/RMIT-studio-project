@@ -117,7 +117,7 @@ public class PageST3A implements Handler {
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Select Individual LGAs</h3>";
         html = html + "      <label class='toggle-box'>";
-        html = html + "         <input type='checkbox' id='selectLGA' name='selectLGA' value='selectLGA'>";
+        html = html + "         <input type='checkbox' id='SelectLGA' name='SelectLGA' value='SelectLGA'>";
         html = html + "         <span class='toggle-slider'></span>";
         html = html + "      </label>";
         html = html + "   </div>";
@@ -181,7 +181,7 @@ public class PageST3A implements Handler {
         int LGACountForComparison = LGANames.size() - 1;
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>No. of similar LGAs to view</h3>";
-        html = html + "      <label for='NumLGA'>Min</label>";
+        html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
 
@@ -201,61 +201,62 @@ public class PageST3A implements Handler {
         if (topic != null) {
             html = html + " | " + topic;
         } else {
-            topic = "Population";
+            topic = "Population"; //default
             html = html + "Topic: " + topic + " <small>(default selection)</small>";
         }
         // gender - multiple selection
         String gender1 = context.formParam("gender1"); 
         String gender2 = context.formParam("gender2");
-        String gender = getSelection(gender1, gender2);
-        if (gender.equals("default")) {
-            gender = "'m', 'f'";
-            html = html + " | " + gender + " <small>(default selection)</small>";
-        } else {
+        String gender = getGender(gender1, gender2);
+        if (gender1 != null || gender2 != null) {
             html = html + " | " + gender;
+        } else {
+            html = html + " | " + gender + " <small>(default selection)</small>";
         }
         // population demographic - multiple selection
         String population1 = context.formParam("population1");
         String population2 = context.formParam("population2");
-        String population = getSelection(population1, population2);
-        if (population.equals("default")) {
-            population = "'indig', 'non_indig'";
-            html = html + " | " + population + " <small>(default selection)</small>";
-        } else {
+        String population = getPopulation(population1, population2);
+        if (population1 != null || population2 != null) {
             html = html + " | " + population;
+        } else {
+            html = html + " | " + population + " <small>(default selection)</small>";
         }
         // sort results - single selection
         String sort = context.formParam("sort");
         if (sort != null) {
             html = html + " | " + sort;
         } else {
-            sort = "SortMostImproved";
+            sort = "SortMostImproved"; //default
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
+        // *** TO DO: default selections for the below parameters where applicable, for blank or incorrect inputs? ***
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
         if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) {
-            html = html + " | Age: " + minAge + " to " + maxAge + " years, ";
-        }
-        // // school year - min & max
+            html = html + " | Age " + minAge + " to " + maxAge + " years";
+        } 
+        // school year - min & max
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
         if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) {
             html = html + " | Year " + minSchoolYear + " to " + maxSchoolYear;
         }
         // health - multiple selection
-        String health = context.formParam("health_drop");
-        if (health != null) {
-            html = html + " | Categories: " + health; // To do - fix this, it's not reading multiple
+        ArrayList<String> health = new ArrayList<String>(context.formParams("health_drop"));
+        if (!health.isEmpty()) {
+            String healthCategoriesString = getCategories(health);
+            html = html + " | Categories: " + healthCategoriesString;
         }
         // non-school - multiple selection
-        String nonSchool = context.formParam("nonSchool_drop");
-        if (nonSchool != null) {
-            html = html + " | Categories: " + nonSchool; // To do - fix this, it's not reading multiple
+        ArrayList<String> nonSchool = new ArrayList<String>(context.formParams("nonSchool_drop"));
+        if (!nonSchool.isEmpty()) {
+            String nonSchoolCategoriesString = getCategories(nonSchool);
+            html = html + " | Categories: " + nonSchoolCategoriesString;
         }
         // toggle LGA selection - single selection
-        String toggleLGA = context.formParam("selectLGA");
+        String toggleLGA = context.formParam("SelectLGA");
         if (toggleLGA != null) {
             html = html + " | " + toggleLGA;
         }
@@ -316,16 +317,45 @@ public class PageST3A implements Handler {
         context.html(html);
     }
 
-    public String getSelection(String choice1, String choice2) {
+    public String getGender(String gender1, String gender2) {
+        // Gender as 1 string for SQL queries
         String selection;
-        if (choice1 != null && choice2 != null) {
-            selection = "'" + choice1 + "', '" + choice2 + "'";
-        } else if (choice1 != null) {
-            selection = "'" + choice1 + "'";
-        } else if (choice2 != null) {
-            selection = "'" + choice2 + "'";
+        if (gender1 != null && gender2 != null) {
+            selection = "'" + gender1 + "', '" + gender2 + "'";
+        } else if (gender1 != null) {
+            selection = "'" + gender1 + "'";
+        } else if (gender2 != null) {
+            selection = "'" + gender2 + "'";
         } else { //default if both are null
-            selection = "default";
+            selection = "'m', 'f'";
+        }
+        return selection;
+    }
+
+    public String getPopulation(String population1, String population2) {
+        // Population as 1 string for SQL queries
+        String selection;
+        if (population1 != null && population2 != null) {
+            selection = "'" + population1 + "', '" + population2 + "'";
+        } else if (population1 != null) {
+            selection = "'" + population1 + "'";
+        } else if (population2 != null) {
+            selection = "'" + population2 + "'";
+        } else { //default if both are null
+            selection = "'indig', 'non-indig'";
+        }
+        return selection;
+    }
+
+    public String getCategories(ArrayList<String> categoryList) {
+        // Categories converted from ArrayList to 1 string for SQL queries
+        String selection = "";
+        for (String cat : categoryList) {
+            if (selection.isEmpty()) {
+                selection += "'" + cat + "'";
+            } else {
+                selection += ", " + "'" + cat + "'";
+            }
         }
         return selection;
     }
