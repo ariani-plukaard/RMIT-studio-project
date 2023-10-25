@@ -241,7 +241,7 @@ public class PageST3A implements Handler {
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
         if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) {
-            html = html + " | Year " + minSchoolYear + " to " + maxSchoolYear;
+            html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
         }
         // health - multiple selection
         ArrayList<String> health = new ArrayList<String>(context.formParams("health_drop"));
@@ -273,12 +273,19 @@ public class PageST3A implements Handler {
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
         if (numberOfLGA != null && !numberOfLGA.isEmpty()) {
-            html = html + ", view " + numberOfLGA + " LGAs";
+            html = html + ", view " + numberOfLGA + "similar LGAs";
         }
 
         html = html + "</h2>";
 
-        // TO DO: Add table of data
+        // TO DO: Add table of data for following queries:
+        /* 
+        * Either Age, Health, School or NonSchool data, showing num people meeting the filters in 2016 and in 2021, 
+            and The Gap between indig/non-indig in 2016 and in 2021, sorted by the size of the improvement/decline in The Gap from 2016 to 2021 
+        * -------------
+        * For a chosen LGA, for either Age, Health, School or NonSchool data, count the num people meeting the filters for the selected year (2016 OR 2021), 
+            and show the X number of LGAs that have the most similar count of people for that year and filters, sorted by most similar to least similar 
+        */
 
         // Close Content div
         html = html + "</div>";
