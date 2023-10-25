@@ -59,7 +59,7 @@ public class PageST3A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Change in The Gap from 2016 to 2021 (by LGA)</h1>
+                <h1>Change in The Gap from 2016 to 2021<br><i>OR</i> Comparison of Similar LGAs</h1>
             </div>
         """;
 
@@ -114,15 +114,15 @@ public class PageST3A implements Handler {
         html = html + "      </select>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Select Individual LGAs</h3>";
+        html = html + "   <div class='form-group LGA-filter'>";
+        html = html + "      <h3>Select Individual LGA<br>for Comparison</h3>";
         html = html + "      <label class='toggle-box'>";
         html = html + "         <input type='checkbox' id='SelectLGA' name='SelectLGA' value='SelectLGA'>";
         html = html + "         <span class='toggle-slider'></span>";
         html = html + "      </label>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div class='form-group LGA-filter'>";
         html = html + "      <h3>Select Census Year For LGA</h3>";
         html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
         html = html + "      <label for='year1'>2016</label><br>";
@@ -168,7 +168,7 @@ public class PageST3A implements Handler {
 
         ArrayList<String> LGANames = jdbc.getLGANames();
         
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div class='form-group LGA-filter'>";
         html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
         html = html + "      <select id='LGA_drop' name='LGA_drop'>";
         html = html + "      <option value='' disabled selected>Select...</option>";
@@ -179,7 +179,7 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         int LGACountForComparison = LGANames.size() - 1;
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div class='form-group LGA-filter'>";
         html = html + "      <h3>No. of similar LGAs to view</h3>";
         html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";

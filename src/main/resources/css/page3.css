@@ -104,6 +104,10 @@
     width: 25%;
   }
 
+  .lga-filter {
+    background-color: #fdc4de;
+  }
+
   /* Style the toggle */
   /* Toggle box */
 .toggle-box {
