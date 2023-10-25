@@ -88,9 +88,9 @@ public class PageST3A implements Handler {
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Gender</h3>";
         html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male</label><br>";
+        html = html + "      <label for='gender1'>Male (M)</label><br>";
         html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female</label><br>";
+        html = html + "      <label for='gender2'>Female (F)</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -99,6 +99,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='minAge' name='minAge' placeholder='0' min='0' max='200'>";
         html = html + "      <label for='maxAge'>Max</label>";
         html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='65' min='0' max='200'>";
+        html = html + "      <p><small>(max should be greater than min)</small></p>";
         html = html + "   </div>";
 
         JDBCConnection jdbc = new JDBCConnection();
@@ -141,7 +142,7 @@ public class PageST3A implements Handler {
         html = html + "      <h3>Sort</h3>";
         html = html + "      <input type='radio' id='sort1' name='sort' value='SortMostImproved'>";
         html = html + "      <label for='sort1'>Most improved</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='SortMostDeclined'>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='SortWorstDeclined'>";
         html = html + "      <label for='sort2'>Worst decline</label><br>";
         html = html + "   </div>";
 
@@ -151,6 +152,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='minYear' name='minYear' placeholder='8' min='0' max='12'>";
         html = html + "      <label for='maxYear'>Max</label>";
         html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='12' min='0' max='12'>";
+        html = html + "      <p><small>(max should be greater than min)</small></p>";
         html = html + "   </div>";
 
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
@@ -169,6 +171,7 @@ public class PageST3A implements Handler {
         html = html + "   <div class='form-group'>";
         html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
         html = html + "      <select id='LGA_drop' name='LGA_drop'>";
+        html = html + "      <option value='' disabled selected>Select...</option>";
         for (String LGA: LGANames) {
             html = html + "         <option>" + LGA + "</option>";;
         }
@@ -232,24 +235,24 @@ public class PageST3A implements Handler {
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
-        if (minAge != null && maxAge != null && (Integer.parseInt(minAge) < Integer.parseInt(maxAge))) {
-            html = html + " | " + minAge + " to " + maxAge + " years, ";
+        if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) {
+            html = html + " | Age: " + minAge + " to " + maxAge + " years, ";
         }
-        // school year - min & max
+        // // school year - min & max
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
-        if (minSchoolYear != null && maxSchoolYear != null && (Integer.parseInt(minSchoolYear) < Integer.parseInt(maxSchoolYear))) {
-            html = html + " | year " + minSchoolYear + " to " + maxSchoolYear;
+        if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) {
+            html = html + " | Year " + minSchoolYear + " to " + maxSchoolYear;
         }
         // health - multiple selection
         String health = context.formParam("health_drop");
         if (health != null) {
-            html = html + " | " + health; // To do - fix this, it's not reading multiple
+            html = html + " | Categories: " + health; // To do - fix this, it's not reading multiple
         }
         // non-school - multiple selection
         String nonSchool = context.formParam("nonSchool_drop");
         if (nonSchool != null) {
-            html = html + " | " + nonSchool; // To do - fix this, it's not reading multiple
+            html = html + " | Categories: " + nonSchool; // To do - fix this, it's not reading multiple
         }
         // toggle LGA selection - single selection
         String toggleLGA = context.formParam("selectLGA");
@@ -259,17 +262,17 @@ public class PageST3A implements Handler {
         // select census year - single selection
         String censusYear = context.formParam("year");
         if (censusYear != null) {
-            html = html + " | " + censusYear;
+            html = html + ": " + censusYear;
         }
         // select LGA - single selection
         String selectedLGA = context.formParam("LGA_drop");
         if (selectedLGA != null) {
-            html = html + " | " + selectedLGA;
+            html = html + ", " + selectedLGA;
         }
         // number of LGAs - single selection
-        String numberOfLGA = context.formParam("numLGA");
-        if (numberOfLGA != null) {
-            html = html + " | " + numberOfLGA;
+        String numberOfLGA = context.formParam("NumLGA");
+        if (numberOfLGA != null && !numberOfLGA.isEmpty()) {
+            html = html + ", view " + numberOfLGA + " LGAs";
         }
 
         html = html + "</h2>";
