@@ -59,7 +59,7 @@ public class PageST3A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Change in The Gap from 2016 to 2021 (by LGA)</h1>
+                <h1>Change in The Gap from 2016 to 2021<br><i>OR</i> Comparison of Similar LGAs</h1>
             </div>
         """;
 
@@ -70,7 +70,7 @@ public class PageST3A implements Handler {
         html = html + "<h2>FILTERS</h2>";
 
         html = html + "<form action='/data-deep-dive.html' method='post'>";
-                        // First row of filters
+                        // Start filter box div
         html = html + "   <div class = 'filter-box'>";
 
         html = html + "   <div class='form-group'>";
@@ -84,21 +84,22 @@ public class PageST3A implements Handler {
         html = html + "      <input type='radio' id='topic4' name='topic' value='NonSchoolCompletion'>";
         html = html + "      <label for='topic4'>Non-School Completion</label><br>";
         html = html + "   </div>";
-        
+
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Population</h3>";
-        html = html + "      <input type='checkbox' id='population1' name='population1' value='Indig'>";
-        html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='checkbox' id='population2' name='population2' value='Non_Indig'>";
-        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male (M)</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female (F)</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Age Range</h3>";
         html = html + "      <label for='minAge'>Min</label>";
-        html = html + "      <input type='number' id='minAge' name='minAge' placeholder='8' min='0' max='200'>";
+        html = html + "      <input type='number' id='minAge' name='minAge' placeholder='0' min='0' max='200'>";
         html = html + "      <label for='maxAge'>Max</label>";
-        html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='12' min='0' max='200'>";
+        html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='65' min='0' max='200'>";
+        html = html + "      <p><small>(max should be greater than min)</small></p>";
         html = html + "   </div>";
 
         JDBCConnection jdbc = new JDBCConnection();
@@ -113,42 +114,45 @@ public class PageST3A implements Handler {
         html = html + "      </select>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Select Individual LGAs</h3>";
+        html = html + "   <div class='form-group LGA-filter'>";
+        html = html + "      <h3>Select Individual LGA<br>for Comparison</h3>";
         html = html + "      <label class='toggle-box'>";
-        html = html + "         <input type='checkbox' id='selectLGA' name='selectLGA' value='selectLGA'>";
+        html = html + "         <input type='checkbox' id='SelectLGA' name='SelectLGA' value='SelectLGA'>";
         html = html + "         <span class='toggle-slider'></span>";
         html = html + "      </label>";
         html = html + "   </div>";
 
-                        // Close div for this row of filters
+        html = html + "   <div class='form-group LGA-filter'>";
+        html = html + "      <h3>Select Census Year For LGA</h3>";
+        html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
+        html = html + "      <label for='year1'>2016</label><br>";
+        html = html + "      <input type='radio' id='year2' name='year' value='2021'>";
+        html = html + "      <label for='year2'>2021</label><br>";
         html = html + "   </div>";
 
-                        // Second row of filters
-        html = html + "   <div class = 'filter-box'>";
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Population Demographic</h3>";
+        html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
+        html = html + "      <label for='population1'>Indigenous</label><br>";
+        html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
+        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='Improved'>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='SortMostImproved'>";
         html = html + "      <label for='sort1'>Most improved</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='Declined'>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='SortWorstDeclined'>";
         html = html + "      <label for='sort2'>Worst decline</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Gender</h3>";
-        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male</label><br>";
-        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>School Year</h3>";
         html = html + "      <label for='minYear'>Min</label>";
-        html = html + "      <input type='number' id='minYear' name='minYear' placeholder='0' min='0' max='12'>";
+        html = html + "      <input type='number' id='minYear' name='minYear' placeholder='8' min='0' max='12'>";
         html = html + "      <label for='maxYear'>Max</label>";
-        html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='65' min='0' max='12'>";
+        html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='12' min='0' max='12'>";
+        html = html + "      <p><small>(max should be greater than min)</small></p>";
         html = html + "   </div>";
 
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
@@ -164,9 +168,10 @@ public class PageST3A implements Handler {
 
         ArrayList<String> LGANames = jdbc.getLGANames();
         
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div class='form-group LGA-filter'>";
         html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
         html = html + "      <select id='LGA_drop' name='LGA_drop'>";
+        html = html + "      <option value='' disabled selected>Select...</option>";
         for (String LGA: LGANames) {
             html = html + "         <option>" + LGA + "</option>";;
         }
@@ -174,18 +179,113 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         int LGACountForComparison = LGANames.size() - 1;
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div class='form-group LGA-filter'>";
         html = html + "      <h3>No. of similar LGAs to view</h3>";
-        html = html + "      <label for='NumLGA'>Min</label>";
+        html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
 
-                        // Close div for this row of filters
+                        // Close filter box div
         html = html + "   </div>";
 
         html = html + "   <button type='submit' class='pink-button'>APPLY FILTERS</button>";
 
         html = html + "</form>";
+
+        /* Get the Form Data
+         *  If part of the form is not filled in, then that part of the form will return null. We have included default values where applicable
+        */
+        html = html + "<h2>SELECTED FILTERS: ";
+        // topic - single selection
+        String topic = context.formParam("topic");
+        if (topic != null) {
+            html = html + " | " + topic;
+        } else {
+            topic = "Population"; //default
+            html = html + "Topic: " + topic + " <small>(default selection)</small>";
+        }
+        // gender - multiple selection
+        String gender1 = context.formParam("gender1"); 
+        String gender2 = context.formParam("gender2");
+        String gender = getGender(gender1, gender2);
+        if (gender1 != null || gender2 != null) {
+            html = html + " | " + gender;
+        } else {
+            html = html + " | " + gender + " <small>(default selection)</small>";
+        }
+        // population demographic - multiple selection
+        String population1 = context.formParam("population1");
+        String population2 = context.formParam("population2");
+        String population = getPopulation(population1, population2);
+        if (population1 != null || population2 != null) {
+            html = html + " | " + population;
+        } else {
+            html = html + " | " + population + " <small>(default selection)</small>";
+        }
+        // sort results - single selection
+        String sort = context.formParam("sort");
+        if (sort != null) {
+            html = html + " | " + sort;
+        } else {
+            sort = "SortMostImproved"; //default
+            html = html + " | " + sort + " <small>(default selection)</small>";
+        }
+        // *** TO DO: default selections for the below parameters where applicable, for blank or incorrect inputs? ***
+        // age range - min & max
+        String minAge = context.formParam("minAge");
+        String maxAge = context.formParam("maxAge");
+        if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) {
+            html = html + " | Age " + minAge + " to " + maxAge + " years";
+        } 
+        // school year - min & max
+        String minSchoolYear = context.formParam("minYear");
+        String maxSchoolYear = context.formParam("maxYear");
+        if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) {
+            html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
+        }
+        // health - multiple selection
+        ArrayList<String> health = new ArrayList<String>(context.formParams("health_drop"));
+        if (!health.isEmpty()) {
+            String healthCategoriesString = getCategories(health);
+            html = html + " | Categories: " + healthCategoriesString;
+        }
+        // non-school - multiple selection
+        ArrayList<String> nonSchool = new ArrayList<String>(context.formParams("nonSchool_drop"));
+        if (!nonSchool.isEmpty()) {
+            String nonSchoolCategoriesString = getCategories(nonSchool);
+            html = html + " | Categories: " + nonSchoolCategoriesString;
+        }
+        // toggle LGA selection - single selection
+        String toggleLGA = context.formParam("SelectLGA");
+        if (toggleLGA != null) {
+            html = html + " | " + toggleLGA;
+        }
+        // select census year - single selection
+        String censusYear = context.formParam("year");
+        if (censusYear != null) {
+            html = html + ": " + censusYear;
+        }
+        // select LGA - single selection
+        String selectedLGA = context.formParam("LGA_drop");
+        if (selectedLGA != null) {
+            html = html + ", " + selectedLGA;
+        }
+        // number of LGAs - single selection
+        String numberOfLGA = context.formParam("NumLGA");
+        if (numberOfLGA != null && !numberOfLGA.isEmpty()) {
+            html = html + ", view " + numberOfLGA + "similar LGAs";
+        }
+
+        html = html + "</h2>";
+
+        // TO DO: Add table of data for following queries:
+        /* 
+        * Either Age, Health, School or NonSchool data, showing num people meeting the filters in 2016 and in 2021, 
+            and The Gap between indig/non-indig in 2016 and in 2021, sorted by the size of the improvement/decline in The Gap from 2016 to 2021 
+        * -------------
+        * For a chosen LGA, for either Age, Health, School or NonSchool data, count the num people meeting the filters for the selected year (2016 OR 2021), 
+            and show the X number of LGAs that have the most similar count of people for that year and filters, sorted by most similar to least similar 
+        */
 
         // Close Content div
         html = html + "</div>";
@@ -222,6 +322,49 @@ public class PageST3A implements Handler {
         // DO NOT MODIFY THIS
         // Makes Javalin render the webpage
         context.html(html);
+    }
+
+    public String getGender(String gender1, String gender2) {
+        // Gender as 1 string for SQL queries
+        String selection;
+        if (gender1 != null && gender2 != null) {
+            selection = "'" + gender1 + "', '" + gender2 + "'";
+        } else if (gender1 != null) {
+            selection = "'" + gender1 + "'";
+        } else if (gender2 != null) {
+            selection = "'" + gender2 + "'";
+        } else { //default if both are null
+            selection = "'m', 'f'";
+        }
+        return selection;
+    }
+
+    public String getPopulation(String population1, String population2) {
+        // Population as 1 string for SQL queries
+        String selection;
+        if (population1 != null && population2 != null) {
+            selection = "'" + population1 + "', '" + population2 + "'";
+        } else if (population1 != null) {
+            selection = "'" + population1 + "'";
+        } else if (population2 != null) {
+            selection = "'" + population2 + "'";
+        } else { //default if both are null
+            selection = "'indig', 'non-indig'";
+        }
+        return selection;
+    }
+
+    public String getCategories(ArrayList<String> categoryList) {
+        // Categories converted from ArrayList to 1 string for SQL queries
+        String selection = "";
+        for (String cat : categoryList) {
+            if (selection.isEmpty()) {
+                selection += "'" + cat + "'";
+            } else {
+                selection += ", " + "'" + cat + "'";
+            }
+        }
+        return selection;
     }
 
 }
