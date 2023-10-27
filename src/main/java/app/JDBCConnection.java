@@ -867,19 +867,19 @@ public class JDBCConnection {
             // The Query
             String query = ""
             + "SELECT lga.name, "
-            + "Sum(Case when topic.indigenous_status=" + indigStatus + " and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2016)', "
-            + "Sum(Case when topic.indigenous_status=" + indigStatus + " and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2021)', "
+            + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2016)', "
+            + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2021)', "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2016 , "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2016 , "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2021, "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2021, "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) - "
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) As improv "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) - "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) As improv "
 
             + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv " + sort + ";";
 
@@ -946,18 +946,18 @@ public class JDBCConnection {
             + "Sum(Case when topic.indigenous_status in (" + indigStatus + ") and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) as 'Number of people (2016)', "
             + "Sum(Case when topic.indigenous_status in (" + indigStatus + ") and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) as 'Number of people (2021)', "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2016 , "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2016 , "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2021, "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2021, "
 
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) - "
-            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) As improv "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) - "
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) As improv "
 
-            + "From lga join Population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv" + sort;
+            + "From lga join Population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv " + sort;
 
             // Get Result
             ResultSet results = statement.executeQuery(query);
@@ -970,7 +970,7 @@ public class JDBCConnection {
                 int count2021    = results.getInt("Number of people (2021)");
                 int gap2016      = results.getInt("Gap2016");
                 int gap2021      = results.getInt("Gap2021");
-                int improv       = results.getInt("improve");
+                int improv       = results.getInt("improv");
                 // Create a Deepdive Object
                 Deepdive dataPoint = new Deepdive(lga, count2016, count2021, gap2016, gap2021, improv);
 

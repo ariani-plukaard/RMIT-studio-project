@@ -135,7 +135,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
         html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
-        html = html + "      <label for='population2'>Non-Indigenous</label><br>";
+        html = html + "      <label for='population2'>Non Indigenous</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -234,13 +234,13 @@ public class PageST3A implements Handler {
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
-        if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) {
+        if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) { // To do - fix this compareTo logic
             html = html + " | Age " + minAge + " to " + maxAge + " years";
         } 
         // school year - min & max
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
-        if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) {
+        if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) { // To do - fix this compareTo logic
             html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
         }
         // health - multiple selection
@@ -367,7 +367,7 @@ public class PageST3A implements Handler {
         } else if (population2 != null) {
             selection = "'" + population2 + "'";
         } else { //default if both are null
-            selection = "'indig', 'non-indig'";
+            selection = "'indig', 'non_indig'";
         }
         return selection;
     }
@@ -394,9 +394,9 @@ public class PageST3A implements Handler {
                     +     "<th>Local Government Area</th>"
                     +     "<th>2016 Count of People Based on Filters</th>"
                     +     "<th>2021 Count of People Based on Filters</th>"
-                    +     "<th>The Gap 2016 (Indig minus Non-Indig, based on filters)</th>"
-                    +     "<th>The Gap 2021 (Indig minus Non-Indig, based on filters)</th>"
-                    +     "<th>Change in The Gap (2016 minus 2021)</th>"
+                    +     "<th>The Gap 2016 (Non Indig minus Indig, based on filters)</th>"
+                    +     "<th>The Gap 2021 (Non Indig minus Indig, based on filters)</th>"
+                    +     "<th>Change in The Gap (2021 minus 2016)</th>"
                     + "</tr>";
         
         int rankingCount = 0;
