@@ -230,32 +230,65 @@ public class PageST3A implements Handler {
             sort = "DESC"; //default
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
-        // *** TO DO: default selections for the below parameters where applicable, for blank or incorrect inputs? ***
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
-        if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0)) { // To do - fix this compareTo logic
-            html = html + " | Age " + minAge + " to " + maxAge + " years";
-        } 
+        if (topic.equals("Population")) {
+            if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0 || maxAge.length() > minAge.length())) {
+                html = html + " | Age " + minAge + " to " + maxAge;
+            } else if (minAge != null && !minAge.isEmpty() && (maxAge == null || maxAge.isEmpty())){
+                maxAge = "200"; //default
+                html = html + " | Age " + minAge + " to " + maxAge;
+            } else if ((minAge == null || minAge.isEmpty()) && maxAge != null && !maxAge.isEmpty()){
+                minAge = "0"; //default
+                html = html + " | Age " + minAge + " to " + maxAge + " years";
+            } else {
+                maxAge = "200"; //default
+                minAge = "0"; //default
+                html = html + " | Age " + minAge + " to " + maxAge + " years <small>(default selection)</small>";
+            }
+        }
         // school year - min & max
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
-        if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0)) { // To do - fix this compareTo logic
-            html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
+        if (topic.equals("SchoolCompletion")) {
+            if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0 || maxSchoolYear.length() > minSchoolYear.length())) {
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
+            } else if (minSchoolYear != null && !minSchoolYear.isEmpty() && (maxSchoolYear == null || maxSchoolYear.isEmpty())){
+                maxSchoolYear = "12"; //defaults
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
+            } else if ((minSchoolYear == null || minSchoolYear.isEmpty()) && maxSchoolYear != null && !maxSchoolYear.isEmpty()){
+                minSchoolYear = "8"; //defaults
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
+            } else {
+                maxSchoolYear = "12"; //defaults
+                minSchoolYear = "8"; //defaults
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear + " <small>(default selection)</small>";
+            }
         }
         // health - multiple selection
         ArrayList<String> health = new ArrayList<String>(context.formParams("health_drop"));
         String healthCategoriesString = "";
-        if (!health.isEmpty()) {
-            healthCategoriesString = getCategories(health);
-            html = html + " | Categories: " + healthCategoriesString;
+        if (topic.equals("LTHC")) {
+            if (!health.isEmpty()) {
+                healthCategoriesString = getCategories(health);
+                html = html + " | Categories: " + healthCategoriesString;
+            } else {
+                healthCategoriesString = getCategories(healthConditions); //default - all
+                html = html + " | Categories: " + healthCategoriesString  + " <small>(default selection)</small>";
+            }
         }
         // non-school - multiple selection
         ArrayList<String> nonSchool = new ArrayList<String>(context.formParams("nonSchool_drop"));
         String nonSchoolCategoriesString = "";
-        if (!nonSchool.isEmpty()) {
-            nonSchoolCategoriesString = getCategories(nonSchool);
-            html = html + " | Categories: " + nonSchoolCategoriesString;
+        if (topic.equals("NonSchoolCompletion")) {
+            if (!nonSchool.isEmpty()) {
+                nonSchoolCategoriesString = getCategories(nonSchool);
+                html = html + " | Categories: " + nonSchoolCategoriesString;
+            } else {
+                nonSchoolCategoriesString = getCategories(nonSchoolCategories); //default - all
+                html = html + " | Categories: " + nonSchoolCategoriesString + " <small>(default selection)</small>";
+            }
         }
         // toggle LGA selection - single selection
         String toggleLGA = context.formParam("SelectLGA");
@@ -266,16 +299,25 @@ public class PageST3A implements Handler {
         String censusYear = context.formParam("year");
         if (censusYear != null) {
             html = html + ": " + censusYear;
+        } else if (toggleLGA != null) {
+            censusYear = "2021"; // default
+            html = html + ": " + censusYear + " <small>(default selection)</small>";
         }
         // select LGA - single selection
         String selectedLGA = context.formParam("LGA_drop");
         if (selectedLGA != null) {
             html = html + ", " + selectedLGA;
+        } else if (toggleLGA != null) {
+            selectedLGA = "Melbourne"; //default
+            html = html + ": " + selectedLGA + " <small>(default selection)</small>";
         }
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
         if (numberOfLGA != null && !numberOfLGA.isEmpty()) {
             html = html + ", view " + numberOfLGA + " similar LGAs";
+        } else if (toggleLGA != null) {
+            numberOfLGA = "5"; //default number of similar LGAs
+            html = html + ": " + numberOfLGA + " <small>(default selection)</small>";
         }
 
         html = html + "</h2>";
