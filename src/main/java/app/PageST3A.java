@@ -278,14 +278,23 @@ public class PageST3A implements Handler {
 
         html = html + "</h2>";
 
+        // if (toggleLGA == null) {
+        //     if (topic.equals("Population")) {
+                
+        //     } else if (topic.equals("SchoolCompletion")) {
+        //         ArrayList<Deepdive> gapData = jdbc.getSchoolCompletionGap()
+
+        //     }
+        //     html = html + outputTable();
+        // } else {
         // TO DO: Add table of data for following queries:
         /* 
-        * Either Age, Health, School or NonSchool data, showing num people meeting the filters in 2016 and in 2021, 
-            and The Gap between indig/non-indig in 2016 and in 2021, sorted by the size of the improvement/decline in The Gap from 2016 to 2021 
-        * -------------
         * For a chosen LGA, for either Age, Health, School or NonSchool data, count the num people meeting the filters for the selected year (2016 OR 2021), 
             and show the X number of LGAs that have the most similar count of people for that year and filters, sorted by most similar to least similar 
         */
+        }
+
+
 
         // Close Content div
         html = html + "</div>";
