@@ -889,12 +889,15 @@ public class JDBCConnection {
             // Process all of the results
             while (results.next()) {
                 // Lookup the columns we need
-                String location    = results.getString(locationColumn);
-                String category    = results.getString(categoryCol);
-                int count          = results.getInt("raw_values");
+                String lgaName       = results.getString("name");
+                int numPeople2016    = results.getInt("Number of people (2016)");
+                int numPeople2021    = results.getInt("Number of people (2021)");
+                int gap2016          = results.getInt("Gap2016");
+                int gap2021          = results.getInt("Gap2021");
+                int improv           = results.getInt("improv");
 
                 // Create a Deepdive Object
-                Deepdive dataPoint = new Deepdive(location, category, count);
+                Deepdive dataPoint = new Deepdive(lgaName, numPeople2016, numPeople2021, gap2016, gap2021, improv);
 
                 // Add the Deepdive object to the array
                 deepdiveDataPoints.add(dataPoint);
