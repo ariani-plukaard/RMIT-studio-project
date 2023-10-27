@@ -251,8 +251,9 @@ public class PageST3A implements Handler {
         }
         // non-school - multiple selection
         ArrayList<String> nonSchool = new ArrayList<String>(context.formParams("nonSchool_drop"));
+        String nonSchoolCategoriesString = "";
         if (!nonSchool.isEmpty()) {
-            String nonSchoolCategoriesString = getCategories(nonSchool);
+            nonSchoolCategoriesString = getCategories(nonSchool);
             html = html + " | Categories: " + nonSchoolCategoriesString;
         }
         // toggle LGA selection - single selection
@@ -283,14 +284,14 @@ public class PageST3A implements Handler {
             // To display data for change in The Gap
             ArrayList<Deepdive> gapData;
             if (topic.equals("Population")) {
-                gapData = jdbc.getPopulationGap(gender, population, sort, minAge, maxAge);
-                html = html + outputTable(gapData);
+                gapData = jdbc.getGap(gender, population, sort, topic, "", minAge, maxAge);
+                html = html + outputGapTable(gapData);
             } else if (topic.equals("SchoolCompletion")) {
-                gapData = jdbc.getSchoolCompletionGap(gender, population, sort, minSchoolYear, maxSchoolYear);
-                html = html + outputTable(gapData);
+                gapData = jdbc.getGap(gender, population, sort, topic, "", minSchoolYear, maxSchoolYear);
+                html = html + outputGapTable(gapData);
             } else if (topic.equals("NonSchoolCompletion")) {
-                // To do - JDBC method
-                // html = html + outputTable(gapData);
+                gapData = jdbc.getGap(gender, population, sort, topic, nonSchoolCategoriesString, "", "");
+                html = html + outputGapTable(gapData);
             } else if (topic.equals("LTHC")) {
                 // To do - JDBC method
                 // html = html + outputTable(gapData);
@@ -385,7 +386,7 @@ public class PageST3A implements Handler {
         return selection;
     }
 
-    public String outputTable(ArrayList<Deepdive> data) {
+    public String outputGapTable(ArrayList<Deepdive> data) {
         String html = "";
         
         html = html + "<table>"
