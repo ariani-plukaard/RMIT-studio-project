@@ -924,6 +924,80 @@ public class JDBCConnection {
         return deepdiveDataPoints;
     }
 
+    // Method to get population gap (Level 3)
+    public ArrayList<Deepdive> getPopulationGap(String gender, String indigStatus, String sort, String minAge, String maxAge) {
+        // Create the ArrayList of Deepdive objects to return
+        ArrayList<Deepdive> deepdiveDataPoints = new ArrayList<Deepdive>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            
+            // The Query
+            String query = ""
+            + "SELECT lga.name, "
+            + "Sum(Case when topic.indigenous_status in (" + indigStatus + ") and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) as 'Number of people (2016)', "
+            + "Sum(Case when topic.indigenous_status in (" + indigStatus + ") and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) as 'Number of people (2021)', "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2016 , "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) as Gap2021, "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) - "
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND age_min >= " + minAge + " and age_max <= " + maxAge + " then count else 0 end)) As improv "
+
+            + "From lga join Population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv" + sort;
+
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String lga       = results.getString("name");
+                int count2016    = results.getInt("Number of people (2016)");
+                int count2021    = results.getInt("Number of people (2021)");
+                int gap2016      = results.getInt("Gap2016");
+                int gap2021      = results.getInt("Gap2021");
+                int improv       = results.getInt("improve");
+                // Create a Deepdive Object
+                Deepdive dataPoint = new Deepdive(lga, count2016, count2021, gap2016, gap2021, improv);
+
+                // Add the Deepdive object to the array
+                deepdiveDataPoints.add(dataPoint);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the data overview values
+        return deepdiveDataPoints;
+    }
 }
 
 // SELECT lga.name, Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65
