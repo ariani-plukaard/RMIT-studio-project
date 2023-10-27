@@ -425,12 +425,12 @@ public class PageST3A implements Handler {
         
         html = html + "<table>"
                     + "<tr>"
-                    +     "<th>Rank (by 2021 Gap)</th>"
+                    +     "<th>Rank (by the 2021 Gap)</th>"
                     +     "<th>Local Government Area</th>"
-                    +     "<th>2016 Count of People Based on Filters</th>"
+                    +     "<th>2016 Count of People</th>"
                     +     "<th>2021 Count of People Based on Filters</th>"
-                    +     "<th>The Gap 2016 (Non Indig minus Indig, based on filters)</th>"
-                    +     "<th>The Gap 2021 (Non Indig minus Indig, based on filters)</th>"
+                    +     "<th>The Gap 2016</th>"
+                    +     "<th>The Gap 2021 (Indig minus Non Indig, based on filters)</th>"
                     +     "<th>Change in The Gap (2021 minus 2016)</th>"
                     + "</tr>";
         

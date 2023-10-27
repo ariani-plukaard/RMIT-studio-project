@@ -956,8 +956,8 @@ public class JDBCConnection {
             + "SELECT lga.name, "
             + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end) as 'Number of people (2021)', "
 
-            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end) - "
-            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end)) as Gap2021 "
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end)) as Gap2021 "
 
             + "From lga join LTHC as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by Gap2021 " + sort + ";";
 
