@@ -881,7 +881,7 @@ public class JDBCConnection {
             + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
             + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) As improv "
 
-            + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv";
+            + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv " + sort + ";";
 
             // Get Result
             ResultSet results = statement.executeQuery(query);
