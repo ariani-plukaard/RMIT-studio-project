@@ -848,7 +848,90 @@ public class JDBCConnection {
         return LGANames;
     }
 
-    j
+    // Method to get school completion gap (Level 3)
+    public ArrayList<Deepdive> getSchoolCompletionGap(String gender, String indigStatus, String sort, String minSchool, String maxSchool) {
+        // Create the ArrayList of Deepdive objects to return
+        ArrayList<Deepdive> deepdiveDataPoints = new ArrayList<Deepdive>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // Get the sorting attribute by topic
+            String sortByAttr = "";
+            if (topic.equals("Population")) {
+                sortByAttr = "AND age_category = '65+ years'"; // Population results will be sorted by the 65+ count
+            } else if (topic.equals("LTHC")) {
+                sortByAttr = ""; // Health results will be sorted by the count for all health conditions
+            } else if (topic.equals("SchoolCompletion")) {
+                sortByAttr = "AND SchoolYear = 'Year 12 equivalent'"; // School results will be sorted by the year 12 count
+            } else if (topic.equals("NonSchoolCompletion")) {
+                sortByAttr = "AND (NonSchoolBracket LIKE 'Postgrad%' OR NonSchoolBracket LIKE 'Bachelor%')"; // Non school results will be sorted by total count from bachelor and post grad
+            }
+            
+            // The Query
+            String query = ""
+            + "SELECT lga.name, "
+            + "Sum(Case when topic.indigenous_status=" + indigStatus + " and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2016)', "
+            + "Sum(Case when topic.indigenous_status=" + indigStatus + " and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) as 'Number of people (2021)', "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2016 , "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) as Gap2021, "
+
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2016 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) - "
+            + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) As improv "
+
+            + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name ";
+
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String location    = results.getString(locationColumn);
+                String category    = results.getString(categoryCol);
+                int count          = results.getInt("raw_values");
+
+                // Create a Deepdive Object
+                Deepdive dataPoint = new Deepdive(location, category, count);
+
+                // Add the Deepdive object to the array
+                deepdiveDataPoints.add(dataPoint);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the data overview values
+        return deepdiveDataPoints;
+    }
 
 }
 
