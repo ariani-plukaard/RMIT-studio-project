@@ -273,7 +273,7 @@ public class PageST3A implements Handler {
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
         if (numberOfLGA != null && !numberOfLGA.isEmpty()) {
-            html = html + ", view " + numberOfLGA + "similar LGAs";
+            html = html + ", view " + numberOfLGA + " similar LGAs";
         }
 
         html = html + "</h2>";
