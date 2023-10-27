@@ -140,10 +140,10 @@ public class PageST3A implements Handler {
 
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Sort</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='SortMostImproved'>";
-        html = html + "      <label for='sort1'>Most improved</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='SortWorstDeclined'>";
-        html = html + "      <label for='sort2'>Worst decline</label><br>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
+        html = html + "      <label for='sort1'>Ascending</label><br>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
+        html = html + "      <label for='sort2'>Descending</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -227,7 +227,7 @@ public class PageST3A implements Handler {
         if (sort != null) {
             html = html + " | " + sort;
         } else {
-            sort = "SortMostImproved"; //default
+            sort = "ASC"; //default
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
         // *** TO DO: default selections for the below parameters where applicable, for blank or incorrect inputs? ***
