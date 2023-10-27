@@ -245,8 +245,9 @@ public class PageST3A implements Handler {
         }
         // health - multiple selection
         ArrayList<String> health = new ArrayList<String>(context.formParams("health_drop"));
+        String healthCategoriesString = "";
         if (!health.isEmpty()) {
-            String healthCategoriesString = getCategories(health);
+            healthCategoriesString = getCategories(health);
             html = html + " | Categories: " + healthCategoriesString;
         }
         // non-school - multiple selection
@@ -293,8 +294,8 @@ public class PageST3A implements Handler {
                 gapData = jdbc.getGap(gender, population, sort, topic, nonSchoolCategoriesString, "", "");
                 html = html + outputGapTable(gapData);
             } else if (topic.equals("LTHC")) {
-                // To do - JDBC method
-                // html = html + outputTable(gapData);
+                gapData = jdbc.getHealthGap2021(gender, population, sort, healthCategoriesString);
+                html = html + output2021HealthGapTable(gapData);
             }
         } else { // To display data for LGAs similar to selected LGA
         // TO DO: Add table of data for following queries:
@@ -411,6 +412,39 @@ public class PageST3A implements Handler {
                         + "<td>" + dataPoint.getGap2016() + "</td>"
                         + "<td>" + dataPoint.getGap2021() + "</td>"
                         + "<td>" + dataPoint.improve() + "</td>"
+                        + "</tr>";
+        }
+
+        html = html + "</table>";
+        return html;
+
+    }
+
+    public String output2021HealthGapTable(ArrayList<Deepdive> data) {
+        String html = "";
+        
+        html = html + "<table>"
+                    + "<tr>"
+                    +     "<th>Rank (by 2021 Gap)</th>"
+                    +     "<th>Local Government Area</th>"
+                    +     "<th>2016 Count of People Based on Filters</th>"
+                    +     "<th>2021 Count of People Based on Filters</th>"
+                    +     "<th>The Gap 2016 (Non Indig minus Indig, based on filters)</th>"
+                    +     "<th>The Gap 2021 (Non Indig minus Indig, based on filters)</th>"
+                    +     "<th>Change in The Gap (2021 minus 2016)</th>"
+                    + "</tr>";
+        
+        int rankingCount = 0;
+        for (Deepdive dataPoint : data) {
+            rankingCount++;
+            html = html + "<tr>"
+                        + "<td>" + rankingCount + "</td>"
+                        + "<td>" + dataPoint.getLga() + "</td>"
+                        + "<td>No 2016 Data</td>"
+                        + "<td>" + dataPoint.getCount2021() + "</td>"
+                        + "<td>No 2016 Data</td>"
+                        + "<td>" + dataPoint.getGap2021() + "</td>"
+                        + "<td>N/A</td>"
                         + "</tr>";
         }
 

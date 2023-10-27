@@ -933,4 +933,69 @@ public class JDBCConnection {
         // Finally we return all of the data overview values
         return deepdiveDataPoints;
     }
+
+    // Method to get long term health condition gap 2021 (Level 3)
+    public ArrayList<Deepdive> getHealthGap2021(String gender, String indigStatus, String sort, String categories) {
+        // Create the ArrayList of Deepdive objects to return
+        ArrayList<Deepdive> deepdiveDataPoints = new ArrayList<Deepdive>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            
+            // The Query
+            String query = ""
+            + "SELECT lga.name, "
+            + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end) as 'Number of people (2021)', "
+
+            + "(sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end) - "
+            + "sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND topic.Condition IN (" + categories + ") then count else 0 end)) as Gap2021 "
+
+            + "From lga join LTHC as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by Gap2021 " + sort + ";";
+
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String lgaName       = results.getString("name");
+                int numPeople2021    = results.getInt("Number of people (2021)");
+                int gap2021          = results.getInt("Gap2021");
+
+                // Create a Deepdive Object
+                Deepdive dataPoint = new Deepdive(lgaName, numPeople2021, gap2021);
+
+                // Add the Deepdive object to the array
+                deepdiveDataPoints.add(dataPoint);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the data overview values
+        return deepdiveDataPoints;
+    }
 }
