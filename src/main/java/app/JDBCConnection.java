@@ -863,18 +863,6 @@ public class JDBCConnection {
             // Prepare a new SQL Query & Set a timeout
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
-
-            // Get the sorting attribute by topic
-            String sortByAttr = "";
-            if (topic.equals("Population")) {
-                sortByAttr = "AND age_category = '65+ years'"; // Population results will be sorted by the 65+ count
-            } else if (topic.equals("LTHC")) {
-                sortByAttr = ""; // Health results will be sorted by the count for all health conditions
-            } else if (topic.equals("SchoolCompletion")) {
-                sortByAttr = "AND SchoolYear = 'Year 12 equivalent'"; // School results will be sorted by the year 12 count
-            } else if (topic.equals("NonSchoolCompletion")) {
-                sortByAttr = "AND (NonSchoolBracket LIKE 'Postgrad%' OR NonSchoolBracket LIKE 'Bachelor%')"; // Non school results will be sorted by total count from bachelor and post grad
-            }
             
             // The Query
             String query = ""
@@ -893,7 +881,7 @@ public class JDBCConnection {
             + "(sum(Case when topic.indigenous_status='indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end) - "
             + "sum(Case when topic.indigenous_status='non_indig' and topic.lga_year = 2021 and topic.sex in (" + gender + ") AND yearMax >= " + minSchool + " and yearMax <= " + maxSchool + " then count else 0 end)) As improv "
 
-            + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name ";
+            + "From lga join SchoolCompletion as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by improv";
 
             // Get Result
             ResultSet results = statement.executeQuery(query);
