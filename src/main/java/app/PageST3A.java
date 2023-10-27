@@ -139,7 +139,7 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Sort</h3>";
+        html = html + "      <h3>Sort by Change in The Gap</h3>";
         html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
         html = html + "      <label for='sort1'>Ascending</label><br>";
         html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
@@ -227,7 +227,7 @@ public class PageST3A implements Handler {
         if (sort != null) {
             html = html + " | " + sort;
         } else {
-            sort = "ASC"; //default
+            sort = "DESC"; //default
             html = html + " | " + sort + " <small>(default selection)</small>";
         }
         // *** TO DO: default selections for the below parameters where applicable, for blank or incorrect inputs? ***
@@ -278,15 +278,24 @@ public class PageST3A implements Handler {
 
         html = html + "</h2>";
 
-        // if (toggleLGA == null) {
-        //     if (topic.equals("Population")) {
-                
-        //     } else if (topic.equals("SchoolCompletion")) {
-        //         ArrayList<Deepdive> gapData = jdbc.getSchoolCompletionGap()
-
-        //     }
-        //     html = html + outputTable();
-        // } else {
+        // Call JDBC methods to get the data and use it to create tables based on filters
+        if (toggleLGA == null) { 
+            // To display data for change in The Gap
+            ArrayList<Deepdive> gapData;
+            if (topic.equals("Population")) {
+                gapData = jdbc.getPopulationGap(gender, population, sort, minAge, maxAge);
+                html = html + outputTable(gapData);
+            } else if (topic.equals("SchoolCompletion")) {
+                gapData = jdbc.getSchoolCompletionGap(gender, population, sort, minSchoolYear, maxSchoolYear);
+                html = html + outputTable(gapData);
+            } else if (topic.equals("NonSchoolCompletion")) {
+                // To do - JDBC method
+                // html = html + outputTable(gapData);
+            } else if (topic.equals("LTHC")) {
+                // To do - JDBC method
+                // html = html + outputTable(gapData);
+            }
+        } else { // To display data for LGAs similar to selected LGA
         // TO DO: Add table of data for following queries:
         /* 
         * For a chosen LGA, for either Age, Health, School or NonSchool data, count the num people meeting the filters for the selected year (2016 OR 2021), 
@@ -374,6 +383,39 @@ public class PageST3A implements Handler {
             }
         }
         return selection;
+    }
+
+    public String outputTable(ArrayList<Deepdive> data) {
+        String html = "";
+        
+        html = html + "<table>"
+                    + "<tr>"
+                    +     "<th>Rank (by Change in The Gap)</th>"
+                    +     "<th>Local Government Area</th>"
+                    +     "<th>2016 Count of People Based on Filters</th>"
+                    +     "<th>2021 Count of People Based on Filters</th>"
+                    +     "<th>The Gap 2016 (Indig minus Non-Indig, based on filters)</th>"
+                    +     "<th>The Gap 2021 (Indig minus Non-Indig, based on filters)</th>"
+                    +     "<th>Change in The Gap (2016 minus 2021)</th>"
+                    + "</tr>";
+        
+        int rankingCount = 0;
+        for (Deepdive dataPoint : data) {
+            rankingCount++;
+            html = html + "<tr>"
+                        + "<td>" + rankingCount + "</td>"
+                        + "<td>" + dataPoint.getLga() + "</td>"
+                        + "<td>" + dataPoint.getCount2016() + "</td>"
+                        + "<td>" + dataPoint.getCount2021() + "</td>"
+                        + "<td>" + dataPoint.getGap2016() + "</td>"
+                        + "<td>" + dataPoint.getGap2021() + "</td>"
+                        + "<td>" + dataPoint.improve() + "</td>"
+                        + "</tr>";
+        }
+
+        html = html + "</table>";
+        return html;
+
     }
 
 }
