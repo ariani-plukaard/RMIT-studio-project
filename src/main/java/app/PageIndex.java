@@ -105,13 +105,13 @@ public class PageIndex implements Handler {
                     </div>
                     <div id='qna'>
                         <h2>What we cover</h2>
-                        <p>Our main focus are on the topics of <b>health, education, and income</b>, as these topics give us 
+                        <p>Our main focus are on the topics of <b>health, education, and population age</b>, as these topics give us 
                         a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
                         <a href='data-overview.html'>See Data Overview</a>
                     </div>
                 </div>
                 <div class='landingStats'>
-                    <h5>Key Statistics:</h5>
+                    <h5>Key Statistics at Census:</h5>
                     <ol>""";
                             
         html = html +   "<li>Total Population in 2016: <span style='color:black'>"+formattedTotalIn2016+"</span></li>";
