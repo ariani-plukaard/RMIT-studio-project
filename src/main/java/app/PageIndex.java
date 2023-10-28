@@ -69,7 +69,7 @@ public class PageIndex implements Handler {
             <div class='wrapper'>
                 <div class='wrapperText'>
                     <h2>Exploring the gap</h2>
-                    <p>Between Indigineous & Non-Indigineous Australians</p>
+                    <p>Between Indigenous & Non-Indigenous Australians</p>
                     <a href='data-overview.html'>DATA OVERVIEW</a>
                 </div>
                 <div class='wrapperImg'>
