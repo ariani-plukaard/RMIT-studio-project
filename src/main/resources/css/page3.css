@@ -73,10 +73,17 @@
      padding: 14px 16px;
    }
 
+   /* Style filter headings */
+   .filter-heading {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));;
+  }
+
    /* Style filter box */
   .filter-box {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-columns: repeat(6, minmax(0, 1fr));;
   }
 
   /* Style the filter button */
@@ -105,7 +112,7 @@
   }
 
   .lga-filter {
-    background-color: #fdc4de;
+    background-color: #fedbeb;
   }
 
   /* Style the toggle */

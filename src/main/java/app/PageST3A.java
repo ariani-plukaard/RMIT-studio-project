@@ -69,6 +69,14 @@ public class PageST3A implements Handler {
         // Add HTML for the page content - Filters
         html = html + "<h2>FILTERS</h2>";
 
+        html = html + """
+            <div class='filter-heading'>
+                <h3><i>Key Filters</i></h3>
+                <h3><i>Category Filter for Selected Topic</i></h3>
+                <h3><i>Filters to get LGA Comparison (Optional)</i></h3>
+            </div>
+        """;
+
         html = html + "<form action='/data-deep-dive.html' method='post'>";
                         // Start filter box div
         html = html + "   <div class = 'filter-box'>";
