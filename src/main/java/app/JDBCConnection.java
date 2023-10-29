@@ -1015,7 +1015,7 @@ public class JDBCConnection {
             } else if (topic.equals("LTHC")) {
                 categoryFilter = "AND topic.Condition IN (" + categories + ")";
             }
-            
+
         try {
             // Connect to JDBC data base
             connection = DriverManager.getConnection(DATABASE);
@@ -1031,7 +1031,7 @@ public class JDBCConnection {
             + "abs(Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end) "
             + "- (SELECT Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " AND lga.name='" + lga + "' then count else 0 end) "
             + "From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name)) as abs "
-            + "From lga join " + topic + " as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit " + (numberOfLGA + 1) + ";";
+            + "From lga join " + topic + " as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit " + numberOfLGA + ";";
 
             // Get Result
             ResultSet results = statement.executeQuery(query);

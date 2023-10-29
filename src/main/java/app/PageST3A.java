@@ -73,7 +73,7 @@ public class PageST3A implements Handler {
             <div class='filter-heading'>
                 <h3><i>Key Filters</i></h3>
                 <h3><i>Category Filter for Selected Topic</i></h3>
-                <h3><i>Filters to get LGA Comparison (Optional)</i></h3>
+                <h3><i>Filters to get similar LGAs to a selected LGA (Optional)</i></h3>
             </div>
         """;
 
@@ -147,7 +147,7 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Sort by Change in The Gap</h3>";
+        html = html + "      <h3>Sort (for Change in The Gap)</h3>";
         html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
         html = html + "      <label for='sort1'>Ascending</label><br>";
         html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
@@ -186,9 +186,9 @@ public class PageST3A implements Handler {
         html = html + "      </select>";
         html = html + "   </div>";
 
-        int LGACountForComparison = LGANames.size() - 1;
+        int LGACountForComparison = LGANames.size();
         html = html + "   <div class='form-group LGA-filter'>";
-        html = html + "      <h3>No. of similar LGAs to view</h3>";
+        html = html + "      <h3>No. of LGAs to view (including selected)</h3>";
         html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
