@@ -998,6 +998,79 @@ public class JDBCConnection {
         // Finally we return all of the data overview values
         return deepdiveDataPoints;
     }
+    public ArrayList<Deepdive> getSimilarLga(String gender, String indigStatus, String topic, String categories, String minRange, String maxRange, String censusYear, String lga, String numberOfLGA) {
+        // Create the ArrayList of Deepdive objects to return
+        ArrayList<Deepdive> deepdiveDataPoints = new ArrayList<Deepdive>();
+
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+
+        // Get category filter string by topic
+            String categoryFilter = "";
+            if (topic.equals("Population")) {
+                categoryFilter = "AND age_min >= " + minRange + " and age_max <= " + maxRange;
+            }  else if (topic.equals("SchoolCompletion")) {
+                categoryFilter = "AND yearMax >= " + minRange + " and yearMax <= " + maxRange;
+            } else if (topic.equals("NonSchoolCompletion")) {
+                categoryFilter = "AND topic.NonSchoolBracket IN (" + categories + ")";
+            } else if (topic.equals("LTHC")) {
+                categoryFilter = "AND topic.Condition IN (" + categories + ")";
+            }
+
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            
+            // The Query
+            String query = ""
+            + "SELECT lga.name, "
+            + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = " + censusYear + " and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end) as 'Number of people', "
+            + "abs(Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = " + censusYear + " and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end)"
+            + "-(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = " + censusYear + " and topic.sex in (" + gender + ") " + categoryFilter + " AND lga.name="+lga+"then count else 0 end)"
+            + "From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name)) as abs"
+            + "From lga join " + topic + " as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit" + numberOfLGA + ";";
+
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                // Lookup the columns we need
+                String lgaName       = results.getString("name");
+                int numPeople        = results.getInt("Number of people");
+
+                // Create a Deepdive Object
+                Deepdive dataPoint = new Deepdive(lgaName, numPeople);
+
+                // Add the Deepdive object to the array
+                deepdiveDataPoints.add(dataPoint);
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        // Finally we return all of the data overview values
+        return deepdiveDataPoints;
+    }
+
 }
 
 // Select lga.name, Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65 then count else 0 end) as 'Number of people (2016)', 
