@@ -230,14 +230,6 @@ public class PageST3A implements Handler {
         } else {
             html = html + " | " + population + " <small>(default selection)</small>";
         }
-        // sort results - single selection
-        String sort = context.formParam("sort");
-        if (sort != null) {
-            html = html + " | " + sort;
-        } else {
-            sort = "DESC"; //default
-            html = html + " | " + sort + " <small>(default selection)</small>";
-        }
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
@@ -331,6 +323,14 @@ public class PageST3A implements Handler {
         } else if (toggleLGA != null) {
             numberOfLGA = "5"; //default number of similar LGAs
             html = html + ": " + numberOfLGA + " <small>(default selection)</small>";
+        }
+        // sort Change in The Gap results - single selection
+        String sort = context.formParam("sort");
+        if (sort != null && toggleLGA == null) {
+            html = html + " | " + sort;
+        } else if (toggleLGA == null) {
+            sort = "DESC"; //default
+            html = html + " | " + sort + " <small>(default selection)</small>";
         }
 
         html = html + "</h2>";
