@@ -1024,14 +1024,15 @@ public class JDBCConnection {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
             
+            int numberLGA = Integer.parseInt(numberOfLGA) + 1;
             // The Query
             String query = ""
             + "SELECT lga.name, "
             + "Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end) as 'Number of people', "
             + "abs(Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end) "
-            + "- (SELECT Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " AND lga.name='" + lga + "' then count else 0 end) "
-            + "From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name)) as abs "
-            + "From lga join " + topic + " as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit " + numberOfLGA + ";";
+            + "- (SELECT Sum(Case when topic.indigenous_status IN (" + indigStatus + ") and topic.lga_year = '" + censusYear + "' and topic.sex in (" + gender + ") " + categoryFilter + " then count else 0 end) "
+            + "From lga join population as topic on code = topic.lga_code and year=topic.lga_year where lga.name='" + lga + "' group by lga.name)) as abs "
+            + "From lga join " + topic + " as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit " + numberLGA + ";";
 
             // Get Result
             ResultSet results = statement.executeQuery(query);
