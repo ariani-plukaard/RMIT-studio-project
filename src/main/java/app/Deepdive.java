@@ -7,6 +7,7 @@ public class Deepdive {
     private int gap2016;
     private int gap2021;
     private int improve;
+    private int count;
 
     public Deepdive(String lga, int count2016, int count2021, int gap2016, int gap2021, int improve){
         this.lga = lga;
@@ -15,6 +16,11 @@ public class Deepdive {
         this.gap2016 = gap2016;
         this.gap2021 = gap2021;
         this.improve = improve;
+    }
+
+    public Deepdive(String lga, int count){
+        this.lga = lga;
+        this.count = count;
     }
 
     public Deepdive(String lga, int count2021, int gap2021){
@@ -45,5 +51,9 @@ public class Deepdive {
 
     public int improve(){
         return improve;
+    }
+
+    public int getCount(){
+        return count;
     }
 }
