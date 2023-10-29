@@ -999,3 +999,10 @@ public class JDBCConnection {
         return deepdiveDataPoints;
     }
 }
+
+// Select lga.name, Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65 then count else 0 end) as 'Number of people (2016)', 
+// abs(Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65then count else 0 end)-
+//     (Select Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65 and lga.name = 'Adelaide'
+//     then count else 0 end) From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name)
+// ) as abs 
+// From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit 6;
