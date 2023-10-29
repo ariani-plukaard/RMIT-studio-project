@@ -306,7 +306,12 @@ public class PageST3A implements Handler {
         // select census year - single selection
         String censusYear = context.formParam("year");
         if (censusYear != null) {
-            html = html + ": " + censusYear;
+            if (censusYear.equals("2016") && topic.equals("LTHC")) { 
+                censusYear = "2021"; // no 2016 values for LTHC
+                html = html + ": " + censusYear + " <small>(no 2016 data for LTHC)</small>";
+            } else {
+                html = html + ": " + censusYear;
+            }
         } else if (toggleLGA != null) {
             censusYear = "2021"; // default
             html = html + ": " + censusYear + " <small>(default selection)</small>";
@@ -347,12 +352,19 @@ public class PageST3A implements Handler {
                 gapData = jdbc.getHealthGap2021(gender, population, sort, healthCategoriesString);
                 html = html + output2021HealthGapTable(gapData);
             }
-        } else { // To display data for LGAs similar to selected LGA
-        // TO DO: Add table of data for following queries:
-        /* 
-        * For a chosen LGA, for either Age, Health, School or NonSchool data, count the num people meeting the filters for the selected year (2016 OR 2021), 
-            and show the X number of LGAs that have the most similar count of people for that year and filters, sorted by most similar to least similar 
-        */
+        } else { 
+            // To display data for LGAs similar to selected LGA
+            ArrayList<Deepdive> LGAData = new ArrayList<Deepdive>();
+            if (topic.equals("Population")) {
+                LGAData = jdbc.getSimilarLga(gender, population, topic, "", minAge, maxAge, censusYear, selectedLGA, numberOfLGA);
+            } else if (topic.equals("SchoolCompletion")) {
+                LGAData = jdbc.getSimilarLga(gender, population, topic, "", minSchoolYear, maxSchoolYear, censusYear, selectedLGA, numberOfLGA);
+            } else if (topic.equals("NonSchoolCompletion")) {
+                LGAData = jdbc.getSimilarLga(gender, population, topic, nonSchoolCategoriesString, "", "", censusYear, selectedLGA, numberOfLGA);
+            } else if (topic.equals("LTHC")) {
+                LGAData = jdbc.getSimilarLga(gender, population, topic, healthCategoriesString, "", "", censusYear, selectedLGA, numberOfLGA);
+            }
+            html = html + outputSimilarLgaTable(LGAData);
         }
 
 
@@ -496,6 +508,31 @@ public class PageST3A implements Handler {
                         + "<td>" + dataPoint.getGap2021() + "</td>"
                         + "<td>N/A</td>"
                         + "</tr>";
+        }
+
+        html = html + "</table>";
+        return html;
+
+    }
+
+    public String outputSimilarLgaTable(ArrayList<Deepdive> data) {
+        String html = "";
+        
+        html = html + "<table>"
+                    + "<tr>"
+                    +     "<th>Rank (most similar to least similar)</th>"
+                    +     "<th>Local Government Area</th>"
+                    +     "<th>Count of People Based on Filters</th>"
+                    + "</tr>";
+        
+        int rankingCount = 0;
+        for (Deepdive dataPoint : data) {
+            html = html + "<tr>"
+                        + "<td>" + rankingCount + "</td>"
+                        + "<td>" + dataPoint.getLga() + "</td>"
+                        + "<td>" + dataPoint.getCount() + "</td>"
+                        + "</tr>";
+            rankingCount++;
         }
 
         html = html + "</table>";
