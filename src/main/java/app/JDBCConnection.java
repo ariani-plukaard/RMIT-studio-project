@@ -363,62 +363,46 @@ public class JDBCConnection {
 
             String query = "";
 
-            if (population.equals("indig")){
-                if (granularity.equals("State or Territory")) {
+            if (granularity.equals("State or Territory")) {
                 // The Query - State
-                query = "SELECT l.state_abbr, topic." + categoryCol + ", CAST(SUM(topic.count)/811896.0 AS DECIMAL(12, 9))*100 AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
-                    + "JOIN LGA l ON topic.lga_code=l.code "
-                    + "AND topic.lga_year = l.year) "
-                    + "JOIN (SELECT li.state_abbr, CAST(SUM(topic_i.count)/811896.0 AS DECIMAL(12, 9))*100 AS totalToSort FROM " + topic + " topic_i "
-                    +     "JOIN LGA li ON topic_i.lga_code=li.code AND topic_i.lga_year = li.year "
-                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    +     "GROUP BY li.state_abbr) AS topic2 "
-                    + "ON l.state_abbr = topic2.state_abbr "
-                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
-                    + "GROUP BY l.state_abbr, topic." + categoryCol + " "
-                    + "ORDER BY topic2.totalToSort " + sort + ";";
-                System.out.println(query);
-                } else {
-                // The Query - LGA
-                query = "SELECT l.name, topic." + categoryCol + ", CAST(SUM(topic.count)/811896.0 AS DECIMAL(10, 2))*100 AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
-                    + "JOIN LGA l ON topic.lga_code=l.code "
-                    + "AND topic.lga_year = l.year) "
-                    + "JOIN (SELECT topic_i.lga_code, CAST(SUM(topic_i.count)/811896.0 AS DECIMAL(12, 9)) AS totalToSort FROM " + topic + " topic_i "
-                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    +     "GROUP BY topic_i.lga_code) AS topic2 "
-                    + "ON l.code = topic2.lga_code "
-                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
-                    + "GROUP BY l.name, topic." + categoryCol + " "
-                    + "ORDER BY topic2.totalToSort " + sort + ";";
-                }
+                query = "SELECT a.state_abbr AS state_abbr, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS prop "
+                    + "FROM ( "
+                    + "SELECT lga.state_abbr, " + categoryCol + ", "
+                    + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END), 0) AS FLOAT) AS total "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.state_abbr, " + categoryCol + " ) "
+                    + "AS a "
+                    + "JOIN ( "
+                    + "SELECT lga.state_abbr, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.state_abbr ) "
+                    + "AS b "
+                    + "ON a.state_abbr = b.state_abbr "
+                    + "ORDER BY state_abbr " + sort + ";";
             } else {
-                if (granularity.equals("State or Territory")) {
-                // The Query - State
-                query = "SELECT l.state_abbr, topic." + categoryCol + ", CAST(SUM(topic.count)/23375619.0 AS DECIMAL(12, 9))*100 AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
-                    + "JOIN LGA l ON topic.lga_code=l.code "
-                    + "AND topic.lga_year = l.year) "
-                    + "JOIN (SELECT li.state_abbr, CAST(SUM(topic_i.count)/23375619.0 AS DECIMAL(12, 9))*100 AS totalToSort FROM " + topic + " topic_i "
-                    +     "JOIN LGA li ON topic_i.lga_code=li.code AND topic_i.lga_year = li.year "
-                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    +     "GROUP BY li.state_abbr) AS topic2 "
-                    + "ON l.state_abbr = topic2.state_abbr "
-                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
-                    + "GROUP BY l.state_abbr, topic." + categoryCol + " "
-                    + "ORDER BY topic2.totalToSort " + sort + ";";
-                System.out.println(query);
-                } else {
-                // The Query - LGA
-                query = "SELECT l.name, topic." + categoryCol + ", CAST(SUM(topic.count)/23375619.0 AS DECIMAL(10, 2))*100 AS raw_values, topic2.totalToSort FROM (" + topic + " topic "
-                    + "JOIN LGA l ON topic.lga_code=l.code "
-                    + "AND topic.lga_year = l.year) "
-                    + "JOIN (SELECT topic_i.lga_code, CAST(SUM(topic_i.count)/23375619.0 AS DECIMAL(12, 9)) AS totalToSort FROM " + topic + " topic_i "
-                    +     "WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    +     "GROUP BY topic_i.lga_code) AS topic2 "
-                    + "ON l.code = topic2.lga_code "
-                    + "WHERE topic.indigenous_status = '" + population + "' AND l.year = '2021' "
-                    + "GROUP BY l.name, topic." + categoryCol + " "
-                    + "ORDER BY topic2.totalToSort " + sort + ";";
-            }
+            // The Query - LGA
+            query = "SELECT a.name AS name, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS prop "
+                    + "FROM ( "
+                    + "SELECT lga.name, " + categoryCol + ", "
+                    + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END), 0) AS FLOAT) AS total "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.name, " + categoryCol + " ) "
+                    + "AS a "
+                    + "JOIN ( "
+                    + "SELECT lga.name, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.name ) "
+                    + "AS b "
+                    + "ON a.name = b.name "
+                    + "ORDER BY name " + sort + ";";
             }
             // Get Result
             ResultSet results = statement.executeQuery(query);
@@ -434,7 +418,7 @@ public class JDBCConnection {
                 // Lookup the columns we need
                 String location    = results.getString(locationColumn);
                 String category    = results.getString(categoryCol);
-                float propCount          = results.getInt("raw_values");
+                float propCount    = results.getInt("prop");
 
                 // Create a OverviewData Object
                 OverviewData dataPoint = new OverviewData(location, category, propCount);
@@ -1072,10 +1056,3 @@ public class JDBCConnection {
     }
 
 }
-
-// Select lga.name, Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65 then count else 0 end) as 'Number of people (2016)', 
-// abs(Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65then count else 0 end)-
-//     (Select Sum(Case when topic.lga_year = 2016 and topic.sex in ('m','f') and age_min>8 and age_max<65 and lga.name = 'Adelaide'
-//     then count else 0 end) From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name)
-// ) as abs 
-// From lga join population as topic on code = topic.lga_code and year=topic.lga_year group by lga.name order by abs asc limit 6;
