@@ -228,19 +228,33 @@ public class PageST2A implements Handler {
         
         int rankingCount = 0;
         String nextLocation = "";
-        for (OverviewData data : dataPoints) {
-            if (!data.getLocation().equals(nextLocation)) {
-                nextLocation = data.getLocation();
-                rankingCount++;
+        if (dataType.equals("Raw")) {
+            for (OverviewData data : dataPoints) {
+                if (!data.getLocation().equals(nextLocation)) {
+                    nextLocation = data.getLocation();
+                    rankingCount++;
+                }
+                html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>"
+                            + "<td>" + data.getLocation() + "</td>"
+                            + "<td>" + data.getCategory() + "</td>"
+                            + "<td>" + data.getCount() + "</td>"
+                            + "</tr>";
             }
-            html = html + "<tr>"
-                        + "<td>" + rankingCount + "</td>"
-                        + "<td>" + data.getLocation() + "</td>"
-                        + "<td>" + data.getCategory() + "</td>"
-                        + "<td>" + data.getCount() + "</td>"
-                        + "</tr>";
-        }
-
+        } else {
+            for (OverviewData data : dataPoints) {
+                if (!data.getLocation().equals(nextLocation)) {
+                    nextLocation = data.getLocation();
+                    rankingCount++;
+                }
+                html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>"
+                            + "<td>" + data.getLocation() + "</td>"
+                            + "<td>" + data.getCategory() + "</td>"
+                            + "<td>" + data.getPropCount() + "</td>"
+                            + "</tr>";
+            }
+        }    
         html = html + "</table>";
         return html;
 
