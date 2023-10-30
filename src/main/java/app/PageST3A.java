@@ -188,7 +188,7 @@ public class PageST3A implements Handler {
 
         int LGACountForComparison = LGANames.size();
         html = html + "   <div class='form-group LGA-filter'>";
-        html = html + "      <h3>No. of LGAs to view (including selected)</h3>";
+        html = html + "      <h3>No. of similar LGAs to view</h3>";
         html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
