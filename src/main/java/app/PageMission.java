@@ -76,13 +76,13 @@ public class PageMission implements Handler {
         // Add HTML for the page content
         html = html + """
             <h2>The Social Challenge</h2>
-            <p>In the lead-up to the Voice to Parliament Referendum, voters are keen to learn about the Gap between Indigenous and Non-Indigenous Australians. 
+            <p class='about-text'>In the lead-up to the Voice to Parliament Referendum, voters are keen to learn about the Gap between Indigenous and Non-Indigenous Australians. 
             This website aims to address this issue by presenting unbiased data from the last two Australian Censuses (2016 and 2021), 
             focusing on The Gap in key socioeconomic areas including health, education and population age. Depending on what you're looking for, 
             this website can give you an overall snapshot of the issue, a high level summary of data from the key topics or a deep dive into more detailed 
             and specific data.</p>
             <h2>How to Use this Site</h2>
-            <ul>
+            <ul class='about-text'>
                 <li>On landing page you can see an overview of the statistics covered on the site</li>
                 <li>From the landing page, navigate to the data overview page to view the data for 
                 individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</li>

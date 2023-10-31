@@ -245,6 +245,10 @@ img.top-image {
 .mission-info {
   font-size: 20px;
 }
+/* Mission statement paragraph */
+.about-text {
+  margin-bottom: 2rem;
+}
 /* Persona carousel cards */
 .persona-card {
   display: flex;
