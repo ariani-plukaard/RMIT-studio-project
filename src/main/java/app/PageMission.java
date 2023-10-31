@@ -71,7 +71,7 @@ public class PageMission implements Handler {
         """;
 
         // Add Div for page Content
-        html = html + "<div class='content'>";
+        html = html + "<div class='content mission-info'>";
 
         // Add HTML for the page content
         html = html + """
@@ -104,7 +104,7 @@ public class PageMission implements Handler {
                     <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     <button type="button" data-bs-target="#personasCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
                 </div>
-                <div class="carousel-inner">
+                <div class="carousel-inner d-flex align-items-center">
         """;
 
         // Get the personas and add them into the HTML for carousel
@@ -117,14 +117,18 @@ public class PageMission implements Handler {
             } else {
                 html = html + "<div class='carousel-item'>";
             }
-            html = html + "<img src='" + persona.getImageFilePath() + "' class='d-block mx-auto w-50 py-4' alt='" + persona.getName() + "'>"
-                        + "<div class='d-block pb-5 text-center'>"
-                        +     "<h5>" + persona.getName() + "</h5>"
-                        +     "<p><b>Attributes: </b>" + persona.getAttributes() + "</p>"
-                        +     "<p><b>Background: </b>" + persona.getBackground() + "</p>"
-                        +     "<p><b>Needs: </b>" + persona.getNeeds() + "</p>"
-                        +     "<p><b>Goals: </b>" + persona.getGoals() + "</p>"
-                        +     "<p><b>Skills & Experience: </b>" + persona.getSkillsExp() + "</p>"
+            html = html + "<div class='persona-card'>"
+                        +    "<div class='persona-image'>"
+                        +       "<img src='" + persona.getImageFilePath() + "' alt='" + persona.getName() + "'>"
+                        +       "<p>" + persona.getName() + "</p>"
+                        +    "</div>"
+                        +    "<div class='persona-text'>"
+                        +       "<p><b>Attributes: </b>" + persona.getAttributes() + "</p>"
+                        +       "<p><b>Background: </b>" + persona.getBackground() + "</p>"
+                        +       "<p><b>Needs: </b>" + persona.getNeeds() + "</p>"
+                        +       "<p><b>Goals: </b>" + persona.getGoals() + "</p>"
+                        +       "<p><b>Skills & Experience: </b>" + persona.getSkillsExp() + "</p>"
+                        +    "</div>"
                         + "</div>"
                     + "</div>";
         }

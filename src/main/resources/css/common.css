@@ -241,3 +241,33 @@ img.top-image {
 .carousel-item.active {
   visibility: initial;
 }
+/* Mission Statement font */
+.mission-info {
+  font-size: 20px;
+}
+/* Persona carousel cards */
+.persona-card {
+  display: flex;
+  padding: 10px 140px 40px 100px;
+}
+.persona-image{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.persona-image img {
+  width: 70%;
+}
+.persona-image p {
+  font-weight: bold;
+  font-size: 24;
+  padding-top: 5px;
+}
+.persona-text {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
