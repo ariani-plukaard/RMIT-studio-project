@@ -74,6 +74,7 @@ public class PageIndex implements Handler {
                 </div>
                 <div class='wrapperImg'>
                     <img src='vop.png' alt='vop' height='1200' width='672'>
+                    <div>Source: SBS News</div>
                 </div>
                 
             </div>

@@ -166,12 +166,21 @@ img.top-image {
 
 .wrapperImg {
   padding: 0px; 
+  position: relative;
   text-align: center; 
+  color: white;
+  font-size: x-small;
 }
 
 .wrapperImg img {
   max-width: 100%; 
   height: auto; 
+}
+
+.wrapperImg div {
+  position: absolute;
+  bottom: 3px;
+  right: 7px;
 }
 
 .content {
