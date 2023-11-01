@@ -133,19 +133,19 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Gender</h3>";
-        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male (M)</label><br>";
-        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female (F)</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
         html = html + "      <h3>Population Demographic</h3>";
         html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
         html = html + "      <label for='population1'>Indigenous</label><br>";
         html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
         html = html + "      <label for='population2'>Non Indigenous</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male (M)</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female (F)</label><br>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group' id='sort-gap'>";
@@ -206,35 +206,42 @@ public class PageST3A implements Handler {
         html = html + "<h2>SELECTED FILTERS: ";
         // topic - single selection
         String topic = context.formParam("topic");
-        if (topic != null) {
-            html = html + " | " + topic;
-        } else {
+        html = html + "Topic: Age";
+        if (topic == null) {
             topic = "Population"; //default
-            html = html + "Topic: " + topic + " <small>(default selection)</small>";
-        }
-        // gender - multiple selection
-        String gender1 = context.formParam("gender1"); 
-        String gender2 = context.formParam("gender2");
-        String gender = getGender(gender1, gender2);
-        if (gender1 != null || gender2 != null) {
-            html = html + " | " + gender;
-        } else {
-            html = html + " | " + gender + " <small>(default selection)</small>";
+            html = html + " <span class='not-bold'>(default selection)</span>";
         }
         // population demographic - multiple selection
-        String population1 = context.formParam("population1");
-        String population2 = context.formParam("population2");
-        String population = getPopulation(population1, population2);
-        if (population1 != null || population2 != null) {
-            html = html + " | " + population;
+        String indig = context.formParam("population1");
+        String nonIndig = context.formParam("population2");
+        String population = getPopulation(indig, nonIndig);
+        if (indig != null && nonIndig != null) {
+            html = html + " | Indigenous & Non-Indigenous";
+        } else if (indig != null) {
+            html = html + " | Indigenous";
+        } else if (nonIndig != null) {
+            html = html + " | Non-Indigenous";
         } else {
-            html = html + " | " + population + " <small>(default selection)</small>";
+            html = html + " | Indigenous & Non-Indigenous <span class='not-bold'>(default selection)</span>";
+        }
+        // gender - multiple selection
+        String male = context.formParam("gender1"); 
+        String female = context.formParam("gender2");
+        String gender = getGender(male, female);
+        if (male != null && female != null) {
+            html = html + " | Male & Female";
+        } else if (male != null) {
+            html = html + " | Male";
+        } else if (female != null) {
+            html = html + " | Female";
+        } else {
+            html = html + " | Male & Female <span class='not-bold'>(default selection)</span>";
         }
         // age range - min & max
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
         if (topic.equals("Population")) {
-            if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0 || maxAge.length() > minAge.length())) {
+            if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0 && maxAge.length() >= minAge.length())) {
                 html = html + " | Age " + minAge + " to " + maxAge;
             } else if (minAge != null && !minAge.isEmpty() && (maxAge == null || maxAge.isEmpty())){
                 maxAge = "200"; //default
@@ -245,7 +252,7 @@ public class PageST3A implements Handler {
             } else {
                 maxAge = "200"; //default
                 minAge = "0"; //default
-                html = html + " | Age " + minAge + " to " + maxAge + " years <small>(default selection)</small>";
+                html = html + " | Age " + minAge + " to " + maxAge + " years <span class='not-bold'>(default selection)</span>";
             }
         }
         // school year - min & max
@@ -263,7 +270,7 @@ public class PageST3A implements Handler {
             } else {
                 maxSchoolYear = "12"; //defaults
                 minSchoolYear = "8"; //defaults
-                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear + " <small>(default selection)</small>";
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear + " <span class='not-bold'>(default selection)</span>";
             }
         }
         // health - multiple selection
@@ -275,7 +282,7 @@ public class PageST3A implements Handler {
                 html = html + " | Categories: " + healthCategoriesString;
             } else {
                 healthCategoriesString = getCategories(healthConditions); //default - all
-                html = html + " | Categories: " + healthCategoriesString  + " <small>(default selection)</small>";
+                html = html + " | Categories: " + healthCategoriesString  + " <span class='not-bold'>(default selection)</span>";
             }
         }
         // non-school - multiple selection
@@ -287,7 +294,7 @@ public class PageST3A implements Handler {
                 html = html + " | Categories: " + nonSchoolCategoriesString;
             } else {
                 nonSchoolCategoriesString = getCategories(nonSchoolCategories); //default - all
-                html = html + " | Categories: " + nonSchoolCategoriesString + " <small>(default selection)</small>";
+                html = html + " | Categories: " + nonSchoolCategoriesString + " <span class='not-bold'>(default selection)</span>";
             }
         }
         // toggle LGA selection - single selection
@@ -306,7 +313,7 @@ public class PageST3A implements Handler {
             }
         } else if (toggleLGA != null) {
             censusYear = "2021"; // default
-            html = html + ": " + censusYear + " <small>(default selection)</small>";
+            html = html + ": " + censusYear + " <span class='not-bold'>(default selection)</span>";
         }
         // select LGA - single selection
         String selectedLGA = context.formParam("LGA_drop");
@@ -314,7 +321,7 @@ public class PageST3A implements Handler {
             html = html + ", " + selectedLGA;
         } else if (toggleLGA != null) {
             selectedLGA = "Melbourne"; //default
-            html = html + ": " + selectedLGA + " <small>(default selection)</small>";
+            html = html + ": " + selectedLGA + " <span class='not-bold'>(default selection)</span>";
         }
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
@@ -322,7 +329,7 @@ public class PageST3A implements Handler {
             html = html + ", view " + numberOfLGA + " similar LGAs";
         } else if (toggleLGA != null) {
             numberOfLGA = "5"; //default number of similar LGAs
-            html = html + ": " + numberOfLGA + " <small>(default selection)</small>";
+            html = html + ": " + numberOfLGA + " <span class='not-bold'>(default selection)</span>";
         }
         // sort Change in The Gap results - single selection
         String sort = context.formParam("sort");
@@ -330,7 +337,7 @@ public class PageST3A implements Handler {
             html = html + " | " + sort;
         } else if (toggleLGA == null) {
             sort = "DESC"; //default
-            html = html + " | " + sort + " <small>(default selection)</small>";
+            html = html + " | " + sort + " <span class='not-bold'>(default selection)</span>";
         }
 
         html = html + "</h2>";
