@@ -23,6 +23,8 @@
   
   .header h1 {
      font-size: 50px;
+     margin-top: 0px;
+     margin-bottom: 20px;
   }
   
   /* Make the logo have a rounded edge */
@@ -73,12 +75,23 @@
      padding: 14px 16px;
    }
 
+   .content h3 {
+    margin-bottom: 25px;
+  }
+
    /* Style filter box */
   .filter-box {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));;
   }
-
+  .filter-box h3 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .form-group {
+    padding-bottom: 15px;
+    padding-left: 10px;
+  }
   /* Style the filter button */
   .pink-button {
     color: white;
@@ -98,6 +111,9 @@
   /* Style table */
   table {
     width: 100%;
+  }
+  table th {
+    font-size: 18;
   }
   table td {
     text-align: center;

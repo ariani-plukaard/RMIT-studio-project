@@ -59,7 +59,7 @@ public class PageST3A implements Handler {
         // Add header content block
         html = html + """
             <div class='header'>
-                <h1>Change in The Gap from 2016 to 2021<br><i>OR</i> Comparison of Similar LGAs</h1>
+                <h1>Change in The Gap from 2016 to 2021<br>(<i>OR</i> Comparison of Similar LGAs)</h1>
             </div>
         """;
 
@@ -95,7 +95,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='minAge' name='minAge' placeholder='0' min='0' max='200'>";
         html = html + "      <label for='maxAge'>Max</label>";
         html = html + "      <input type='number' id='maxAge' name='maxAge' placeholder='65' min='0' max='200'>";
-        html = html + "      <p><small>(max should be greater than min)</small></p>";
+        html = html + "      <p><small>(max should be greater/equal to min)</small></p>";
         html = html + "   </div>";
 
         JDBCConnection jdbc = new JDBCConnection();
@@ -108,7 +108,7 @@ public class PageST3A implements Handler {
             html = html + "         <option>" + condition + "</option>";;
         }
         html = html + "      </select>";
-        html = html + "      <p><small>('Shift' select multiple)</small></p>";
+        html = html + "      <p><small>('command/ctrl + click' select multiple)</small></p>";
         html = html + "   </div>";
 
         html = html + "   <div id='school' class='form-group' hidden>";
@@ -117,7 +117,7 @@ public class PageST3A implements Handler {
         html = html + "      <input type='number' id='minYear' name='minYear' placeholder='8' min='0' max='12'>";
         html = html + "      <label for='maxYear'>Max</label>";
         html = html + "      <input type='number' id='maxYear' name='maxYear' placeholder='12' min='0' max='12'>";
-        html = html + "      <p><small>(max should be greater than min)</small></p>";
+        html = html + "      <p><small>(max should be greater/equal to min)</small></p>";
         html = html + "   </div>";
 
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
@@ -129,7 +129,7 @@ public class PageST3A implements Handler {
             html = html + "         <option>" + schoolLevel + "</option>";;
         }
         html = html + "      </select>";
-        html = html + "      <p><small>('Shift' select multiple)</small></p>";
+        html = html + "      <p><small>('command/ctrl + click' select multiple)</small></p>";
         html = html + "   </div>";
 
         html = html + "   <div class='form-group'>";
@@ -203,13 +203,13 @@ public class PageST3A implements Handler {
         /* Get the Form Data
          *  If part of the form is not filled in, then that part of the form will return null. We have included default values where applicable
         */
-        html = html + "<h2>SELECTED FILTERS: ";
+        html = html + "<h3>SELECTED FILTERS: ";
         // topic - single selection
         String topic = context.formParam("topic");
         html = html + "Topic: Age";
         if (topic == null) {
             topic = "Population"; //default
-            html = html + " <span class='not-bold'>(default selection)</span>";
+            html = html + " <span class='not-bold'>(default)</span>";
         }
         // population demographic - multiple selection
         String indig = context.formParam("population1");
@@ -222,7 +222,7 @@ public class PageST3A implements Handler {
         } else if (nonIndig != null) {
             html = html + " | Non-Indigenous";
         } else {
-            html = html + " | Indigenous & Non-Indigenous <span class='not-bold'>(default selection)</span>";
+            html = html + " | Indigenous & Non-Indigenous <span class='not-bold'>(default)</span>";
         }
         // gender - multiple selection
         String male = context.formParam("gender1"); 
@@ -235,7 +235,7 @@ public class PageST3A implements Handler {
         } else if (female != null) {
             html = html + " | Female";
         } else {
-            html = html + " | Male & Female <span class='not-bold'>(default selection)</span>";
+            html = html + " | Male & Female <span class='not-bold'>(default)</span>";
         }
         // age range - min & max
         String minAge = context.formParam("minAge");
@@ -252,7 +252,7 @@ public class PageST3A implements Handler {
             } else {
                 maxAge = "200"; //default
                 minAge = "0"; //default
-                html = html + " | Age " + minAge + " to " + maxAge + " years <span class='not-bold'>(default selection)</span>";
+                html = html + " | Age " + minAge + " to " + maxAge + " years <span class='not-bold'>(default)</span>";
             }
         }
         // school year - min & max
@@ -270,7 +270,7 @@ public class PageST3A implements Handler {
             } else {
                 maxSchoolYear = "12"; //defaults
                 minSchoolYear = "8"; //defaults
-                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear + " <span class='not-bold'>(default selection)</span>";
+                html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear + " <span class='not-bold'>(default)</span>";
             }
         }
         // health - multiple selection
@@ -282,7 +282,7 @@ public class PageST3A implements Handler {
                 html = html + " | Categories: " + healthCategoriesString;
             } else {
                 healthCategoriesString = getCategories(healthConditions); //default - all
-                html = html + " | Categories: " + healthCategoriesString  + " <span class='not-bold'>(default selection)</span>";
+                html = html + " | Categories: " + healthCategoriesString  + " <span class='not-bold'>(default)</span>";
             }
         }
         // non-school - multiple selection
@@ -294,7 +294,7 @@ public class PageST3A implements Handler {
                 html = html + " | Categories: " + nonSchoolCategoriesString;
             } else {
                 nonSchoolCategoriesString = getCategories(nonSchoolCategories); //default - all
-                html = html + " | Categories: " + nonSchoolCategoriesString + " <span class='not-bold'>(default selection)</span>";
+                html = html + " | Categories: " + nonSchoolCategoriesString + " <span class='not-bold'>(default)</span>";
             }
         }
         // toggle LGA selection - single selection
@@ -308,7 +308,7 @@ public class PageST3A implements Handler {
             html = html + ": " + selectedLGA;
         } else if (toggleLGA != null) {
             selectedLGA = "Melbourne"; //default
-            html = html + ": " + selectedLGA + " <span class='not-bold'>(default selection)</span>";
+            html = html + ": " + selectedLGA + " <span class='not-bold'>(default)</span>";
         }
         // select census year - single selection
         String censusYear = context.formParam("year");
@@ -321,7 +321,7 @@ public class PageST3A implements Handler {
             }
         } else if (toggleLGA != null) {
             censusYear = "2021"; // default
-            html = html + ", " + censusYear + " <span class='not-bold'>(default selection)</span>";
+            html = html + ", " + censusYear + " <span class='not-bold'>(default)</span>";
         }
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
@@ -329,18 +329,20 @@ public class PageST3A implements Handler {
             html = html + ", view " + numberOfLGA + " similar LGAs";
         } else if (toggleLGA != null) {
             numberOfLGA = "5"; //default number of similar LGAs
-            html = html + ", view " + numberOfLGA + " similar LGAs <span class='not-bold'>(default selection)</span>";
+            html = html + ", view " + numberOfLGA + " similar LGAs <span class='not-bold'>(default)</span>";
         }
         // sort Change in The Gap results - single selection
         String sort = context.formParam("sort");
-        if (sort != null && toggleLGA == null) {
-            html = html + " | Sort Change in Gap " + sort;
+        if (sort != null && sort.equals("ASC") && toggleLGA == null) {
+            html = html + " | Sort Change in Gap Ascending";
+        } else if (sort != null && sort.equals("DESC") && toggleLGA == null) {
+            html = html + " | Sort Change in Gap Descending";
         } else if (toggleLGA == null) {
             sort = "DESC"; //default
-            html = html + " | Sort Change in Gap " + sort + " <span class='not-bold'>(default selection)</span>";
+            html = html + " | Sort Change in Gap Descending <span class='not-bold'>(default)</span>";
         }
 
-        html = html + "</h2>";
+        html = html + "</h3>";
 
         // Call JDBC methods to get the data and use it to create tables based on filters
         if (toggleLGA == null) { 
@@ -566,13 +568,13 @@ public class PageST3A implements Handler {
         
         html = html + "<table class=\"myTable\">"
                     + "<tr>"
-                    +     "<th>Rank (by Change in The Gap)</th>"
+                    +     "<th>Rank <br><small>(by Change in The Gap)</small></th>"
                     +     "<th>Local Government Area</th>"
-                    +     "<th>2016 Count of People Based on Filters</th>"
-                    +     "<th>2021 Count of People Based on Filters</th>"
-                    +     "<th>The Gap 2016 (Non Indig minus Indig, based on filters)</th>"
-                    +     "<th>The Gap 2021 (Non Indig minus Indig, based on filters)</th>"
-                    +     "<th>Change in The Gap (2021 minus 2016)</th>"
+                    +     "<th>2016 Count of People</th>"
+                    +     "<th>2021 Count of People</th>"
+                    +     "<th>The Gap 2016 <br><small>(between Indig. & Non-Indig.)</small></th>"
+                    +     "<th>The Gap 2021 <br><small>(between Indig. & Non-Indig.)</small></th>"
+                    +     "<th>Change in The Gap <br><small>(from 2016 to 2021)</small></th>"
                     + "</tr>";
         
         int rankingCount = 0;
