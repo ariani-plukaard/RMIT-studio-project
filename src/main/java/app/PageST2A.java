@@ -172,6 +172,14 @@ public class PageST2A implements Handler {
         // Close Content div
         html = html + "</div>";
 
+        html = html + """
+            <div id="pagination">
+                <button id="prev">Previous</button>
+                <span id="page-num">Page 1</span>
+                <button id="next">Next</button>
+            </div>
+                """;
+
         // Footer
         html = html + """
             <div class='footer'>
@@ -197,6 +205,39 @@ public class PageST2A implements Handler {
             </div>
         """;
 
+        html = html + """
+            <script>
+                const itemsPerPage = 50;
+                let currentPage = 1;
+                
+                const table = document.getElementById('myTable');
+                const rows = table.getElementsByTagName('tr');
+                const totalPages = Math.ceil(rows.length / itemsPerPage);
+                
+                function showPage(page) {
+                    for (let i = 0; i < rows.length; i++) {
+                        rows[i].style.display = (i >= (page - 1) * itemsPerPage && i < page * itemsPerPage) ? '' : 'none';
+                    }
+                    document.getElementById('page-num').textContent = `Page ${page}`;
+                }
+                
+                showPage(currentPage);
+                
+                document.getElementById('next').addEventListener('click', () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        showPage(currentPage);
+                    }
+                });
+                
+                document.getElementById('prev').addEventListener('click', () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showPage(currentPage);
+                    }
+                })
+            </script>
+                """;
         // Finish the HTML webpage
         html = html + "</body>" + "</html>";
         
@@ -218,7 +259,7 @@ public class PageST2A implements Handler {
             dataPoints = jdbc.getPropData2021(granularity, population, topic, sort);
         }
         
-        html = html + "<table>"
+        html = html + "<table id=\"myTable\">"
                     + "<tr>"
                     +     "<th>Rank: " + rankingMethod(topic) + "</th>"
                     +     "<th>" + granularity + "</th>"
