@@ -112,8 +112,15 @@
   table {
     width: 100%;
   }
+  table, th, td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 6px;
+  }
   table th {
     font-size: 18;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   table td {
     text-align: center;

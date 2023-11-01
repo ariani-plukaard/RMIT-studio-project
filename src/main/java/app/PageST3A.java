@@ -606,13 +606,10 @@ public class PageST3A implements Handler {
         
         html = html + "<table class=\"myTable\">"
                     + "<tr>"
-                    +     "<th>Rank (by the 2021 Gap)</th>"
+                    +     "<th>Rank <br><span class='table-description'>(by the 2021 Gap)</span'></th>"
                     +     "<th>Local Government Area</th>"
-                    +     "<th>2016 Count of People</th>"
-                    +     "<th>2021 Count of People Based on Filters</th>"
-                    +     "<th>The Gap 2016</th>"
-                    +     "<th>The Gap 2021 (Indig minus Non Indig, based on filters)</th>"
-                    +     "<th>Change in The Gap (2021 minus 2016)</th>"
+                    +     "<th>2021 Count of People</th>"
+                    +     "<th>The Gap 2021 <br><span class='table-description'>(between Indigenous & Non-Indigenous)</span'></th>"
                     + "</tr>";
         
         int rankingCount = 0;
@@ -621,11 +618,8 @@ public class PageST3A implements Handler {
             html = html + "<tr>"
                         + "<td>" + rankingCount + "</td>"
                         + "<td>" + dataPoint.getLga() + "</td>"
-                        + "<td>No 2016 Data</td>"
                         + "<td>" + dataPoint.getCount2021() + "</td>"
-                        + "<td>No 2016 Data</td>"
                         + "<td>" + dataPoint.getGap2021() + "</td>"
-                        + "<td>N/A</td>"
                         + "</tr>";
         }
 
