@@ -127,27 +127,27 @@ public class PageST2A implements Handler {
         /* Get the Form Data from the radio checklist selections
          *  If the form is not filled in, then the form will return null, so we have included default values and made that clear.
         */
-        html = html + "<h2>SELECTED FILTERS: ";
+        html = html + "<h3>SELECTED FILTERS: ";
         String granularity = context.formParam("granularity");
         if (granularity != null) {
             html = html + granularity;
         } else {
             granularity = "LGA";
-            html = html + granularity + " <small>(default selection)</small>";
+            html = html + granularity + " <span class='not-bold'>(default)</span>";
         }
         String dataType = context.formParam("dataType");
         if (dataType != null) {
             html = html + " | " + dataType;
         } else {
             dataType = "Raw";
-            html = html + " | " + dataType + " <small>(default selection)</small>";
+            html = html + " | " + dataType + " <span class='not-bold'>(default)</span>";
         }
         String population = context.formParam("population");
         if (population != null) {
             html = html + " | " + population;
         } else {
             population = "Indig";
-            html = html + " | " + population + " <small>(default selection)</small>";
+            html = html + " | " + population + " <span class='not-bold'>(default)</span>";
         }
         population = population.toLowerCase();
         String topic = context.formParam("topic");
@@ -155,16 +155,16 @@ public class PageST2A implements Handler {
             html = html + " | " + topic;
         } else {
             topic = "Population";
-            html = html + " | " + topic + " <small>(default selection)</small>";
+            html = html + " | " + topic + " <span class='not-bold'>(default)</span>";
         }
         String sort = context.formParam("sort");
         if (sort != null) {
             html = html + " | " + sort;
         } else {
             sort = "ASC";
-            html = html + " | " + sort + " <small>(default selection)</small>";
+            html = html + " | " + sort + " <span class='not-bold'>(default)</span>";
         }
-        html = html + "</h2>";
+        html = html + "</h3>";
 
         // Add table of data
         html = html + outputTable(granularity, dataType, population, topic, sort);
