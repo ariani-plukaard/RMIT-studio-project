@@ -568,13 +568,18 @@ public class PageST3A implements Handler {
         
         html = html + "<table class=\"myTable\">"
                     + "<tr>"
-                    +     "<th>Rank <br><small>(by Change in The Gap)</small></th>"
-                    +     "<th>Local Government Area</th>"
-                    +     "<th>2016 Count of People</th>"
-                    +     "<th>2021 Count of People</th>"
-                    +     "<th>The Gap 2016 <br><small>(between Indig. & Non-Indig.)</small></th>"
-                    +     "<th>The Gap 2021 <br><small>(between Indig. & Non-Indig.)</small></th>"
-                    +     "<th>Change in The Gap <br><small>(from 2016 to 2021)</small></th>"
+                    +     "<th colspan='2'>LOCAL GOVERNMENT AREA</th>"
+                    +     "<th colspan='2'>COUNT OF PEOPLE</th>"
+                    +     "<th colspan='3'>THE GAP <span class='table-description'>(between Indigenous & Non-Indigenous)</span'></th>"
+                    + "</tr>"
+                    + "<tr>"
+                    +     "<th>Rank <span class='table-description'>(by Change in The Gap)</span'></th>"
+                    +     "<th>LGA Name</th>"
+                    +     "<th>2016</th>"
+                    +     "<th>2021</th>"
+                    +     "<th>2016</th>"
+                    +     "<th>2021</th>"
+                    +     "<th>Change Over Time</th>"
                     + "</tr>";
         
         int rankingCount = 0;

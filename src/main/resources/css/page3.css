@@ -120,6 +120,11 @@
     width: 14.28%;
   }
 
+  .table-description {
+    font-size: 14;
+    font-weight: normal;
+  }
+
   .lga-filter {
     background-color: #fedbeb;
   }
