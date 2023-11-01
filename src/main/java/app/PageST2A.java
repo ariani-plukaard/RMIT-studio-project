@@ -74,6 +74,12 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class = 'filter-box'>";
 
+        // JDBCConnection jdbc = new JDBCConnection();
+        // ArrayList<String> healthCategories = jdbc.getCategories("LTHC");
+        // ArrayList<String> schoolCategories = jdbc.getCategories("SchoolCompletion");
+        // ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
+        // ArrayList<String> ageCategories = jdbc.getCategories("Population");
+
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Granularity</h3>";
         html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
@@ -167,6 +173,16 @@ public class PageST2A implements Handler {
         html = html + "</h3>";
 
         // Add table of data
+        // int countCategories = 0;
+        // if (topic.equals("Population")) {
+        //     countCategories = ageCategories.size();
+        // } else if (topic.equals("LTHC")) {
+        //     countCategories = healthCategories.size();
+        // } else if (topic.equals("SchoolCompletion")) {
+        //     countCategories = schoolCategories.size();
+        // } else if (topic.equals("NonSchoolCompletion")) {
+        //     countCategories = nonSchoolCategories.size();
+        // }
         html = html + outputTable(granularity, dataType, population, topic, sort);
 
         // Close Content div
@@ -274,10 +290,13 @@ public class PageST2A implements Handler {
                 if (!data.getLocation().equals(nextLocation)) {
                     nextLocation = data.getLocation();
                     rankingCount++;
+                    html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>";
+                } else {
+                    html = html + "<tr>"
+                            + "<td> </td>";
                 }
-                html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>"
-                            + "<td>" + data.getLocation() + "</td>"
+                html = html + "<td>" + data.getLocation() + "</td>"
                             + "<td>" + data.getCategory() + "</td>"
                             + "<td>" + data.getCount() + "</td>"
                             + "</tr>";
@@ -287,10 +306,13 @@ public class PageST2A implements Handler {
                 if (!data.getLocation().equals(nextLocation)) {
                     nextLocation = data.getLocation();
                     rankingCount++;
+                    html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>";
+                } else {
+                    html = html + "<tr>"
+                            + "<td> </td>";
                 }
-                html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>"
-                            + "<td>" + data.getLocation() + "</td>"
+                html = html + "<td>" + data.getLocation() + "</td>"
                             + "<td>" + data.getCategory() + "</td>"
                             + "<td>" + data.getPropCount() + "</td>"
                             + "</tr>";
