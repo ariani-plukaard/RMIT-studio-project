@@ -69,19 +69,11 @@ public class PageST3A implements Handler {
         // Add HTML for the page content - Filters
         html = html + "<h2>FILTERS</h2>";
 
-        html = html + """
-            <div class='filter-heading'>
-                <h3><i>Key Filters</i></h3>
-                <h3><i>Category Filter for Selected Topic</i></h3>
-                <h3><i>Filters to get similar LGAs to a selected LGA (Optional)</i></h3>
-            </div>
-        """;
-
         html = html + "<form action='/data-deep-dive.html' method='post'>";
                         // Start filter box div
         html = html + "   <div class = 'filter-box'>";
 
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div onclick='showCategory()' class='form-group'>";
         html = html + "      <h3>Topic</h3>";
         html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
         html = html + "      <label for='topic1'>Age (Population)</label><br>";
@@ -93,15 +85,11 @@ public class PageST3A implements Handler {
         html = html + "      <label for='topic4'>Non-School Completion</label><br>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Gender</h3>";
-        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
-        html = html + "      <label for='gender1'>Male (M)</label><br>";
-        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
-        html = html + "      <label for='gender2'>Female (F)</label><br>";
+        html = html + "   <div id='category-placeholder'>";
+        html = html + "      <h3>Select Topic to View <br>Categories</h3>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div id='age-range' class='form-group' hidden>";
         html = html + "      <h3>Age Range</h3>";
         html = html + "      <label for='minAge'>Min</label>";
         html = html + "      <input type='number' id='minAge' name='minAge' placeholder='0' min='0' max='200'>";
@@ -113,48 +101,17 @@ public class PageST3A implements Handler {
         JDBCConnection jdbc = new JDBCConnection();
         ArrayList<String> healthConditions = jdbc.getCategories("LTHC");
         
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div id='health' class='form-group' hidden>";
         html = html + "      <label for='health_drop'><h3>Health Issue</h3></label>";
         html = html + "      <select id='health_drop' name='health_drop' multiple>";
         for (String condition: healthConditions) {
             html = html + "         <option>" + condition + "</option>";;
         }
         html = html + "      </select>";
+        html = html + "      <p><small>('Shift' select multiple)</small></p>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group LGA-filter'>";
-        html = html + "      <h3>Select Individual LGA<br>for Comparison</h3>";
-        html = html + "      <label class='toggle-box'>";
-        html = html + "         <input type='checkbox' id='SelectLGA' name='SelectLGA' value='SelectLGA'>";
-        html = html + "         <span class='toggle-slider'></span>";
-        html = html + "      </label>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group LGA-filter'>";
-        html = html + "      <h3>Select Census Year For LGA</h3>";
-        html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
-        html = html + "      <label for='year1'>2016</label><br>";
-        html = html + "      <input type='radio' id='year2' name='year' value='2021'>";
-        html = html + "      <label for='year2'>2021</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Population Demographic</h3>";
-        html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
-        html = html + "      <label for='population1'>Indigenous</label><br>";
-        html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
-        html = html + "      <label for='population2'>Non Indigenous</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
-        html = html + "      <h3>Sort (for Change in The Gap)</h3>";
-        html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
-        html = html + "      <label for='sort1'>Ascending</label><br>";
-        html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
-        html = html + "      <label for='sort2'>Descending</label><br>";
-        html = html + "   </div>";
-
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div id='school' class='form-group' hidden>";
         html = html + "      <h3>School Year</h3>";
         html = html + "      <label for='minYear'>Min</label>";
         html = html + "      <input type='number' id='minYear' name='minYear' placeholder='8' min='0' max='12'>";
@@ -165,18 +122,61 @@ public class PageST3A implements Handler {
 
         ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
         
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div id='non-school' lass='form-group' hidden>";
         html = html + "      <label for='nonSchool_drop'><h3>School Category</h3></label>";
         html = html + "      <select id='nonSchool_drop' name='nonSchool_drop' multiple>";
         for (String schoolLevel: nonSchoolCategories) {
             html = html + "         <option>" + schoolLevel + "</option>";;
         }
         html = html + "      </select>";
+        html = html + "      <p><small>('Shift' select multiple)</small></p>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Gender</h3>";
+        html = html + "      <input type='checkbox' id='gender1' name='gender1' value='m'>";
+        html = html + "      <label for='gender1'>Male (M)</label><br>";
+        html = html + "      <input type='checkbox' id='gender2' name='gender2' value='f'>";
+        html = html + "      <label for='gender2'>Female (F)</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group'>";
+        html = html + "      <h3>Population Demographic</h3>";
+        html = html + "      <input type='checkbox' id='population1' name='population1' value='indig'>";
+        html = html + "      <label for='population1'>Indigenous</label><br>";
+        html = html + "      <input type='checkbox' id='population2' name='population2' value='non_indig'>";
+        html = html + "      <label for='population2'>Non Indigenous</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group' id='sort-gap'>";
+        html = html + "      <h3>Sort Change in Gap</h3>";
+        html = html + "      <input type='radio' id='sort1' name='sort' value='ASC'>";
+        html = html + "      <label for='sort1'>Ascending</label><br>";
+        html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
+        html = html + "      <label for='sort2'>Descending</label><br>";
+        html = html + "   </div>";
+
+        html = html + "   <div id='sort-placeholder' hidden></div>";
+
+        html = html + "   <div class='form-group LGA-filter'>";
+        html = html + "      <h3>Select Individual LGA for Comparison</h3>";
+        html = html + "      <label class='toggle-box'>";
+        html = html + "         <input type='checkbox' id='SelectLGA' name='SelectLGA' value='SelectLGA'>";
+        html = html + "         <span class='toggle-slider'></span>";
+        html = html + "      </label>";
+        html = html + "   </div>";
+
+        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
+        html = html + "      <h3>Select Census Year For LGA</h3>";
+        html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
+        html = html + "      <label for='year1'>2016</label><br>";
+        html = html + "      <input type='radio' id='year2' name='year' value='2021'>";
+        html = html + "      <label for='year2'>2021</label><br>";
         html = html + "   </div>";
 
         ArrayList<String> LGANames = jdbc.getLGANames();
         
-        html = html + "   <div class='form-group LGA-filter'>";
+        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
         html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
         html = html + "      <select id='LGA_drop' name='LGA_drop'>";
         html = html + "      <option value='' disabled selected>Select...</option>";
@@ -187,8 +187,8 @@ public class PageST3A implements Handler {
         html = html + "   </div>";
 
         int LGACountForComparison = LGANames.size();
-        html = html + "   <div class='form-group LGA-filter'>";
-        html = html + "      <h3>No. of similar LGAs to view</h3>";
+        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
+        html = html + "      <h3>No. of Similar LGAs to View</h3>";
         html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
         html = html + "   </div>";
@@ -395,6 +395,70 @@ public class PageST3A implements Handler {
                     </ul>
                 </div>     
             </div>
+        """;
+
+        // Add javascript script
+        html = html + """
+            <script>
+                let selectLGA = document.getElementById('SelectLGA');
+                let filtersForLGA = document.getElementsByClassName('LGA-optional');
+                let sortGap = document.getElementById('sort-gap');
+                let noSort = document.getElementById('sort-placeholder');
+                selectLGA.addEventListener( 'change', () => {
+                    if ( selectLGA.checked ) {
+                        for (let i = 0; i < filtersForLGA.length; i++) {
+                            filtersForLGA[i].hidden = false;
+                            sortGap.hidden = true;
+                            noSort.hidden = false;
+                        }
+                        
+                    } else {
+                        for (let i = 0; i < filtersForLGA.length; i++) {
+                            filtersForLGA[i].hidden = true;
+                            sortGap.hidden = false;
+                            noSort.hidden = true;
+                        }
+                        
+                    }
+                });
+                function showCategory() {
+                    let topicOptions = document.querySelector('input[name="topic"]:checked');
+                    let selectedTopic = '';
+                    if (topicOptions) {
+                        selectedTopic = topicOptions.value;
+                    }
+                    let ageCategories = document.getElementById('age-range');
+                    let healthCategories = document.getElementById('health');
+                    let schoolCategories = document.getElementById('school');
+                    let categoriesNonSchool = document.getElementById('non-school');
+                    let noCategory = document.getElementById('category-placeholder');
+                    if ( selectedTopic.localeCompare('Population') == 0 ) {
+                        ageCategories.hidden = false;
+                        healthCategories.hidden = true;
+                        schoolCategories.hidden = true;
+                        categoriesNonSchool.hidden = true;
+                        noCategory.hidden = true;
+                    } else if ( selectedTopic.localeCompare('LTHC') == 0 ) {
+                        ageCategories.hidden = true;
+                        healthCategories.hidden = false;
+                        schoolCategories.hidden = true;
+                        categoriesNonSchool.hidden = true;
+                        noCategory.hidden = true;
+                    } else if ( selectedTopic.localeCompare('SchoolCompletion') == 0 ) {
+                        ageCategories.hidden = true;
+                        healthCategories.hidden = true;
+                        schoolCategories.hidden = false;
+                        categoriesNonSchool.hidden = true;
+                        noCategory.hidden = true;
+                    } else if ( selectedTopic.localeCompare('NonSchoolCompletion') == 0 ) {
+                        ageCategories.hidden = true;
+                        healthCategories.hidden = true;
+                        schoolCategories.hidden = true;
+                        categoriesNonSchool.hidden = false;
+                        noCategory.hidden = true;
+                    }
+                }
+            </script>
         """;
 
         // Finish the HTML webpage
