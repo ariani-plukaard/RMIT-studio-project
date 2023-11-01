@@ -379,6 +379,13 @@ public class PageST3A implements Handler {
         // Close Content div
         html = html + "</div>";
 
+        html = html + """
+            <div id="pagination">
+                <button id="prev">Previous</button>
+                <span id="page-num">Page 1</span>
+                <button id="next">Next</button>
+            </div>
+                """;
         // Footer
         html = html + """
             <div class='footer'>
@@ -463,8 +470,42 @@ public class PageST3A implements Handler {
                         schoolCategories.hidden = true;
                         categoriesNonSchool.hidden = false;
                         noCategory.hidden = true;
-                    }
+                    }x
                 }
+            </script>
+            <script>
+                const itemsPerPage = 50;
+                let currentPage = 1;
+
+                const tables = document.querySelectorAll('.myTable');
+
+                tables.forEach(table => {
+                    const rows = table.querySelectorAll('tr');
+                    const totalPages = Math.ceil(rows.length / itemsPerPage);
+
+                    function showPage(page) {
+                        for (let i = 0; i < rows.length; i++) {
+                            rows[i].style.display = (i >= (page - 1) * itemsPerPage && i < page * itemsPerPage) ? '' : 'none';
+                        }
+                        document.getElementById('page-num').textContent = `Page ${page}`;
+                    }
+
+                    showPage(currentPage);
+
+                    document.getElementById('next').addEventListener('click', () => {
+                        if (currentPage < totalPages) {
+                            currentPage++;
+                            showPage(currentPage);
+                        }
+                    });
+
+                    document.getElementById('prev').addEventListener('click', () => {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            showPage(currentPage);
+                        }
+                    });
+                });
             </script>
         """;
 
@@ -523,7 +564,7 @@ public class PageST3A implements Handler {
     public String outputGapTable(ArrayList<Deepdive> data) {
         String html = "";
         
-        html = html + "<table>"
+        html = html + "<table class=\"myTable\">"
                     + "<tr>"
                     +     "<th>Rank (by Change in The Gap)</th>"
                     +     "<th>Local Government Area</th>"
@@ -556,7 +597,7 @@ public class PageST3A implements Handler {
     public String output2021HealthGapTable(ArrayList<Deepdive> data) {
         String html = "";
         
-        html = html + "<table>"
+        html = html + "<table class=\"myTable\">"
                     + "<tr>"
                     +     "<th>Rank (by the 2021 Gap)</th>"
                     +     "<th>Local Government Area</th>"
@@ -589,7 +630,7 @@ public class PageST3A implements Handler {
     public String outputSimilarLgaTable(ArrayList<Deepdive> data) {
         String html = "";
         
-        html = html + "<table>"
+        html = html + "<table class=\"myTable\">"
                     + "<tr>"
                     +     "<th>Rank (most similar to least similar)</th>"
                     +     "<th>Local Government Area</th>"
