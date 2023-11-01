@@ -300,28 +300,28 @@ public class PageST3A implements Handler {
         // toggle LGA selection - single selection
         String toggleLGA = context.formParam("SelectLGA");
         if (toggleLGA != null) {
-            html = html + " | " + toggleLGA;
+            html = html + " | Select LGA";
+        }
+        // select LGA - single selection
+        String selectedLGA = context.formParam("LGA_drop");
+        if (selectedLGA != null) {
+            html = html + ": " + selectedLGA;
+        } else if (toggleLGA != null) {
+            selectedLGA = "Melbourne"; //default
+            html = html + ": " + selectedLGA + " <span class='not-bold'>(default selection)</span>";
         }
         // select census year - single selection
         String censusYear = context.formParam("year");
         if (censusYear != null) {
             if (censusYear.equals("2016") && topic.equals("LTHC")) { 
                 censusYear = "2021"; // no 2016 values for LTHC
-                html = html + ": " + censusYear + " <small>(no 2016 data for LTHC)</small>";
+                html = html + ", " + censusYear + " <small>(no 2016 data for LTHC)</small>";
             } else {
-                html = html + ": " + censusYear;
+                html = html + ", " + censusYear;
             }
         } else if (toggleLGA != null) {
             censusYear = "2021"; // default
-            html = html + ": " + censusYear + " <span class='not-bold'>(default selection)</span>";
-        }
-        // select LGA - single selection
-        String selectedLGA = context.formParam("LGA_drop");
-        if (selectedLGA != null) {
-            html = html + ", " + selectedLGA;
-        } else if (toggleLGA != null) {
-            selectedLGA = "Melbourne"; //default
-            html = html + ": " + selectedLGA + " <span class='not-bold'>(default selection)</span>";
+            html = html + ", " + censusYear + " <span class='not-bold'>(default selection)</span>";
         }
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
@@ -329,15 +329,15 @@ public class PageST3A implements Handler {
             html = html + ", view " + numberOfLGA + " similar LGAs";
         } else if (toggleLGA != null) {
             numberOfLGA = "5"; //default number of similar LGAs
-            html = html + ": " + numberOfLGA + " <span class='not-bold'>(default selection)</span>";
+            html = html + ", view " + numberOfLGA + " similar LGAs <span class='not-bold'>(default selection)</span>";
         }
         // sort Change in The Gap results - single selection
         String sort = context.formParam("sort");
         if (sort != null && toggleLGA == null) {
-            html = html + " | " + sort;
+            html = html + " | Sort Change in Gap " + sort;
         } else if (toggleLGA == null) {
             sort = "DESC"; //default
-            html = html + " | " + sort + " <span class='not-bold'>(default selection)</span>";
+            html = html + " | Sort Change in Gap " + sort + " <span class='not-bold'>(default selection)</span>";
         }
 
         html = html + "</h2>";
