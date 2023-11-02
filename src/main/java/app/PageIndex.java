@@ -339,12 +339,11 @@ public class PageIndex implements Handler {
                 <div>
                     <ul>
                         <li><a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a></li>
-                        <li><a href='/'>FAQ</a></li>
+                        <li><a href='mission.html'>FAQ</a></li>
                     </ul>
                 </div>     
             </div>
         """;
-        //TO DO: create FAQ
 
         // Add Bootstrap JavaScript bundle and finish the HTML webpage
         html = html + "<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous'></script>";

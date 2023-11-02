@@ -74,6 +74,12 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class = 'filter-box'>";
 
+        // JDBCConnection jdbc = new JDBCConnection();
+        // ArrayList<String> healthCategories = jdbc.getCategories("LTHC");
+        // ArrayList<String> schoolCategories = jdbc.getCategories("SchoolCompletion");
+        // ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
+        // ArrayList<String> ageCategories = jdbc.getCategories("Population");
+
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Granularity</h3>";
         html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
@@ -127,27 +133,27 @@ public class PageST2A implements Handler {
         /* Get the Form Data from the radio checklist selections
          *  If the form is not filled in, then the form will return null, so we have included default values and made that clear.
         */
-        html = html + "<h2>SELECTED FILTERS: ";
+        html = html + "<h3>SELECTED FILTERS: ";
         String granularity = context.formParam("granularity");
         if (granularity != null) {
             html = html + granularity;
         } else {
             granularity = "LGA";
-            html = html + granularity + " <small>(default selection)</small>";
+            html = html + granularity + " <span class='not-bold'>(default)</span>";
         }
         String dataType = context.formParam("dataType");
         if (dataType != null) {
             html = html + " | " + dataType;
         } else {
             dataType = "Raw";
-            html = html + " | " + dataType + " <small>(default selection)</small>";
+            html = html + " | " + dataType + " <span class='not-bold'>(default)</span>";
         }
         String population = context.formParam("population");
         if (population != null) {
             html = html + " | " + population;
         } else {
             population = "Indig";
-            html = html + " | " + population + " <small>(default selection)</small>";
+            html = html + " | " + population + " <span class='not-bold'>(default)</span>";
         }
         population = population.toLowerCase();
         String topic = context.formParam("topic");
@@ -155,18 +161,28 @@ public class PageST2A implements Handler {
             html = html + " | " + topic;
         } else {
             topic = "Population";
-            html = html + " | " + topic + " <small>(default selection)</small>";
+            html = html + " | " + topic + " <span class='not-bold'>(default)</span>";
         }
         String sort = context.formParam("sort");
         if (sort != null) {
             html = html + " | " + sort;
         } else {
             sort = "ASC";
-            html = html + " | " + sort + " <small>(default selection)</small>";
+            html = html + " | " + sort + " <span class='not-bold'>(default)</span>";
         }
-        html = html + "</h2>";
+        html = html + "</h3>";
 
         // Add table of data
+        // int countCategories = 0;
+        // if (topic.equals("Population")) {
+        //     countCategories = ageCategories.size();
+        // } else if (topic.equals("LTHC")) {
+        //     countCategories = healthCategories.size();
+        // } else if (topic.equals("SchoolCompletion")) {
+        //     countCategories = schoolCategories.size();
+        // } else if (topic.equals("NonSchoolCompletion")) {
+        //     countCategories = nonSchoolCategories.size();
+        // }
         html = html + outputTable(granularity, dataType, population, topic, sort);
 
         // Close Content div
@@ -203,7 +219,7 @@ public class PageST2A implements Handler {
                 <div>
                     <ul>
                         <li><a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a></li>
-                        <li><a href='/'>FAQ</a></li>
+                        <li><a href='mission.html'>FAQ</a></li>
                     </ul>
                 </div>     
             </div>
@@ -278,10 +294,13 @@ public class PageST2A implements Handler {
                 if (!data.getLocation().equals(nextLocation)) {
                     nextLocation = data.getLocation();
                     rankingCount++;
+                    html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>";
+                } else {
+                    html = html + "<tr>"
+                            + "<td> </td>";
                 }
-                html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>"
-                            + "<td>" + data.getLocation() + "</td>"
+                html = html + "<td>" + data.getLocation() + "</td>"
                             + "<td>" + data.getCategory() + "</td>"
                             + "<td>" + data.getCount() + "</td>"
                             + "</tr>";
@@ -291,10 +310,13 @@ public class PageST2A implements Handler {
                 if (!data.getLocation().equals(nextLocation)) {
                     nextLocation = data.getLocation();
                     rankingCount++;
+                    html = html + "<tr>"
+                            + "<td>" + rankingCount + "</td>";
+                } else {
+                    html = html + "<tr>"
+                            + "<td> </td>";
                 }
-                html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>"
-                            + "<td>" + data.getLocation() + "</td>"
+                html = html + "<td>" + data.getLocation() + "</td>"
                             + "<td>" + data.getCategory() + "</td>"
                             + "<td>" + data.getPropCount() + "</td>"
                             + "</tr>";
