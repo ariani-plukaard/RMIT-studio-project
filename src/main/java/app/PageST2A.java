@@ -127,8 +127,9 @@ public class PageST2A implements Handler {
         html = html + "   <div id='age-range' class='form-group' hidden>";
         html = html + "      <label for='age_drop'><h3>Sort by an Age Range</h3></label>";
         html = html + "      <select id='age_drop' name='age_drop'>";
+        html = html + "         <option>All Ages</option>";
         for (String age: ageCategories) {
-            html = html + "         <option>" + age + "</option>";;
+            html = html + "         <option>" + age + "</option>";
         }
         html = html + "      </select>";
         html = html + "   </div>";
@@ -136,8 +137,9 @@ public class PageST2A implements Handler {
         html = html + "   <div id='health' class='form-group' hidden>";
         html = html + "      <label for='health_drop'><h3>Sort by a Health Issue</h3></label>";
         html = html + "      <select id='health_drop' name='health_drop'>";
+        html = html + "         <option>all health issues</option>";
         for (String condition: healthCategories) {
-            html = html + "         <option>" + condition + "</option>";;
+            html = html + "         <option>" + condition + "</option>";
         }
         html = html + "      </select>";
         html = html + "   </div>";
@@ -145,17 +147,19 @@ public class PageST2A implements Handler {
         html = html + "   <div id='school' lass='form-group' hidden>";
         html = html + "      <label for='school_drop'><h3>Sort by a School Year</h3></label>";
         html = html + "      <select id='school_drop' name='school_drop'>";
+        html = html + "         <option>Attended school - any year of completion</option>";
         for (String schoolYear: schoolCategories) {
-            html = html + "         <option>" + schoolYear + "</option>";;
+            html = html + "         <option>" + schoolYear + "</option>";
         }
         html = html + "      </select>";
         html = html + "   </div>";
         
         html = html + "   <div id='non-school' lass='form-group' hidden>";
-        html = html + "      <label for='nonSchool_drop'><h3>Sort by a School Category</h3></label>";
+        html = html + "      <label for='nonSchool_drop'><h3>Sort by a Non-School Category</h3></label>";
         html = html + "      <select id='nonSchool_drop' name='nonSchool_drop'>";
+        html = html + "         <option>All Non-School Levels</option>";
         for (String schoolLevel: nonSchoolCategories) {
-            html = html + "         <option>" + schoolLevel + "</option>";;
+            html = html + "         <option>" + schoolLevel + "</option>";
         }
         html = html + "      </select>";
         html = html + "   </div>";
@@ -199,27 +203,66 @@ public class PageST2A implements Handler {
             topic = "Population";
             html = html + " | " + topic + " <span class='not-bold'>(default)</span>";
         }
+        // age range to sort by
+        String ageCatToSort = context.formParam("age_drop");
+        if (topic.equals("Population")) {
+            if (ageCatToSort != null) {
+                html = html + " | Sorted by: " + ageCatToSort;
+            } else {
+                ageCatToSort = "All Ages"; //default - all
+                html = html + " | Sorted by: " + ageCatToSort  + " <span class='not-bold'>(default)</span>";
+            }
+        }
+        // health category to sort by
+        String healthCatToSort = context.formParam("health_drop");
+        if (topic.equals("LTHC")) {
+            if (healthCatToSort != null) {
+                html = html + " | Sorted by: " + healthCatToSort;
+            } else {
+                healthCatToSort = "all health issues"; //default - all
+                html = html + " | Sorted by: " + healthCatToSort  + " <span class='not-bold'>(default)</span>";
+            }
+        }
+        String schoolCatToSort = context.formParam("school_drop");
+        if (topic.equals("SchoolCompletion")) {
+            if (schoolCatToSort != null) {
+                html = html + " | Sorted by: " + schoolCatToSort;
+            } else {
+                schoolCatToSort = "Attended school - any year of completion"; //default - all
+                html = html + " | Sorted by: " + schoolCatToSort  + " <span class='not-bold'>(default)</span>";
+            }
+        }
+        // non-school category to sort by
+        String nonSchoolCatToSort = context.formParam("nonSchool_drop");
+        if (topic.equals("NonSchoolCompletion")) {
+            if (nonSchoolCatToSort != null) {
+                html = html + " | Sorted by: " + nonSchoolCatToSort;
+            } else {
+                nonSchoolCatToSort = "All Non-School Levels"; //default - all
+                html = html + " | Sorted by: " + nonSchoolCatToSort  + " <span class='not-bold'>(default)</span>";
+            }
+        }
         String sort = context.formParam("sort");
         if (sort != null) {
-            html = html + " | " + sort;
+            html = html + ", " + sort;
         } else {
             sort = "ASC";
-            html = html + " | " + sort + " <span class='not-bold'>(default)</span>";
+            html = html + ", " + sort + " <span class='not-bold'>(default)</span>";
         }
         html = html + "</h3>";
 
         // Add table of data
-        // int countCategories = 0;
-        // if (topic.equals("Population")) {
-        //     countCategories = ageCategories.size();
-        // } else if (topic.equals("LTHC")) {
-        //     countCategories = healthCategories.size();
-        // } else if (topic.equals("SchoolCompletion")) {
-        //     countCategories = schoolCategories.size();
-        // } else if (topic.equals("NonSchoolCompletion")) {
-        //     countCategories = nonSchoolCategories.size();
-        // }
-        html = html + outputTable(granularity, dataType, population, topic, sort);
+        String category = ""; //category to sort
+        if (topic.equals("Population")) {
+            category = ageCatToSort;
+        } else if (topic.equals("LTHC")) {
+            category = healthCatToSort;
+        } else if (topic.equals("SchoolCompletion")) {
+            category = schoolCatToSort;
+        } else if (topic.equals("NonSchoolCompletion")) {
+            category = nonSchoolCatToSort;
+        }
+        html = html + outputTable(granularity, dataType, population, topic, sort, category);
 
         // Close Content div
         html = html + "</div>";
@@ -337,16 +380,16 @@ public class PageST2A implements Handler {
         context.html(html);
     }
 
-    public String outputTable(String granularity, String dataType, String population, String topic, String sort) {
+    public String outputTable(String granularity, String dataType, String population, String topic, String sort, String category) {
         String html = "";
 
         // Look up data from JDBC
         JDBCConnection jdbc = new JDBCConnection();
         ArrayList<OverviewData> dataPoints;
         if (dataType.equals("Raw")) {
-            dataPoints = jdbc.getRawData2021(granularity, population, topic, sort);
+            dataPoints = jdbc.getRawData2021(granularity, population, topic, sort, category);
         } else {
-            dataPoints = jdbc.getPropData2021(granularity, population, topic, sort);
+            dataPoints = jdbc.getPropData2021(granularity, population, topic, sort, category);
         }
         
         html = html + "<table id=\"myTable\">"
