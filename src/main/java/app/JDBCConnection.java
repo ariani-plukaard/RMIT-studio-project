@@ -716,6 +716,49 @@ public class JDBCConnection {
         return totalPops;
     }
 
+    public int getTotalLga(String year) {
+        // Setup the variable for the JDBC connection
+        Connection connection = null;
+        int total = 0;
+        try {
+            // Connect to JDBC data base
+            connection = DriverManager.getConnection(DATABASE);
+
+            // Prepare a new SQL Query & Set a timeout
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+
+            // The Query
+            String query = "SELECT count(*) as total from LGA where year="+year+";";
+            
+            // Get Result
+            ResultSet results = statement.executeQuery(query);
+
+            // Process all of the results
+            while (results.next()) {
+                total     = results.getInt("total");
+            }
+
+            // Close the statement because we are done with it
+            statement.close();
+        } catch (SQLException e) {
+            // If there is an error, lets just pring the error
+            System.err.println(e.getMessage());
+        } finally {
+            // Safety code to cleanup
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e.getMessage());
+            }
+        }
+
+        return total;
+    }
+
     // Method to get the categories for each topic
     public ArrayList<String> getCategories(String topic) {
         // Create the ArrayList of Strings to return

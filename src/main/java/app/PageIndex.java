@@ -123,18 +123,19 @@ public class PageIndex implements Handler {
                     <ul>""";
                             
         for(totalPop totalState: totalStatePops){
-            html = html + "<li>"+totalState.getState()+":<span style='color:black'>"+decimalFormat.format(totalState.getTotal2021())+"</span></li>";                        
+            html = html + "<li>"+totalState.getState()+": <span style='color:black'>"+decimalFormat.format(totalState.getTotal2021())+"</span></li>";                        
         }
         html = html + """
                     </ul>
                     <p class='subheading'>Total Number of Local Government Areas (LGAs):</p>
                     <ul>
-                        <li>In 2016: <span style='color:black'>563</span></li>
-                        <li>In 2021: <span style='color:black'>565</span></li>
-                    </ul>     
-                </div>
-                <div>
+                        """;
+                            
 
+        html +=         "<li>In 2016: <span style='color:black'>"+jdbc.getTotalLga("2016")+"</span></li>";
+        html +=         "<li>In 2021: <span style='color:black'>"+jdbc.getTotalLga("2021")+"</span></li>";
+        html += """       
+                    </ul>     
                 </div>
             </div>
         """;
