@@ -131,3 +131,77 @@
    margin-top: 25px;
    align-items: center;
   }
+
+  #myTable {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #myTable td, #myTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #myTable tr:nth-child(even){
+    background-color: #eee8e8;
+  }
+  
+  #myTable tr:hover {
+    background-color: #ddd;
+  }
+
+  #myTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4a0323;
+    color: white;
+  }
+
+  #pagination {
+    margin-top: 18px;
+    display: flex;
+    justify-content: right;
+  }
+
+  #prev, #next {
+    padding: 14px 40px;
+    border-radius: 15px;
+    color: white;
+    background-color: #9a0045;
+    font-size: 15.897px;
+    text-transform: uppercase;
+  }
+
+  #prev:hover, #next:hover {
+    color: #ddd;
+    background-color: #cd2c74;
+  }
+
+  #page-num {
+    font-size: 15.897px;
+    padding: 14px 30px;
+  }
+  #deepDive {
+    display: flex;
+    justify-content: center;
+  }
+
+  #deepDive a{
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    margin-top: 45px;
+    margin-bottom: 10px;
+    background-color: #da0063;
+    border-radius: 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 14px 400;
+  }  
+
+  #deepDive a:hover{
+    background-color: #e32f7f;
+    color: #ddd;
+  }  
