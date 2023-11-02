@@ -472,7 +472,7 @@ public class PageST3A implements Handler {
                         schoolCategories.hidden = true;
                         categoriesNonSchool.hidden = false;
                         noCategory.hidden = true;
-                    }x
+                    }
                 }
             </script>
             <script>
