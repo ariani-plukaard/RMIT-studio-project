@@ -123,7 +123,7 @@ public class PageIndex implements Handler {
                     <ul>""";
                             
         for(totalPop totalState: totalStatePops){
-            html = html + "<li>"+totalState.getState()+":<span style='color:black'>"+decimalFormat.format(totalState.getTotal2021())+"</span></li>";                        
+            html = html + "<li>"+totalState.getState()+": <span style='color:black'>"+decimalFormat.format(totalState.getTotal2021())+"</span></li>";                        
         }
         html = html + """
                     </ul>
