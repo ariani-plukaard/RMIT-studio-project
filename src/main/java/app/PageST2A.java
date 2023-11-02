@@ -230,7 +230,11 @@ public class PageST2A implements Handler {
                 <span id="page-num">Page 1</span>
                 <button id="next">Next</button>
             </div>
+            <div id='deepDive'>
+                <a href='data-deep-dive.html'>DATA DEEP DIVE (MORE FILTERS)</a>            
+            </div>
                 """;
+
 
         // Footer
         html = html + """

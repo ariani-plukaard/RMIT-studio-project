@@ -225,3 +225,54 @@ input:checked + .toggle-slider:before {
    margin-top: 25px;
    align-items: center;
   }
+
+  #pagination {
+    margin-top: 18px;
+    display: flex;
+    justify-content: right;
+  }
+
+  #prev, #next {
+    padding: 14px 40px;
+    border-radius: 15px;
+    color: white;
+    background-color: #9a0045;
+    font-size: 15.897px;
+    text-transform: uppercase;
+  }
+
+  #prev:hover, #next:hover {
+    color: #ddd;
+    background-color: #cd2c74;
+  }
+
+  #page-num {
+    font-size: 15.897px;
+    padding: 14px 30px;
+  }
+
+  .myTable {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .myTable td, .myTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .myTable tr:nth-child(even){
+    background-color: #eee8e8;
+  }
+  
+  .myTable tr:hover {
+    background-color: #ddd;
+  }
+
+  .myTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4a0323;
+    color: white;
+  }
