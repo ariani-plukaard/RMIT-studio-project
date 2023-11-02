@@ -476,7 +476,7 @@ public class PageST3A implements Handler {
                 }
             </script>
             <script>
-                const itemsPerPage = 50;
+                const itemsPerPage = 51;
                 let currentPage = 1;
 
                 const tables = document.querySelectorAll('.myTable');
@@ -486,7 +486,7 @@ public class PageST3A implements Handler {
                     const totalPages = Math.ceil(rows.length / itemsPerPage);
 
                     function showPage(page) {
-                        for (let i = 0; i < rows.length; i++) {
+                        for (let i = 1; i < rows.length; i++) {
                             rows[i].style.display = (i >= (page - 1) * itemsPerPage && i < page * itemsPerPage) ? '' : 'none';
                         }
                         document.getElementById('page-num').textContent = `Page ${page}`;
