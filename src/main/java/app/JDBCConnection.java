@@ -209,7 +209,7 @@ public class JDBCConnection {
     }
 
     // Method to get raw 2021 data from db (Level 2)
-    public ArrayList<OverviewData> getRawData2021(String granularity, String population, String topic, String sort) {
+    public ArrayList<OverviewData> getRawData2021(String granularity, String population, String topic, String sort, String categoryToSort) {
         // Create the ArrayList of OverviewData objects to return
         ArrayList<OverviewData> overviewDataPoints = new ArrayList<OverviewData>();
 
@@ -322,7 +322,7 @@ public class JDBCConnection {
     }
 
     // Method to get prop 2021 data from db (Level 2)
-    public ArrayList<OverviewData> getPropData2021(String granularity, String population, String topic, String sort) {
+    public ArrayList<OverviewData> getPropData2021(String granularity, String population, String topic, String sort, String categoryToSort) {
         // Create the ArrayList of OverviewData objects to return
         ArrayList<OverviewData> overviewDataPoints = new ArrayList<OverviewData>();
 
