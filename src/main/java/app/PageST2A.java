@@ -74,12 +74,6 @@ public class PageST2A implements Handler {
         
         html = html + "   <div class = 'filter-box'>";
 
-        // JDBCConnection jdbc = new JDBCConnection();
-        // ArrayList<String> healthCategories = jdbc.getCategories("LTHC");
-        // ArrayList<String> schoolCategories = jdbc.getCategories("SchoolCompletion");
-        // ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
-        // ArrayList<String> ageCategories = jdbc.getCategories("Population");
-
         html = html + "   <div class='form-group'>";
         html = html + "      <h3>Granularity</h3>";
         html = html + "      <input type='radio' id='granularity1' name='granularity' value='LGA'>";
@@ -104,7 +98,7 @@ public class PageST2A implements Handler {
         html = html + "      <label for='population2'>Non-Indigenous</label><br>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group'>";
+        html = html + "   <div onclick='showCategory()' class='form-group'>";
         html = html + "      <h3>Topic</h3>";
         html = html + "      <input type='radio' id='topic1' name='topic' value='Population'>";
         html = html + "      <label for='topic1'>Age (Population)</label><br>";
@@ -122,6 +116,48 @@ public class PageST2A implements Handler {
         html = html + "      <label for='sort1'>Ascending</label><br>";
         html = html + "      <input type='radio' id='sort2' name='sort' value='DESC'>";
         html = html + "      <label for='sort2'>Descending</label><br>";
+        html = html + "   </div>";
+
+        JDBCConnection jdbc = new JDBCConnection();
+        ArrayList<String> healthCategories = jdbc.getCategories("LTHC");
+        ArrayList<String> schoolCategories = jdbc.getCategories("SchoolCompletion");
+        ArrayList<String> nonSchoolCategories = jdbc.getCategories("NonSchoolCompletion");
+        ArrayList<String> ageCategories = jdbc.getCategories("Population");
+        
+        html = html + "   <div id='age-range' class='form-group' hidden>";
+        html = html + "      <label for='age_drop'><h3>Sort by an Age Range</h3></label>";
+        html = html + "      <select id='age_drop' name='age_drop'>";
+        for (String age: ageCategories) {
+            html = html + "         <option>" + age + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+        
+        html = html + "   <div id='health' class='form-group' hidden>";
+        html = html + "      <label for='health_drop'><h3>Sort by a Health Issue</h3></label>";
+        html = html + "      <select id='health_drop' name='health_drop'>";
+        for (String condition: healthCategories) {
+            html = html + "         <option>" + condition + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+
+        html = html + "   <div id='school' lass='form-group' hidden>";
+        html = html + "      <label for='school_drop'><h3>Sort by a School Year</h3></label>";
+        html = html + "      <select id='school_drop' name='school_drop'>";
+        for (String schoolYear: schoolCategories) {
+            html = html + "         <option>" + schoolYear + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+        
+        html = html + "   <div id='non-school' lass='form-group' hidden>";
+        html = html + "      <label for='nonSchool_drop'><h3>Sort by a School Category</h3></label>";
+        html = html + "      <select id='nonSchool_drop' name='nonSchool_drop'>";
+        for (String schoolLevel: nonSchoolCategories) {
+            html = html + "         <option>" + schoolLevel + "</option>";;
+        }
+        html = html + "      </select>";
         html = html + "   </div>";
 
         html = html + "   </div>";
@@ -222,6 +258,40 @@ public class PageST2A implements Handler {
         """;
 
         html = html + """
+                <script>
+                function showCategory() {
+                    let topicOptions = document.querySelector('input[name="topic"]:checked');
+                    let selectedTopic = '';
+                    if (topicOptions) {
+                        selectedTopic = topicOptions.value;
+                    }
+                    let ageCat = document.getElementById('age-range');
+                    let healthCat = document.getElementById('health');
+                    let schoolCat = document.getElementById('school');
+                    let nonSchoolCat = document.getElementById('non-school');
+                    if ( selectedTopic.localeCompare('Population') == 0 ) {
+                        ageCat.hidden = false;
+                        healthCat.hidden = true;
+                        schoolCat.hidden = true;
+                        nonSchoolCat.hidden = true;
+                    } else if ( selectedTopic.localeCompare('LTHC') == 0 ) {
+                        ageCat.hidden = true;
+                        healthCat.hidden = false;
+                        schoolCat.hidden = true;
+                        nonSchoolCat.hidden = true;
+                    } else if ( selectedTopic.localeCompare('SchoolCompletion') == 0 ) {
+                        ageCat.hidden = true;
+                        healthCat.hidden = true;
+                        schoolCat.hidden = false;
+                        nonSchoolCat.hidden = true;
+                    } else if ( selectedTopic.localeCompare('NonSchoolCompletion') == 0 ) {
+                        ageCat.hidden = true;
+                        healthCat.hidden = true;
+                        schoolCat.hidden = true;
+                        nonSchoolCat.hidden = false;
+                    }
+                }
+            </script>
             <script>
                 const itemsPerPage = 50;
                 let currentPage = 1;
