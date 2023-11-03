@@ -246,7 +246,7 @@ public class PageST2A implements Handler {
         if (sort != null) {
             html = html + ", " + sort;
         } else {
-            sort = "ASC";
+            sort = "DESC";
             html = html + ", " + sort + " <span class='not-bold'>(default)</span>";
         }
         html = html + "</h3>";
