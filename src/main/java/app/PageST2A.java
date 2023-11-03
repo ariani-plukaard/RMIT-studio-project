@@ -298,7 +298,7 @@ public class PageST2A implements Handler {
                 <div>
                     <ul>
                         <li><a href='https://www.abs.gov.au/census/find-census-data'>Data Sources</a></li>
-                        <li><a href='mission.html'>FAQ</a></li>
+                        <li><a href='/'>Home</a></li>
                     </ul>
                 </div>     
             </div>
