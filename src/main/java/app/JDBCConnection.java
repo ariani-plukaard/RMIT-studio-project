@@ -422,9 +422,9 @@ public class JDBCConnection {
                     + "GROUP BY lga.state_abbr ) "
                     + "AS b "
                     + "ON a.state_abbr = b.state_abbr "
-                    + "Join (SELECT lga.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i"
-                    + "Join lga on lga_code = code AND lga_year = year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    + "GROUP BY topic_i.lga_code) AS topic2 ON a.name = topic2.name"
+                    + "Join (SELECT lga.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i "
+                    + "Join lga on topic_i.lga_code = lga.code AND topic_i.lga_year = lga.year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    + "GROUP BY lga.state_abbr) AS topic2 ON a.state_abbr = topic2.state_abbr "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             } else {
             // The Query - LGA
@@ -445,11 +445,12 @@ public class JDBCConnection {
                     + "GROUP BY lga.name ) "
                     + "AS b "
                     + "ON a.name = b.name "
-                    + "Join (SELECT lga.name, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i"
-                    + "Join lga on lga_code = code AND lga_year = year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    + "GROUP BY topic_i.lga_code) AS topic2 ON a.name = topic2.name"
+                    + "Join (SELECT lga.name, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i "
+                    + "Join lga on topic_i.lga_code = lga.code AND topic_i.lga_year = lga_year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    + "GROUP BY lga.name) AS topic2 ON a.name = topic2.name "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             }
+            System.out.println(query);
             // Get Result
             ResultSet results = statement.executeQuery(query);
 
