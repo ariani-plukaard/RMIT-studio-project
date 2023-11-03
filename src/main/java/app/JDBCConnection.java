@@ -450,7 +450,7 @@ public class JDBCConnection {
                     + "GROUP BY lga.name) AS topic2 ON a.name = topic2.name "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             }
-            System.out.println(query);
+            // System.out.println(query);
             // Get Result
             ResultSet results = statement.executeQuery(query);
 
@@ -871,7 +871,7 @@ public class JDBCConnection {
     }
     
     // Method to get the LGA names
-    public ArrayList<String> getLGANames() {
+    public ArrayList<String> getLGANames(String year) {
         // Create the ArrayList of Strings to return
         ArrayList<String> LGANames = new ArrayList<String>();
 
@@ -887,7 +887,7 @@ public class JDBCConnection {
             statement.setQueryTimeout(30);
 
             // The Query 
-            String query = "SELECT DISTINCT name FROM LGA ORDER BY name;";
+            String query = "SELECT DISTINCT name FROM LGA WHERE year = '" + year + "' ORDER BY name;";
 
             // Get Result
             ResultSet results = statement.executeQuery(query);

@@ -166,7 +166,7 @@ public class PageST3A implements Handler {
         html = html + "      </label>";
         html = html + "   </div>";
 
-        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
+        html = html + "   <div onclick='showLGAs()' id='census-year' class='form-group LGA-filter LGA-optional' hidden>";
         html = html + "      <h3>Select Census Year For LGA</h3>";
         html = html + "      <input type='radio' id='year1' name='year' value='2016'>";
         html = html + "      <label for='year1'>2016</label><br>";
@@ -174,20 +174,33 @@ public class PageST3A implements Handler {
         html = html + "      <label for='year2'>2021</label><br>";
         html = html + "   </div>";
 
-        ArrayList<String> LGANames = jdbc.getLGANames();
+        ArrayList<String> LGANames2016 = jdbc.getLGANames("2016");
         
-        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
-        html = html + "      <label for='LGA_drop'><h3>Select LGA</h3></label>";
-        html = html + "      <select id='LGA_drop' name='LGA_drop'>";
+        html = html + "   <div id='LGA-2016' class='form-group LGA-filter LGA-optional' hidden>";
+        html = html + "      <label for='LGA2016_drop'><h3>Select 2016 LGA</h3></label>";
+        html = html + "      <select id='LGA2016_drop' name='LGA2016_drop'>";
         html = html + "      <option value='' disabled selected>Select...</option>";
-        for (String LGA: LGANames) {
+        for (String LGA: LGANames2016) {
             html = html + "         <option>" + LGA + "</option>";;
         }
         html = html + "      </select>";
         html = html + "   </div>";
 
-        int LGACountForComparison = LGANames.size();
-        html = html + "   <div class='form-group LGA-filter LGA-optional' hidden>";
+        ArrayList<String> LGANames2021 = jdbc.getLGANames("2021");
+        
+        html = html + "   <div id='LGA-2021' class='form-group LGA-filter LGA-optional' hidden>";
+        html = html + "      <label for='LGA2021_drop'><h3>Select 2021 LGA</h3></label>";
+        html = html + "      <select id='LGA2021_drop' name='LGA2021_drop'>";
+        html = html + "      <option value='' disabled selected>Select...</option>";
+        for (String LGA: LGANames2021) {
+            html = html + "         <option>" + LGA + "</option>";;
+        }
+        html = html + "      </select>";
+        html = html + "   </div>";
+
+        int LGACountForComparison;
+        LGACountForComparison = LGANames2021.size();
+        html = html + "   <div id='num-LGA' class='form-group LGA-filter LGA-optional' hidden>";
         html = html + "      <h3>No. of Similar LGAs to View</h3>";
         html = html + "      <label for='NumLGA'>Input number:</label>";
         html = html + "      <input type='number' id='NumLGA' name='NumLGA' placeholder='5' min='1' max='" + LGACountForComparison + "'>";
@@ -420,23 +433,41 @@ public class PageST3A implements Handler {
                 let filtersForLGA = document.getElementsByClassName('LGA-optional');
                 let sortGap = document.getElementById('sort-gap');
                 let noSort = document.getElementById('sort-placeholder');
+                let LGAYearDiv = document.getElementById('census-year');
                 selectLGA.addEventListener( 'change', () => {
                     if ( selectLGA.checked ) {
-                        for (let i = 0; i < filtersForLGA.length; i++) {
-                            filtersForLGA[i].hidden = false;
-                            sortGap.hidden = true;
-                            noSort.hidden = false;
-                        }
-                        
+                        LGAYearDiv.hidden = false;
+                        showLGAs();
+                        sortGap.hidden = true;
+                        noSort.hidden = false;
                     } else {
                         for (let i = 0; i < filtersForLGA.length; i++) {
                             filtersForLGA[i].hidden = true;
-                            sortGap.hidden = false;
-                            noSort.hidden = true;
                         }
-                        
+                        sortGap.hidden = false;
+                        noSort.hidden = true;
                     }
                 });
+                function showLGAs() {
+                    let LGAYear = document.querySelector('input[name="year"]:checked');
+                    let selectedYear = '';
+                    if (LGAYear) {
+                        selectedYear = LGAYear.value; 
+                    }
+                    let LGA2016 = document.getElementById('LGA-2016');
+                    let LGA2021 = document.getElementById('LGA-2021');
+                    let numLGAs = document.getElementById('num-LGA');
+                    if ( selectedYear.localeCompare('2016') == 0 ) {
+                        LGA2021.hidden = true;
+                        LGA2016.hidden = false;
+                        numLGAs.hidden = false;
+
+                    } else if ( selectedYear.localeCompare('2021') == 0 ) {
+                        LGA2016.hidden = true;
+                        LGA2021.hidden = false;
+                        numLGAs.hidden = false;
+                    }
+                }
                 function showCategory() {
                     let topicOptions = document.querySelector('input[name="topic"]:checked');
                     let selectedTopic = '';
