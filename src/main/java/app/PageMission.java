@@ -78,7 +78,7 @@ public class PageMission implements Handler {
             <h2>The Social Challenge</h2>
             <p>In the wake of the Voice to Parliament Referendum, Australians are keen to learn about the Gap between Indigenous and Non-Indigenous Australians. 
             This website aims to address this issue by presenting unbiased data from the last two Australian Censuses (2016 and 2021), 
-            focusing on The Gap in key socioeconomic areasn. Depending on what you're looking for, 
+            focusing on The Gap in key socioeconomic areas. Depending on what you're looking for, 
             this website can give you an overall snapshot of the issue, a high level summary of data from the key topics or a deep dive into more detailed 
             and specific data.</p>
             <p>The <b>key topics</b> covered by this website include:</p>
