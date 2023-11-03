@@ -606,6 +606,9 @@ public class PageST3A implements Handler {
         
         html = html + "<table class=\"myTable\">"
                     + "<tr>"
+                    +     "<th colspan='4'>Long Term Health Conditions (only 2021 data available)</th>"
+                    + "</tr>"
+                    + "<tr>"
                     +     "<th>Rank <br><span class='table-description'>(by the 2021 Gap)</span'></th>"
                     +     "<th>Local Government Area</th>"
                     +     "<th>2021 Count of People</th>"
