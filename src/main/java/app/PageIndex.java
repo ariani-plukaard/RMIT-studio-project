@@ -177,10 +177,10 @@ public class PageIndex implements Handler {
                     condition = condition.replace("disease", "");
                     condition = condition.replace("condition", "");
                     condition = condition.replace("health", "");
-                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
+                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021()) + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021()) + "]";
                 }
                 else{
-                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
+                    html = html + "['" + condition + "', " + ((float)LTHC.get(i).getIndigCount()/totalPops.get(0).getTotal2021()) + ", " + ((float)LTHC.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021()) + "]";
                 }
                 
                 if (i < LTHC.size() - 1) {
@@ -199,7 +199,10 @@ public class PageIndex implements Handler {
                                   },
                                 chartArea: {
                                     backgroundColor: '#f0f0f0'
-                                  }  
+                                  },
+                                vAxis: {
+                                    format: 'percent'
+                                }
                                 };
                         
                                 var chart = new google.charts.Bar(document.getElementById('columnchart_material1'));
@@ -226,10 +229,10 @@ public class PageIndex implements Handler {
             for (int i = 0; i < nonSchoolCompletion.size(); ++i) {
                 String education = nonSchoolCompletion.get(i).getEducation();
                 if (education.contains("Postgrad")){
-                    html = html + "['pd, gd & gc', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
+                    html = html + "['pd, gd & gc', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021()) + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021()) + "]";
                 }
                 else {
-                    html = html + "['" + education + "', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
+                    html = html + "['" + education + "', " + ((float)nonSchoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021()) + ", " + ((float)nonSchoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021()) + "]";
                 }
                 
             
@@ -251,7 +254,10 @@ public class PageIndex implements Handler {
                                   },
                                 chartArea: {
                                     backgroundColor: '#f0f0f0'
-                                  }  
+                                    },
+                                vAxis: {
+                                    format: 'percent'
+                                }  
                                 };
                         
                                 var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
@@ -276,7 +282,7 @@ public class PageIndex implements Handler {
                                 ['School Year', 'Indigenous', 'Non-Indigenous'],
                                 """;
             for (int i = 0; i < schoolCompletion.size(); ++i) {
-                html = html + "['" + schoolCompletion.get(i).getSchoolYear() + "', " + ((float)schoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021())*100 + ", " + ((float)schoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021())*100 + "]";
+                html = html + "['" + schoolCompletion.get(i).getSchoolYear() + "', " + ((float)schoolCompletion.get(i).getIndigCount()/totalPops.get(0).getTotal2021()) + ", " + ((float)schoolCompletion.get(i).getNonIndigCount()/totalPops.get(2).getTotal2021()) + "]";
             
                 if (i < schoolCompletion.size() - 1) {
                     html = html + ", ";
@@ -296,7 +302,10 @@ public class PageIndex implements Handler {
                                   },
                                 chartArea: {
                                     backgroundColor: '#f0f0f0'
-                                  }  
+                                  },
+                                vAxis: {
+                                    format: 'percent'
+                                }    
                                 };
                         
                                 var chart = new google.charts.Bar(document.getElementById('columnchart_material2'));
