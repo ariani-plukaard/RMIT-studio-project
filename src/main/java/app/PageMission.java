@@ -81,14 +81,55 @@ public class PageMission implements Handler {
             focusing on The Gap in key socioeconomic areas including health, education and population age. Depending on what you're looking for, 
             this website can give you an overall snapshot of the issue, a high level summary of data from the key topics or a deep dive into more detailed 
             and specific data.</p>
-            <h2>How to Use this Site</h2>
+            <h2>The Socioeconomic Topics</h2>
             <ul class='about-text'>
-                <li>On landing page you can see an overview of the statistics covered on the site</li>
-                <li>From the landing page, navigate to the data overview page to view the data for 
-                individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</li>
-                <li>On landing page you can see an overview of the statistics covered on the site</li>
-                <li>For more detailed analysis, view the detailed data deep dive page for further sorting and filtering</li>
-            </ul>            
+                <li>Age (Population)</li>
+                <li>Long Term Health Condition (LTHC)</li>
+                <li>School Completion</li>
+                <li>Non-School Completion</li>
+            </ul>
+            <h2>How to Use this Site</h2>
+            <p class='about-text'>
+                <b>Home Page:</b> here you can see the population statistics and some charts showing a quick overview of the key topics.<br>
+                <b>Data Overview Page:</b> here you can view the 2021 data for individual Local Government Areas  (LGAs), or summarised by State/Territory, for each topic.<br>
+                <b>Data Deep Dive Page:</b> here you can get more detailed category filters. You can view the change in The Gap between Indigenous and Non Indigenous Australians from 2016 to 2021, OR you can select a specific LGA and view other LGAs with similar data results for the set of filters.
+            </p>
+            <table>
+                <tr>
+                    <th>Data Overview</th>
+                    <th>Data Deep Dive</th>
+                </tr>
+                <tr>
+                    <td>View data by <b>Indigenous status</b></td>
+                    <td>View data by <b>Indigenous status & gender</b></td>
+                </tr>
+                <tr>
+                    <td>View data from <b>2021</b></td>
+                    <td>View data from <b>2016 & 2021</b></td>
+                </tr>
+                <tr>
+                    <td>View data by <b>a topic</b></td>
+                    <td>View data by <b>a topic</b></td>
+                </tr>
+                <tr>
+                    <td>View data by <b>all sub-categories</b></td>
+                    <td>View data filtered by <b>one or multiple sub-categories</b></td>
+                </tr>
+                <tr>
+                    <td>View data either by <b>LGA or State/Territory</b></td>
+                    <td>View data by <b>LGA</b></td>
+                </tr>   
+                <tr>
+                    <td rowspan='2'>View the count of people in <b>raw or proportional values</b></td>
+                    <td>View the count of people in <b>raw values</b>
+                        <br>View <b>The Gap</b> between Indigenous and Non Indinegous People
+                        <br>View the <b>change in The Gap</b> over time
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Select a specific LGA</b> and view X number of <b>LGAs that are similar</b> in the count of people for your set of filters.</td>
+                </tr>
+            </table>         
         """;
 
         // Using JDBC to lookup the Personas

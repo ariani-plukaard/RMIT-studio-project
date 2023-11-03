@@ -258,6 +258,29 @@ img.top-image {
 .about-text {
   margin-bottom: 2rem;
 }
+/*Mission statement table*/
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 40px;
+  font-size: 18px;
+}
+
+th {
+  font-size: 22px;
+  background-color: black;
+  color: white;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
 /* Persona carousel cards */
 .persona-card {
   display: flex;
