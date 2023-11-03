@@ -369,17 +369,37 @@ public class JDBCConnection {
                 categoryCol = "NonSchoolBracket";
             }
 
-            // // Get the sorting attribute by topic
-            // String sortByAttr = "";
-            // if (topic.equals("Population")) {
-            //     sortByAttr = "AND age_category = '65+ years'"; // Population results will be sorted by the 65+ count
-            // } else if (topic.equals("LTHC")) {
-            //     sortByAttr = ""; // Health results will be sorted by the count for all health conditions
-            // } else if (topic.equals("SchoolCompletion")) {
-            //     sortByAttr = "AND SchoolYear = 'Year 12 equivalent'"; // School results will be sorted by the year 12 count
-            // } else if (topic.equals("NonSchoolCompletion")) {
-            //     sortByAttr = "AND (NonSchoolBracket LIKE 'Postgrad%' OR NonSchoolBracket LIKE 'Bachelor%')"; // Non school results will be sorted by total count from bachelor and post grad
-            // }
+            // Get the sorting attribute by topic
+            String sortByAttr = "";
+            if (topic.equals("Population")) {
+                // Filter to sorting population results
+                if (categoryToSort.equals("All Ages")) {
+                    sortByAttr = "";
+                } else {
+                    sortByAttr = "AND age_category = '" + categoryToSort + "'";
+                }
+            } else if (topic.equals("LTHC")) {
+                // Filter to sort health results
+                if (categoryToSort.equals("all health issues")) {
+                    sortByAttr = "";
+                } else {
+                    sortByAttr = "AND Condition = '" + categoryToSort + "'";
+                }
+            } else if (topic.equals("SchoolCompletion")) {
+                // Filter to sort school results
+                if (categoryToSort.equals("Attended school - any year of completion")) {
+                    sortByAttr = "AND SchoolYear <> 'Did not go to school'";
+                } else {
+                    sortByAttr = "AND SchoolYear = '" + categoryToSort + "'";
+                }
+            } else if (topic.equals("NonSchoolCompletion")) {
+                // Filter to sort non-school results
+                if (categoryToSort.equals("All Non-School Levels")) {
+                    sortByAttr = "";
+                } else {
+                    sortByAttr = "AND NonSchoolBracket = '" + categoryToSort + "'";
+                }
+            }
 
             String query = "";
 
@@ -402,7 +422,10 @@ public class JDBCConnection {
                     + "GROUP BY lga.state_abbr ) "
                     + "AS b "
                     + "ON a.state_abbr = b.state_abbr "
-                    + "ORDER BY state_abbr " + sort + ";";
+                    + "Join (SELECT lga.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i"
+                    + "Join lga on lga_code = code AND lga_year = year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    + "GROUP BY topic_i.lga_code) AS topic2 ON a.name = topic2.name"
+                    + "ORDER BY topic2.totalToSort " + sort + ";";
             } else {
             // The Query - LGA
             query = "SELECT a.name AS name, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS prop "
@@ -422,7 +445,10 @@ public class JDBCConnection {
                     + "GROUP BY lga.name ) "
                     + "AS b "
                     + "ON a.name = b.name "
-                    + "ORDER BY name " + sort + ";";
+                    + "Join (SELECT lga.name, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i"
+                    + "Join lga on lga_code = code AND lga_year = year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
+                    + "GROUP BY topic_i.lga_code) AS topic2 ON a.name = topic2.name"
+                    + "ORDER BY topic2.totalToSort " + sort + ";";
             }
             // Get Result
             ResultSet results = statement.executeQuery(query);
