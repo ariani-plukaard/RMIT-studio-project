@@ -265,7 +265,7 @@ public class PageST2A implements Handler {
         // Add state data chart
         if (granularity.equals("State or Territory")) {
             // Button to toggle
-            html = html + "<button id='show-graph' onclick='showGraph()' type='button'>Show as Chart</button>";
+            html = html + "<button id='show-graph' onclick='showGraph()' type='button'>Show as Table</button>";
             // Chart
             html = html + "<div id='state-chart'></div>";
         }
