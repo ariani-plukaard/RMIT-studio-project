@@ -154,6 +154,7 @@
     background-color: #9a0045;
     font-size: 15.897px;
     text-transform: uppercase;
+    margin-bottom: 10px;
   }
 
   #show-graph:hover {

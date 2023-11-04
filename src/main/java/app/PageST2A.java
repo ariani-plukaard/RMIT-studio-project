@@ -267,16 +267,19 @@ public class PageST2A implements Handler {
             // Button to toggle
             html = html + "<button id='show-graph' onclick='showGraph()' type='button'>Show as Chart</button>";
             // Chart
-            html = html + "<div id='state-chart' hidden></div>";
+            html = html + "<div id='state-chart'></div>";
         }
         // Add table of data
         html = html + outputTable(granularity, dataType, population, topic, sort, category);
 
         // Close Content div
         html = html + "</div>";
-
+        if (granularity.equals("State or Territory")) {
+            html = html + "<div id='pagination' hidden>";
+        } else {
+            html = html + "<div id='pagination'>";
+        }
         html = html + """
-            <div id="pagination">
                 <button id="prev">Previous</button>
                 <span id="page-num">Page 1</span>
                 <button id="next">Next</button>
@@ -428,13 +431,14 @@ public class PageST2A implements Handler {
                 }
                 html = html + dataArrayForChart(granularity, dataType, population, topic, sort, category, categories);
                 html = html + ");";   
-                html = html + "var options = {title: '" + topic +  " by State', ";
+                String dataLabel = dataType.equals("Raw") ? "Raw" : "Proportional (Percentage)";
+                html = html + "var options = {title: '" + topic +  " by State, " + dataLabel + " Data', ";
                 html = html + """
-                        width: 1000,
-                        height: 800,
+                        width: 1500,
+                        height: 1000,
                         legend: { position: 'top', maxLines: 3 },
                         bar: { groupWidth: '75%' },
-                        isStacked: true,
+                        isStacked: true
                 };
 
                 var chart = new google.visualization.ColumnChart(document.getElementById('state-chart'));
@@ -450,7 +454,6 @@ public class PageST2A implements Handler {
                     graphChart.hidden = !graphChart.hidden;
                     tableDiv.hidden = !tableDiv.hidden;
                     tablePages.hidden = !tablePages.hidden;
-                    console.log(graphButton.innerText)
                     if (graphButton.innerText.toUpperCase().localeCompare('SHOW AS CHART') == 0) {
                         graphButton.innerText = 'Show as Table';
                     } else if (graphButton.innerText.toUpperCase().localeCompare('SHOW AS TABLE') == 0) {
@@ -480,7 +483,11 @@ public class PageST2A implements Handler {
             dataPoints = jdbc.getPropData2021(granularity, population, topic, sort, category);
         }
         
-        html = html + "<table id=\"myTable\">"
+        html = html + "<table id=\"myTable\"";
+        if (granularity.equals("State or Territory")) {
+            html = html + " hidden";
+        }
+        html = html + ">"
                     + "<tr>"
                     +     "<th>Rank: sorted by " + category + ", " + sort + "</th>"
                     +     "<th>" + granularity + "</th>"
