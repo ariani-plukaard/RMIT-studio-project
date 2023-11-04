@@ -262,12 +262,15 @@ public class PageST2A implements Handler {
         } else if (topic.equals("NonSchoolCompletion")) {
             category = nonSchoolCatToSort;
         }
-        // Add table of data
-        html = html + outputTable(granularity, dataType, population, topic, sort, category);
         // Add state data chart
         if (granularity.equals("State or Territory")) {
-            html = html + "<div id='state-chart'></div>";
+            // Button to toggle
+            html = html + "<button id='show-graph' onclick='showGraph()' type='button'>Show as Chart</button>";
+            // Chart
+            html = html + "<div id='state-chart' hidden></div>";
         }
+        // Add table of data
+        html = html + outputTable(granularity, dataType, population, topic, sort, category);
 
         // Close Content div
         html = html + "</div>";
@@ -424,11 +427,10 @@ public class PageST2A implements Handler {
                 }
                 html = html + dataArrayForChart(granularity, dataType, population, topic, sort, category, categories);
                 html = html + ");";   
+                html = html + "var options = {title: '" + topic +  " by State', ";
                 html = html + """
-                var options = {
-                        title: "Title",
-                        width: 1500,
-                        height: 1000,
+                        width: 1000,
+                        height: 800,
                         legend: { position: 'top', maxLines: 3 },
                         bar: { groupWidth: '75%' },
                         isStacked: true,
@@ -437,7 +439,24 @@ public class PageST2A implements Handler {
                 var chart = new google.visualization.ColumnChart(document.getElementById('state-chart'));
                 chart.draw(data, options);
                 }
-                </script>       
+                </script> 
+                <script>
+                function showGraph() {
+                    let graphButton = document.getElementById('show-graph');
+                    let graphChart = document.getElementById('state-chart');
+                    let tableDiv = document.getElementById('myTable');
+                    let tablePages = document.getElementById('pagination');
+                    graphChart.hidden = !graphChart.hidden;
+                    tableDiv.hidden = !tableDiv.hidden;
+                    tablePages.hidden = !tablePages.hidden;
+                    console.log(graphButton.innerText)
+                    if (graphButton.innerText.toUpperCase().localeCompare('SHOW AS CHART') == 0) {
+                        graphButton.innerText = 'Show as Table';
+                    } else if (graphButton.innerText.toUpperCase().localeCompare('SHOW AS TABLE') == 0) {
+                        graphButton.innerText = 'Show as Chart';
+                    }
+                }
+                </script>      
             """;
         // Finish the HTML webpage
         html = html + "</body>" + "</html>";

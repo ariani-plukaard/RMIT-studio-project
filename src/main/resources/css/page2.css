@@ -147,6 +147,20 @@
    align-items: center;
   }
 
+  #show-graph {
+    padding: 14px 40px;
+    border-radius: 15px;
+    color: white;
+    background-color: #9a0045;
+    font-size: 15.897px;
+    text-transform: uppercase;
+  }
+
+  #show-graph:hover {
+    color: #ddd;
+    background-color: #cd2c74;
+  }
+
   #myTable {
     border-collapse: collapse;
     width: 100%;
