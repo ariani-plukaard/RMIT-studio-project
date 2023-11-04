@@ -178,7 +178,7 @@ public class PageST2A implements Handler {
         if (granularity != null) {
             html = html + granularity;
         } else {
-            granularity = "LGA";
+            granularity = "State or Territory";
             html = html + granularity + " <span class='not-bold'>(default)</span>";
         }
         String dataType = context.formParam("dataType");
