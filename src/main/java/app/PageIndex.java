@@ -107,7 +107,8 @@ public class PageIndex implements Handler {
                     <div id='qna'>
                         <h2>What we cover</h2>
                         <p>Our main focus are on the topics of <b>health, education, and population age</b>, as these topics give us 
-                        a greater understanding on the disparities between Indigenous and Non-Indigenous Australians</p>
+                        a greater understanding on the disparities between Indigenous and Non-Indigenous Australian.</p><h2>Data Overview</h2><p>The data overview page lets you 
+                        view <b>2021</b> data for individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</p>
                         <a href='data-overview.html'>See Data Overview</a>
                     </div>
                 </div>
