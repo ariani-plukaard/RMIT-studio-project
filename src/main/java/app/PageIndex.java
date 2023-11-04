@@ -110,8 +110,8 @@ public class PageIndex implements Handler {
                         <a href='data-overview.html'>See Data Overview</a>
                     </div>
                     <div class='qna'>
-                        <h2>What we cover</h2>
-                        <p>The data Deep Dive Page lets you view data from <b>2016 and 2021 with more detailed category filters</b> and gives you the option to select a specific 
+                        <h2>Data Deep Dive</h2>
+                        <p>The data Deep Dive Page lets you view The Gap in <b>2016 and 2021 with more detailed category filters</b> and gives you the option to select a specific 
                         LGA and <b>view other LGAs with similar data results</b> for the set of filters.</p>
                         <a href='data-deep-dive.html'>See DATA DEEP DIVE</a>
                     </div>
