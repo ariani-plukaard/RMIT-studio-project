@@ -370,7 +370,33 @@ public class PageST2A implements Handler {
                     }
                 })
             </script>
-                """;
+            <script>
+            
+            function Bold(tableID, category){
+                const table = document.getElementById(tableID);
+                const rows = table.getElementsByTagName('tr');
+
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let wordPresent = false;
+
+                    for (let j = 0; j < cells.length; j++) {
+                        if (cells[j].textContent.includes(category)) {
+                            wordPresent = true;
+                            break;
+                        }
+                    }
+
+                    if (wordPresent) {
+                        for (let j = 0; j < cells.length; j++) {
+                            cells[j].style.fontWeight = 'bold';
+                        }
+                    }
+                }
+            }
+            """;
+            html += "Bold('myTable','"+category+"')"
+                    + "</script>";
         // Finish the HTML webpage
         html = html + "</body>" + "</html>";
         
