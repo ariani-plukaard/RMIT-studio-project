@@ -69,7 +69,7 @@ public class PageIndex implements Handler {
             <div class='wrapper'>
                 <div class='wrapperText'>
                     <h2>Exploring the gap</h2>
-                    <p>Between Indigenous & Non-Indigenous Australians</p>
+                    <p>Between Indigenous & Non-Indigenous Australians (health, education, and population age)</p>
                     <a href='data-overview.html'>DATA OVERVIEW</a>
                 </div>
                 <div class='wrapperImg'>
@@ -104,12 +104,16 @@ public class PageIndex implements Handler {
                         Voice to Parliament Referendum</p>
                         <a href='mission.html'>Mission Statement</a>
                     </div>
-                    <div id='qna'>
-                        <h2>What we cover</h2>
-                        <p>Our main focus are on the topics of <b>health, education, and population age</b>, as these topics give us 
-                        a greater understanding on the disparities between Indigenous and Non-Indigenous Australian.</p><h2>Data Overview</h2><p>The data overview page lets you 
+                    <div class='qna'>
+                        <h2>Data Overview</h2><p>The data overview page lets you 
                         view <b>2021</b> data for individual Local Government Areas or summarised by State/Territory for each socioeconomic topic</p>
                         <a href='data-overview.html'>See Data Overview</a>
+                    </div>
+                    <div class='qna'>
+                        <h2>What we cover</h2>
+                        <p>The data Deep Dive Page lets you view data from <b>2016 and 2021 with more detailed category filters</b> and gives you the option to select a specific 
+                        LGA and <b>view other LGAs with similar data results</b> for the set of filters.</p>
+                        <a href='data-deep-dive.html'>See DATA DEEP DIVE</a>
                     </div>
                 </div>
                 <div class='landingStats'>
