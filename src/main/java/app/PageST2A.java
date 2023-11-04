@@ -251,7 +251,7 @@ public class PageST2A implements Handler {
         }
         html = html + "</h3>";
 
-        // Add table of data
+        // Category to sort
         String category = ""; //category to sort
         if (topic.equals("Population")) {
             category = ageCatToSort;
@@ -262,7 +262,12 @@ public class PageST2A implements Handler {
         } else if (topic.equals("NonSchoolCompletion")) {
             category = nonSchoolCatToSort;
         }
+        // Add table of data
         html = html + outputTable(granularity, dataType, population, topic, sort, category);
+        // Add state data chart
+        if (granularity.equals("State or Territory")) {
+            html = html + "<div id='state-chart'></div>";
+        }
 
         // Close Content div
         html = html + "</div>";
@@ -398,6 +403,42 @@ public class PageST2A implements Handler {
             """;
             html += "Bold('myTable','"+category+"')"
                     + "</script>";
+            html = html + "<script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>";
+            html = html + """
+                <script type="text/javascript">
+                google.charts.load('current', {'packages':['corechart']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                var data = google.visualization.arrayToDataTable(
+                """;
+                ArrayList<String> categories = new ArrayList<String>();
+                if (topic.equals("Population")) {
+                    categories = ageCategories;
+                } else if (topic.equals("LTHC")) {
+                    categories = healthCategories;
+                } else if (topic.equals("SchoolCompletion")) {
+                    categories = schoolCategories;
+                } else if (topic.equals("NonSchoolCompletion")) {
+                    categories = nonSchoolCategories;
+                }
+                html = html + dataArrayForChart(granularity, dataType, population, topic, sort, category, categories);
+                html = html + ");";   
+                html = html + """
+                var options = {
+                        title: "Title",
+                        width: 1500,
+                        height: 1000,
+                        legend: { position: 'top', maxLines: 3 },
+                        bar: { groupWidth: '75%' },
+                        isStacked: true,
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('state-chart'));
+                chart.draw(data, options);
+                }
+                </script>       
+            """;
         // Finish the HTML webpage
         html = html + "</body>" + "</html>";
         
@@ -465,5 +506,45 @@ public class PageST2A implements Handler {
         html = html + "</table>";
         return html;
 
+    }
+
+    public String dataArrayForChart(String granularity, String dataType, String population, String topic, String sort, String categoryToSort, ArrayList<String> categories) {
+        String html = "";
+
+        // Look up data from JDBC
+        JDBCConnection jdbc = new JDBCConnection();
+        ArrayList<OverviewData> dataPoints;
+        if (dataType.equals("Raw")) {
+            dataPoints = jdbc.getRawData2021(granularity, population, topic, sort, categoryToSort);
+        } else {
+            dataPoints = jdbc.getPropData2021(granularity, population, topic, sort, categoryToSort);
+        }
+
+        html = html + "[['Category'";
+        // Populate data array
+        for (String cat: categories) {
+            html = html + ", '" + cat + "'"; // Categories Array
+        }
+        html = html + ", { role: 'annotation' } ], ";
+        //int rankingCount = 0;
+        String nextLocation = "";
+        for (OverviewData dataPoint: dataPoints) { // Data points arrays
+            if (nextLocation.equals("")) {
+                nextLocation = dataPoint.getLocation();
+                //rankingCount++;
+                html = html + "['" + nextLocation + "'";
+            } else if (!dataPoint.getLocation().equals(nextLocation)) {
+                nextLocation = dataPoint.getLocation();
+                //rankingCount++;
+                html = html + ", ''], ['" + nextLocation + "'";
+            }
+            if (dataType.equals("Raw")) {
+                html = html + ", " + dataPoint.getCount();
+            } else {
+                html = html + ", " + dataPoint.getPropCount();
+            }
+        }
+        html = html + ", '']]";
+        return html;
     }
 }
