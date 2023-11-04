@@ -143,6 +143,7 @@ img.top-image {
   margin-top: 20px;
   margin-bottom: 60px;
   margin-left: 20px;
+  max-width: 600px;
 }
 
 .wrapperText a {
@@ -199,7 +200,7 @@ img.top-image {
   margin-bottom: 58px;
 }
 
-#qna {
+.qna {
   margin-top: 75px;
 }
 
