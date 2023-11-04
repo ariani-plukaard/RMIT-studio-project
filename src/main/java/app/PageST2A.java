@@ -390,6 +390,7 @@ public class PageST2A implements Handler {
                     if (wordPresent) {
                         for (let j = 0; j < cells.length; j++) {
                             cells[j].style.fontWeight = 'bold';
+                            cells[j].style.textDecoration = 'underline';
                         }
                     }
                 }
@@ -420,7 +421,7 @@ public class PageST2A implements Handler {
         
         html = html + "<table id=\"myTable\">"
                     + "<tr>"
-                    +     "<th>Rank: " + rankingMethod(topic) + "</th>"
+                    +     "<th>Rank: sorted by " + category + ", " + sort + "</th>"
                     +     "<th>" + granularity + "</th>"
                     +     "<th>Category</th>"
                     +     "<th>" + dataType + " Data Count</th>"
@@ -434,7 +435,7 @@ public class PageST2A implements Handler {
                     nextLocation = data.getLocation();
                     rankingCount++;
                     html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>";
+                            + "<td class='rank'>" + rankingCount + "</td>";
                 } else {
                     html = html + "<tr>"
                             + "<td> </td>";
@@ -450,7 +451,7 @@ public class PageST2A implements Handler {
                     nextLocation = data.getLocation();
                     rankingCount++;
                     html = html + "<tr>"
-                            + "<td>" + rankingCount + "</td>";
+                            + "<td class='rank'>" + rankingCount + "</td>";
                 } else {
                     html = html + "<tr>"
                             + "<td> </td>";
@@ -464,19 +465,5 @@ public class PageST2A implements Handler {
         html = html + "</table>";
         return html;
 
-    }
-
-    private String rankingMethod(String topic) {
-        String sortByAttr = "";
-        if (topic.equals("Population")) {
-            sortByAttr = "sorted by people age 65+";
-        } else if (topic.equals("LTHC")) {
-            sortByAttr = "sorted by the total LTHC";
-        } else if (topic.equals("SchoolCompletion")) {
-            sortByAttr = "sorted by year 12 completion";
-        } else if (topic.equals("NonSchoolCompletion")) {
-            sortByAttr = "sorted by total bachelor and post grad";
-        }
-        return sortByAttr;
     }
 }

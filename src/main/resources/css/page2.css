@@ -173,6 +173,11 @@
     color: white;
   }
 
+  .rank {
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
   #pagination {
     margin-top: 18px;
     display: flex;
