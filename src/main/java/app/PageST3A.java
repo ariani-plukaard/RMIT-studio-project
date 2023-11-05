@@ -486,6 +486,7 @@ public class PageST3A implements Handler {
                     let categoriesNonSchool = document.getElementById('non-school');
                     let noCategory = document.getElementById('category-placeholder');
                     let filter2016 = document.getElementById('year1');
+                    let filter2021 = document.getElementById('year2');
                     if ( selectedTopic.localeCompare('Population') == 0 ) {
                         ageCategories.hidden = false;
                         healthCategories.hidden = true;
@@ -500,6 +501,7 @@ public class PageST3A implements Handler {
                         categoriesNonSchool.hidden = true;
                         noCategory.hidden = true;
                         filter2016.disabled = true;
+                        filter2021.checked = true;
                     } else if ( selectedTopic.localeCompare('SchoolCompletion') == 0 ) {
                         ageCategories.hidden = true;
                         healthCategories.hidden = true;
