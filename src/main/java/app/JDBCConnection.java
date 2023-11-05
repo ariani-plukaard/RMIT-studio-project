@@ -7,8 +7,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 /**
  * Class for Managing the JDBC Connection to a SQLLite Database.
  * Allows SQL queries to be used with the SQLLite Databse in Java.
