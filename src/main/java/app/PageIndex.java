@@ -73,7 +73,7 @@ public class PageIndex implements Handler {
                     <a href='data-overview.html'>DATA OVERVIEW</a>
                 </div>
                 <div class='wrapperImg'>
-                    <img src='vop.png' alt='vop' height='1200' width='672'>
+                    <img src='vop.png' alt='vop'>
                     <div>Source: SBS News</div>
                 </div>
                 
@@ -98,7 +98,7 @@ public class PageIndex implements Handler {
             <div class='landingcontent'>
                 <div class='contentwrap'>
                     <div>
-                        <h2>Our goal</h2>
+                        <h2>Our Goal</h2>
                         <p>Our goal is to provide users with unbiased data to help educate and them about 
                         The Gap between Indigenous and Non-Indigenous Australians in the lead up to the 
                         Voice to Parliament Referendum</p>
@@ -147,15 +147,15 @@ public class PageIndex implements Handler {
         
         // Add HTML for the graphs carousel
         //TO DO: add graphs instead of images on each slide
-        html = html + """
-            <div id="carouselGraphs" class="carousel slide" data-bs-theme="dark">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
-                <div class="carousel-inner">
-                """;
+        // html = html + """
+        //     <div id="carouselGraphs" class="carousel slide" data-bs-theme="dark">
+        //         <div class="carousel-indicators">
+        //             <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        //             <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        //             <button type="button" data-bs-target="#carouselGraphs" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        //         </div>
+        //         <div class="carousel-inner">
+        //         """;
     
         html = html + """
             <div id="carouselGraphs" class="carousel slide" data-bs-theme="dark">

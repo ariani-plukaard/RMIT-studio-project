@@ -171,11 +171,13 @@ img.top-image {
   text-align: center; 
   color: white;
   font-size: x-small;
+  flex: 1;
+  overflow: hidden;
 }
 
 .wrapperImg img {
-  max-width: 100%; 
-  height: auto; 
+  min-width: 100%; 
+  min-height: 100%;
 }
 
 .wrapperImg div {
