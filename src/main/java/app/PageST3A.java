@@ -485,30 +485,35 @@ public class PageST3A implements Handler {
                     let schoolCategories = document.getElementById('school');
                     let categoriesNonSchool = document.getElementById('non-school');
                     let noCategory = document.getElementById('category-placeholder');
+                    let filter2016 = document.getElementById('year1');
                     if ( selectedTopic.localeCompare('Population') == 0 ) {
                         ageCategories.hidden = false;
                         healthCategories.hidden = true;
                         schoolCategories.hidden = true;
                         categoriesNonSchool.hidden = true;
                         noCategory.hidden = true;
+                        filter2016.disabled = false;
                     } else if ( selectedTopic.localeCompare('LTHC') == 0 ) {
                         ageCategories.hidden = true;
                         healthCategories.hidden = false;
                         schoolCategories.hidden = true;
                         categoriesNonSchool.hidden = true;
                         noCategory.hidden = true;
+                        filter2016.disabled = true;
                     } else if ( selectedTopic.localeCompare('SchoolCompletion') == 0 ) {
                         ageCategories.hidden = true;
                         healthCategories.hidden = true;
                         schoolCategories.hidden = false;
                         categoriesNonSchool.hidden = true;
                         noCategory.hidden = true;
+                        filter2016.disabled = false;
                     } else if ( selectedTopic.localeCompare('NonSchoolCompletion') == 0 ) {
                         ageCategories.hidden = true;
                         healthCategories.hidden = true;
                         schoolCategories.hidden = true;
                         categoriesNonSchool.hidden = false;
                         noCategory.hidden = true;
+                        filter2016.disabled = false;
                     }
                 }
             </script>
