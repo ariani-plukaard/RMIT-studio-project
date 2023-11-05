@@ -219,10 +219,11 @@ public class PageST3A implements Handler {
         html = html + "<h3>SELECTED FILTERS: ";
         // topic - single selection
         String topic = context.formParam("topic");
-        html = html + "Topic: Age";
         if (topic == null) {
             topic = "Population"; //default
-            html = html + " <span class='not-bold'>(default)</span>";
+            html = html + "Topic: " + topic + " <span class='not-bold'>(default)</span>";
+        } else {
+            html = html + "Topic: " + topic;
         }
         // population demographic - multiple selection
         String indig = context.formParam("population1");
@@ -315,14 +316,6 @@ public class PageST3A implements Handler {
         if (toggleLGA != null) {
             html = html + " | Select LGA";
         }
-        // select LGA - single selection
-        String selectedLGA = context.formParam("LGA_drop");
-        if (selectedLGA != null) {
-            html = html + ": " + selectedLGA;
-        } else if (toggleLGA != null) {
-            selectedLGA = "Melbourne"; //default
-            html = html + ": " + selectedLGA + " <span class='not-bold'>(default)</span>";
-        }
         // select census year - single selection
         String censusYear = context.formParam("year");
         if (censusYear != null) {
@@ -335,6 +328,18 @@ public class PageST3A implements Handler {
         } else if (toggleLGA != null) {
             censusYear = "2021"; // default
             html = html + ", " + censusYear + " <span class='not-bold'>(default)</span>";
+        }
+        // select LGA - single selection
+        String selectedLGA = null;
+        if (censusYear != null) {
+            String LGA_ID = "LGA" + censusYear + "_drop";
+            selectedLGA = context.formParam(LGA_ID);
+        }
+        if (selectedLGA != null) {
+            html = html + ": " + selectedLGA;
+        } else if (toggleLGA != null) {
+            selectedLGA = "Melbourne"; //default
+            html = html + ": " + selectedLGA + " <span class='not-bold'>(default)</span>";
         }
         // number of LGAs - single selection
         String numberOfLGA = context.formParam("NumLGA");
