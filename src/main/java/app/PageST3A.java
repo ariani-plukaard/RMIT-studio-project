@@ -497,6 +497,9 @@ public class PageST3A implements Handler {
                         noCategory.hidden = true;
                         filter2016.disabled = true;
                         filter2021.checked = true;
+                        if (document.getElementById('SelectLGA').checked) {
+                            showLGAs();
+                        }
                     } else if ( selectedTopic.localeCompare('SchoolCompletion') == 0 ) {
                         ageCategories.hidden = true;
                         healthCategories.hidden = true;
