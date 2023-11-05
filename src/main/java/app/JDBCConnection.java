@@ -406,6 +406,7 @@ public class JDBCConnection {
             if (granularity.equals("State or Territory")) {
                 // The Query - State
                 query = "SELECT a.state_abbr AS state_abbr, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS prop "
+                    // Raw values
                     + "FROM ( "
                     + "SELECT lga.state_abbr, " + categoryCol + ", "
                     + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END), 0) AS FLOAT) AS total "
@@ -415,6 +416,7 @@ public class JDBCConnection {
                     + "GROUP BY lga.state_abbr, " + categoryCol + " ) "
                     + "AS a "
                     + "JOIN ( "
+                    // Population values (to get proportional)
                     + "SELECT lga.state_abbr, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
                     + "FROM lga "
                     + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
@@ -422,13 +424,31 @@ public class JDBCConnection {
                     + "GROUP BY lga.state_abbr ) "
                     + "AS b "
                     + "ON a.state_abbr = b.state_abbr "
-                    + "Join (SELECT lga.state_abbr, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i "
-                    + "Join lga on topic_i.lga_code = lga.code AND topic_i.lga_year = lga.year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    + "GROUP BY lga.state_abbr) AS topic2 ON a.state_abbr = topic2.state_abbr "
+                    + "Join ("
+                    // Raw values for the sorting attribute only (to sort it by that attribute)
+                    + "SELECT a.state_abbr AS state_abbr, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS totalToSort "
+                    + "FROM ( "
+                    + "SELECT lga.state_abbr, " + categoryCol + ", "
+                    + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' " + sortByAttr + " THEN count ELSE 0 END), 0) AS FLOAT) AS total "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.state_abbr, " + categoryCol + " ) "
+                    + "AS a "
+                    + "JOIN ( "
+                    // Population values to get the proportional value to sort by
+                    + "SELECT lga.state_abbr, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.state_abbr ) "
+                    + "AS b "
+                    + "ON a.state_abbr = b.state_abbr) AS topic2 ON a.state_abbr = topic2.state_abbr "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             } else {
             // The Query - LGA
             query = "SELECT a.name AS name, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS prop "
+                // Raw values
                     + "FROM ( "
                     + "SELECT lga.name, " + categoryCol + ", "
                     + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END), 0) AS FLOAT) AS total "
@@ -438,6 +458,7 @@ public class JDBCConnection {
                     + "GROUP BY lga.name, " + categoryCol + " ) "
                     + "AS a "
                     + "JOIN ( "
+                    // Population values (to get proportional)
                     + "SELECT lga.name, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
                     + "FROM lga "
                     + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
@@ -445,12 +466,29 @@ public class JDBCConnection {
                     + "GROUP BY lga.name ) "
                     + "AS b "
                     + "ON a.name = b.name "
-                    + "Join (SELECT lga.name, SUM(topic_i.count) AS totalToSort FROM " + topic + " as topic_i "
-                    + "Join lga on topic_i.lga_code = lga.code AND topic_i.lga_year = lga_year WHERE topic_i.indigenous_status = '" + population + "' AND topic_i.lga_year = '2021' " + sortByAttr + " "
-                    + "GROUP BY lga.name) AS topic2 ON a.name = topic2.name "
+                    + "Join ("
+                    // Raw values for the sorting attribute only (to sort it by that attribute)
+                    + "SELECT a.name AS name, a." + categoryCol + ", (a.total / b.totalPop) * 100 AS totalToSort "
+                    + "FROM ( "
+                    + "SELECT lga.name, " + categoryCol + ", "
+                    + "CAST(COALESCE(SUM(CASE WHEN indigenous_status = '" + population + "' " + sortByAttr + " THEN count ELSE 0 END), 0) AS FLOAT) AS total "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.name, " + categoryCol + " ) "
+                    + "AS a "
+                    + "JOIN ( "
+                    // Population values to get the proportional value to sort by
+                    + "SELECT lga.name, CAST(SUM(CASE WHEN indigenous_status = '" + population + "' THEN count ELSE 0 END) AS FLOAT) AS totalPop "
+                    + "FROM lga "
+                    + "JOIN " + topic + " ON lga_code = code AND lga_year = year "
+                    + "WHERE year = 2021 "
+                    + "GROUP BY lga.name ) "
+                    + "AS b "
+                    + "ON a.name = b.name) AS topic2 ON a.name = topic2.name "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             }
-            // System.out.println(query);
+            System.out.println(query);
             // Get Result
             ResultSet results = statement.executeQuery(query);
 
