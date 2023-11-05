@@ -127,7 +127,6 @@ public class PageST2A implements Handler {
         html = html + "   <div id='age-range' class='form-group' hidden>";
         html = html + "      <label for='age_drop'><h3>Sort by an Age Range</h3></label>";
         html = html + "      <select id='age_drop' name='age_drop'>";
-        html = html + "         <option>All Ages</option>";
         for (String age: ageCategories) {
             html = html + "         <option>" + age + "</option>";
         }
@@ -137,7 +136,6 @@ public class PageST2A implements Handler {
         html = html + "   <div id='health' class='form-group' hidden>";
         html = html + "      <label for='health_drop'><h3>Sort by a Health Issue</h3></label>";
         html = html + "      <select id='health_drop' name='health_drop'>";
-        html = html + "         <option>all health issues</option>";
         for (String condition: healthCategories) {
             html = html + "         <option>" + condition + "</option>";
         }
@@ -147,7 +145,6 @@ public class PageST2A implements Handler {
         html = html + "   <div id='school' lass='form-group' hidden>";
         html = html + "      <label for='school_drop'><h3>Sort by a School Year</h3></label>";
         html = html + "      <select id='school_drop' name='school_drop'>";
-        html = html + "         <option>Attended school - any year of completion</option>";
         for (String schoolYear: schoolCategories) {
             html = html + "         <option>" + schoolYear + "</option>";
         }
@@ -157,7 +154,6 @@ public class PageST2A implements Handler {
         html = html + "   <div id='non-school' lass='form-group' hidden>";
         html = html + "      <label for='nonSchool_drop'><h3>Sort by a Non-School Category</h3></label>";
         html = html + "      <select id='nonSchool_drop' name='nonSchool_drop'>";
-        html = html + "         <option>All Non-School Levels</option>";
         for (String schoolLevel: nonSchoolCategories) {
             html = html + "         <option>" + schoolLevel + "</option>";
         }
@@ -209,7 +205,7 @@ public class PageST2A implements Handler {
             if (ageCatToSort != null) {
                 html = html + " | Sorted by: " + ageCatToSort;
             } else {
-                ageCatToSort = "All Ages"; //default - all
+                ageCatToSort = "65+ years"; //default - all
                 html = html + " | Sorted by: " + ageCatToSort  + " <span class='not-bold'>(default)</span>";
             }
         }
@@ -219,7 +215,7 @@ public class PageST2A implements Handler {
             if (healthCatToSort != null) {
                 html = html + " | Sorted by: " + healthCatToSort;
             } else {
-                healthCatToSort = "all health issues"; //default - all
+                healthCatToSort = "cancer"; //default - all
                 html = html + " | Sorted by: " + healthCatToSort  + " <span class='not-bold'>(default)</span>";
             }
         }
@@ -228,7 +224,7 @@ public class PageST2A implements Handler {
             if (schoolCatToSort != null) {
                 html = html + " | Sorted by: " + schoolCatToSort;
             } else {
-                schoolCatToSort = "Attended school - any year of completion"; //default - all
+                schoolCatToSort = "Year 12 equivalent"; //default - all
                 html = html + " | Sorted by: " + schoolCatToSort  + " <span class='not-bold'>(default)</span>";
             }
         }
@@ -238,7 +234,7 @@ public class PageST2A implements Handler {
             if (nonSchoolCatToSort != null) {
                 html = html + " | Sorted by: " + nonSchoolCatToSort;
             } else {
-                nonSchoolCatToSort = "All Non-School Levels"; //default - all
+                nonSchoolCatToSort = "Bachelor Degree"; //default - all
                 html = html + " | Sorted by: " + nonSchoolCatToSort  + " <span class='not-bold'>(default)</span>";
             }
         }

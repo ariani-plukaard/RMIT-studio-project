@@ -240,32 +240,16 @@ public class JDBCConnection {
             String sortByAttr = "";
             if (topic.equals("Population")) {
                 // Filter to sorting population results
-                if (categoryToSort.equals("All Ages")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND age_category = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND age_category = '" + categoryToSort + "'";
             } else if (topic.equals("LTHC")) {
                 // Filter to sort health results
-                if (categoryToSort.equals("all health issues")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND Condition = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND Condition = '" + categoryToSort + "'";
             } else if (topic.equals("SchoolCompletion")) {
                 // Filter to sort school results
-                if (categoryToSort.equals("Attended school - any year of completion")) {
-                    sortByAttr = "AND SchoolYear <> 'Did not go to school'";
-                } else {
-                    sortByAttr = "AND SchoolYear = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND SchoolYear = '" + categoryToSort + "'";
             } else if (topic.equals("NonSchoolCompletion")) {
                 // Filter to sort non-school results
-                if (categoryToSort.equals("All Non-School Levels")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND NonSchoolBracket = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND NonSchoolBracket = '" + categoryToSort + "'";
             }
 
             String query = "";
@@ -373,32 +357,16 @@ public class JDBCConnection {
             String sortByAttr = "";
             if (topic.equals("Population")) {
                 // Filter to sorting population results
-                if (categoryToSort.equals("All Ages")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND age_category = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND age_category = '" + categoryToSort + "'";
             } else if (topic.equals("LTHC")) {
                 // Filter to sort health results
-                if (categoryToSort.equals("all health issues")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND Condition = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND Condition = '" + categoryToSort + "'";
             } else if (topic.equals("SchoolCompletion")) {
                 // Filter to sort school results
-                if (categoryToSort.equals("Attended school - any year of completion")) {
-                    sortByAttr = "AND SchoolYear <> 'Did not go to school'";
-                } else {
-                    sortByAttr = "AND SchoolYear = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND SchoolYear = '" + categoryToSort + "'";
             } else if (topic.equals("NonSchoolCompletion")) {
                 // Filter to sort non-school results
-                if (categoryToSort.equals("All Non-School Levels")) {
-                    sortByAttr = "";
-                } else {
-                    sortByAttr = "AND NonSchoolBracket = '" + categoryToSort + "'";
-                }
+                sortByAttr = "AND NonSchoolBracket = '" + categoryToSort + "'";
             }
 
             String query = "";
@@ -488,7 +456,7 @@ public class JDBCConnection {
                     + "ON a.name = b.name) AS topic2 ON a.name = topic2.name "
                     + "ORDER BY topic2.totalToSort " + sort + ";";
             }
-            System.out.println(query);
+            //System.out.println(query);
             // Get Result
             ResultSet results = statement.executeQuery(query);
 
