@@ -250,7 +250,7 @@ public class PageST3A implements Handler {
         String minAge = context.formParam("minAge");
         String maxAge = context.formParam("maxAge");
         if (topic.equals("Population")) {
-            if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && (minAge.compareTo(maxAge) <= 0 && maxAge.length() >= minAge.length())) {
+            if (minAge != null && !minAge.isEmpty() && maxAge != null && !maxAge.isEmpty() && ((minAge.compareTo(maxAge) <= 0 && maxAge.length() == minAge.length()) || (maxAge.length() > minAge.length())) ){
                 html = html + " | Age " + minAge + " to " + maxAge;
             } else if (minAge != null && !minAge.isEmpty() && (maxAge == null || maxAge.isEmpty())){
                 maxAge = "200"; //default
@@ -268,7 +268,7 @@ public class PageST3A implements Handler {
         String minSchoolYear = context.formParam("minYear");
         String maxSchoolYear = context.formParam("maxYear");
         if (topic.equals("SchoolCompletion")) {
-            if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && (minSchoolYear.compareTo(maxSchoolYear) <= 0 || maxSchoolYear.length() > minSchoolYear.length())) {
+            if (minSchoolYear != null && !minSchoolYear.isEmpty() && maxSchoolYear != null && !maxSchoolYear.isEmpty() && ((minSchoolYear.compareTo(maxSchoolYear) <= 0 && maxSchoolYear.length() == minSchoolYear.length()) || (maxSchoolYear.length() > minSchoolYear.length()))) {
                 html = html + " | School Year " + minSchoolYear + " to " + maxSchoolYear;
             } else if (minSchoolYear != null && !minSchoolYear.isEmpty() && (maxSchoolYear == null || maxSchoolYear.isEmpty())){
                 maxSchoolYear = "12"; //defaults
